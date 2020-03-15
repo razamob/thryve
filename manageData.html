@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<!--
+-------------------------------------------
+Student: Igbinosa Idahosa <idahosai@sheridan.desire2learn.com>
+StudentID: 991462246
+-------------------------------------------
+-->
+
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Thryve</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <!--     Fonts and icons     -->
+  <link rel="stylesheet" type="text/css"
+    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+  <!-- Material Kit CSS -->
+  <link href="assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet" />
+  
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>  
+        
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+      
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" crossorigin="anonymous"></script>
+
+ <script type="text/javascript">
+function exportToExcel(tableID, filename = ''){
+    var downloadurl;
+    var dataFileType = 'application/vnd.ms-excel';
+    var tableSelect = document.getElementById(tableID);
+    var tableHTMLData = tableSelect.outerHTML.replace(/ /g, '%20');
+    
+    // Specify file name//if statement,conditional ternary operator
+    filename = filename?filename+'.xls':'export_excel_data.xls';
+    
+    // Create download link element,//it should not lead to anywhere
+    downloadurl = document.createElement("a");
+    //put link at bottom of page
+    document.body.appendChild(downloadurl);
+    //navigator contains info about my browser/shouldnt be used to detect browser version
+    //msSaveOrOpenBlob saves the file or blob to diskn enables file open option
+    if(navigator.msSaveOrOpenBlob){
+        var blob = new Blob(['\ufeff', tableHTMLData], {
+            type: dataFileType
+        });
+        navigator.msSaveOrOpenBlob( blob, filename);
+    }else{
+        // Create a link to the file
+        downloadurl.href = 'data:' + dataFileType + ', ' + tableHTMLData;
+    
+        // Setting the file name
+        downloadurl.download = filename;
+        
+        //triggering the function
+        downloadurl.click();
+    }
+}
+ 
+</script>
+</head>
+
+
+<body class="dark-edition">
+  <div class="wrapper ">
+    <div class="sidebar" data-color="purple" data-background-color="black" data-image="./assets/img/sidebar-2.jpg">
+      <div class="logo">
+        <a href="./home.html" class="simple-text logo-normal">
+          Thryve
+        </a>
+      </div>
+      <div class="sidebar-wrapper">
+        <ul class="nav">
+          <li class="nav-item active  ">
+            <a class="nav-link" href="javascript:void(0)">
+              <i class="material-icons">dashboard</i>
+              <p>Dashboard</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="#">
+              <i class="material-icons">calendar_today</i>
+              <p>View Calendar</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="#">
+              <i class="material-icons">folder</i>
+              <p>Manage Data</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="#">
+              <i class="material-icons">bubble_chart</i>
+              <p>Data Analysis</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="#">
+              <i class="material-icons">person</i>
+              <p>Account Management</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="#">
+              <i class="material-icons">notifications</i>
+              <p>Notifications</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="./home.html">
+              <i class="material-icons">backspace</i>
+              <p>Logout</p>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="main-panel">
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <a class="navbar-brand" href="javascript:void(0)">Dashboard</a>
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="javascript:void(0)">
+                  <i class="material-icons">notifications</i>
+                  <p class="d-lg-none d-md-block">
+                    Notifications
+                  </p>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      
+      
+      
+      
+            <div style="height:100px;overflow:auto;">
+
+
+        <table id="tblexportData" class="container">
+            <h4 class="container">Appointement meetings</h4>
+            <thead>
+            <tr>
+                <th class="info">Name</th>
+                <th class="info">Email</th>
+                <th class="info">Age</th>
+                <th class="info">Mobile</th>
+            </tr>
+            <tr>
+                <td>Robert</td>
+                <td>robert@gmail.com</td>
+                <td>26</td>
+                 <td>9999999999</td>
+            </tr>
+            <tr>
+                <td>Michael</td>
+                <td>michael@gmail.com</td>
+                 <td>24</td>
+                 <td>9999999999</td>
+            </tr>
+            <tr>
+                <td>Julie</td>
+                <td>julie@gmail.com</td>
+                 <td>36</td>
+                 <td>9999999999</td>
+            </tr>
+            <tr>
+                <td>Trevor</td>
+                <td>trevor@gmail.com</td>
+                 <td>28</td>
+                 <td>9999999999</td>
+            </tr>
+            </thead>
+        </table>
+     
+        </div>
+   
+   <div class="container">
+        
+   <button type="button" id="msg" class="alert alert-info" hidden></button>
+   <button type="button" id="btnExport" class="btn btn-primary">Export To Excel</button>    
+   </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <!-- End Navbar -->
+      <div class="content">
+        <div class="container-fluid">
+        </div>
+      </div>
+      <footer class="footer">
+        <div class="container-fluid">
+          <nav class="float-left">
+            <ul>
+              <li>
+                <a href="./home.html">
+                  Thryve
+                </a>
+              </li>
+            </ul>
+          </nav>
+          <div class="copyright float-right">
+            &copy;
+            <script>
+              document.write(new Date().getFullYear())
+            </script>
+          </div>
+          <!--footer here -->
+        </div>
+      </footer>
+    </div>
+  </div>
+    
+    <!--im gonna now put a table here -->
+   
+        
+        
+  
+    
+   <script>
+document.addEventListener("DOMContentLoaded", function(event) {
+
+        let allData = {1:{cellAD: 'Iggy'},2: {cellAE: 'Thea'}, 3:{cellAF: 'Mobeen'}};
+        
+        
+     
+        
+        /*
+        // The fastest loop:
+        var key=0; // We initialize the variable before the loop.
+            for (; key < allData.length; ++key) {  
+            }
+        */
+       for (var key in allData){
+           if(!allData.hasOwnProperty(key)) continue;
+           //alert(key);
+           var obj = allData[key];
+           for (var prop in obj){
+               if (!obj.hasOwnProperty(prop)) continue;
+               //or this
+               //alert(prop + " = " + obj[prop]);
+               
+               //alert(prop + " = " + allData[key][prop]);
+           }
+       }
+       /*
+        //var key = Object.keys(allData);
+        var arrayVersionOfAllData = Object.keys(allData);
+        //var arrayVersionOfAllDataValues = Object.Values(allData);
+        //alert(arrayVersionOfAllData);
+        //alert(arrayVersionOfAllDataValues);
+        arrayVersionOfAllData.forEach(lll)
+        function lll(item, index, arr){
+            //alert("in function");
+            //alert(item);
+            //alert("key is:" + arrayVersionOfAllData[index]);
+            //alert(arr);
+        }
+        alert("out function");
+        alert("start");
+        for (var key in arrayVersionOfAllData){
+            alert("next1");
+            //System.out.println("Value of "+key+" is: "+allData.get(key));
+            //alert(Object.keys(allData[key]).toString());
+            alert("array is:" + String(arrayVersionOfAllData));
+            alert("keys are:"+arrayVersionOfAllData[key])
+            alert(allData[arrayVersionOfAllData[key]]);
+            alert([Object.keys(allData)]);
+            alert(allData["1"]["cellAD"]);
+            alert([Object.keys(allData["1"])]);
+            alert([Object.keys(allData[String(key)])]);
+            alert("hhhhh");
+            //YOU MUST PUT A [] ARROUND THE KEYS() TO MAKE IT INTO A ACTUAL LIST FOR LOOPING
+            for(var key2 in [Object.keys(allData[key])]){  
+                alert("mk");
+                System.out.println("Value of "+key+" is: "+allData[key][key2]);
+            }
+            
+        }
+        */
+       //this IS THE ONLY WAY TO ACCESS OBJECT KEYSSSSSSSSSS IN JAVASCRIPT
+        //alert(Object.keys(allData));
+        //alert(allData["1"]["cellAD"]);
+        
+        var btnSubmit=document.getElementById("btnExport");
+           btnSubmit.addEventListener("click", excelApiIntegration, false);
+
+        var btnSubmitText=btnSubmit.textContent;
+        var msg=document.getElementById("msg");
+        var url = "http://babanski.com/files/ajax/hello.php";
+
+        var xhr = new XMLHttpRequest();
+
+        // Part1: Try addEventListener() approach
+        /*
+        xhr.addEventListener("loadstart", xhrLoadStart, false);        
+        xhr.addEventListener("load", xhrLoad, false);
+        xhr.addEventListener("loadend", xhrLoadEnd, false);
+        
+        function xhrLoadStart(evt) { 
+            btnSubmit.textContent="Please Wait!";
+            msg.setAttribute("hidden", "");   
+        };
+
+        function xhrLoad(evt) {
+           msg.textContent=xhr.responseText;
+        };
+
+        function xhrLoadEnd(evt) {
+                btnSubmit.textContent=btnSubmitText;
+                msg.removeAttribute("hidden");
+        };
+        */
+
+        
+        // Part2: Universal approach (event handlers)
+
+        xhr.onloadstart=function(evt) {
+           btnSubmit.textContent="Please Wait!";
+            msg.setAttribute("hidden", "");   
+        };
+
+        xhr.onload=function(evt) {
+           //msg.textContent=xhr.responseText;
+        };
+
+        xhr.onerror=function(evt) {
+           //msg.textContent="Error: cannot export data!";
+        };
+
+        xhr.ontimeout=function(evt) {
+           //msg.textContent="Error: request has timed out!";
+        };
+
+       xhr.onloadend=function(evt) {
+           btnSubmit.textContent=btnSubmitText;
+            //msg.removeAttribute("hidden", "");   
+       };
+
+
+       //Part 3:
+        //https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/readyState
+        /*
+        xhr.onreadystatechange = function(evt) {
+            if(xhr.readyState==XMLHttpRequest.OPENED) {
+                btnSubmit.textContent="Please Wait!";
+                msg.setAttribute("hidden", "hidden");                
+            }
+            else if(xhr.readyState==XMLHttpRequest.DONE) {
+                if (xhr.status==200) {
+                    msg.textContent=xhr.responseText;
+                }
+                else {
+                    msg.textContent="Error: cannot get data!";
+                }
+                btnSubmit.textContent=btnSubmitText;
+                msg.removeAttribute("hidden");
+            }
+        };
+        */
+
+        function excelApiIntegration(event) {
+               
+               exportToExcel('tblexportData', 'user-data');
+               
+               /*
+               
+               event.preventDefault();
+               xhr.open("POST", url, true);
+
+	        // By default browser is willing to wait "forever"
+        	// console.log(xhr.timeout);
+
+		//In Internet Explorer, the timeout property may be set only after calling the open() method 
+		// and before calling the send() method.
+
+               xhr.timeout=6000;
+               var formData=new FormData();
+
+               
+                var fName = "A";
+                var lName = "B";
+                var countin = 0;
+                for (var key in allData){
+                    if(!allData.hasOwnProperty(key)) continue;
+                    //alert(key);
+                    var obj = allData[key];
+                    for (var prop in obj){
+                        if (!obj.hasOwnProperty(prop)) continue;
+                        //or this
+                        //alert(prop + " = " + obj[prop]);
+                        //alert(prop + " = " + allData[key][prop]);
+                        if(countin == 0){
+                            fName = allData[key][prop];
+                        }
+                        else if(countin == 1){
+                            lName = allData[key][prop];
+                        }
+                        
+                        countin++;
+                        
+                    }
+                }
+                /*
+                for(var key in keys){
+                    System.out.println("Value of "+key+" is: "+allData.get(key));
+
+                    for(var key2 in allData[key].keys()){
+
+                        System.out.println("Value of "+key2+" is: "+allData.get(key));
+                        if(countin == 0){
+                            fName = key2;
+                        }
+                        else if(countin == 1){
+                            lName = key2;
+                        }
+                        else{
+                            countin++;
+                        }
+                    }
+                }
+                  
+               formData.append("f_name", fName);
+               formData.append("l_name", lName);
+      
+               xhr.send(formData);
+               */
+        }
+    });
+    </script> 
+    
+    
+    
+
+        
+       
+   
+    
+  <!--   JS Files   -->
+  <script src="./assets/js/core/jquery.min.js"></script>
+  <script src="./assets/js/core/popper.min.js"></script>
+  <script src="./assets/js/core/bootstrap-material-design.min.js"></script>
+  <script src="https://unpkg.com/default-passive-events"></script>
+  <script src="./assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+  <!-- Place this tag in your head or just before your close body tag. -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <script src="./assets/js/plugins/chartist.min.js"></script>
+  <!--  Notifications Plugin    -->
+  <script src="./assets/js/plugins/bootstrap-notify.js"></script>
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="./assets/js/material-dashboard.js?v=2.1.0"></script>
+
+</body>
+
+</html>
