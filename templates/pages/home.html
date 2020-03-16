@@ -1,0 +1,46 @@
+{% extends 'base.html' %} {% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<div class="container-fluid">
+    <div class="blue">
+
+    </div>
+    <div class="white">
+        <div class="content">
+            <img src="{% static 'img/logo.png' %}" alt="logo">
+            <h2>Sign In</h2>
+            {% include 'partials/_alerts.html' %}
+
+            <form class=login-form action="{% url 'index' %}" method="POST">
+                {% csrf_token %}
+                <input class="inputs-login" name="username" type="text" id="email-login" required=true
+                    placeholder="username">
+                <input class="inputs-login" name="password" type="password" id="password-login" required=true
+                    placeholder="Password">
+                <div class="buttons">
+                    <button type="submit" value="Login" class="btn btn-login btn-primary">Log In</button>
+                    <button type="button" data-target="modal-signup"
+                        class="modal-trigger btn btn-login btn-primary signup">Sign Up</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="modal-signup" class="modal">
+    <div class="modal-content">
+        <h4>Sign Up</h4><br />
+        <form id="signup-form">
+            <div class="input-field">
+                <input type="email" id="signup-email" required>
+                <label class="signup-labels" for="signup-email">Email Address</label>
+            </div>
+            <div class="input-field">
+                <input type="password" id="signup-password" required>
+                <label class="signup-labels" for="signup-password">Choose Password</label>
+            </div>
+            <button class="btn btn-login btn-primary signup darken-2 z-depth-0">Sign up</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
