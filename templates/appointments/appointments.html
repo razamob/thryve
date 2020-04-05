@@ -1,0 +1,233 @@
+{% extends 'base.html' %} {% block content %}
+{% load static %}
+<link href="{% static 'packages/core/main.css' %}" rel='stylesheet' />
+<link href="{% static 'packages/daygrid/main.css' %}" rel='stylesheet' />
+<script src="{% static 'packages/core/main.js' %}"></script>
+<script src="{% static 'packages/interaction/main.js' %}"></script>
+<script src="{% static 'packages/daygrid/main.js' %}"></script>
+<style>
+    #calendar {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+</style>
+<div class="wrapper ">
+    <div class="sidebar" data-color="purple" data-background-color="black" data-image="./assets/img/sidebar-2.jpg">
+        <div class="logo">
+            <a href="./home.html" class="simple-text logo-normal">
+                Thryve
+            </a>
+        </div>
+        <div class="sidebar-wrapper">
+            <ul class="nav">
+                <li class="nav-item   ">
+                    <a class="nav-link" href="{% url 'dashboard' %}">
+                        <i class="material-icons">dashboard</i>
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+                <li class="nav-item active ">
+                    <a class="nav-link" href="#">
+                        <i class="material-icons">calendar_today</i>
+                        <p>View Calendar</p>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="#">
+                        <i class="material-icons">folder</i>
+                        <p>Manage Data</p>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="#">
+                        <i class="material-icons">bubble_chart</i>
+                        <p>Data Analysis</p>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="#">
+                        <i class="material-icons">person</i>
+                        <p>Account Management</p>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="#">
+                        <i class="material-icons">notifications</i>
+                        <p>Notifications</p>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="./home.html">
+                        <i class="material-icons">backspace</i>
+                        <p>Logout</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div>
+        <div>
+            <p>{{appointments.title}}</p>
+        </div>
+    </div>
+    <div class="main-panel">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+            <div class="container-fluid">
+                <div class="navbar-wrapper">
+                    <a class="navbar-brand" href="javascript:void(0)">Appointments</a>
+                </div>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="navbar-toggler-icon icon-bar"></span>
+                    <span class="navbar-toggler-icon icon-bar"></span>
+                    <span class="navbar-toggler-icon icon-bar"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="javascript:void(0)">
+                                <i class="material-icons">notifications</i>
+                                <p class="d-lg-none d-md-block">
+                                    Notifications
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- End Navbar -->
+        <div class="content">
+            <div class="container-fluid">
+                <div id='calendar'></div>
+            </div>
+        </div>
+        <footer class="footer">
+            <div class="container-fluid">
+                <nav class="float-left">
+                    <ul>
+                        <li>
+                            <a href="./home.html">
+                                Thryve
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="copyright float-right">
+                    &copy;
+                    <script>
+                        document.write(new Date().getFullYear())
+                    </script>
+                </div>
+                <!--footer here -->
+            </div>
+        </footer>
+    </div>
+</div>
+{% block javascript %}
+<script>
+    /*function new_title() {
+        let url = "http://127.0.0.1:8000/appointments/get-appointment";
+        return fetch(url)
+            .then(res => {
+                return res.json()
+            })
+            .then((out) => out).catch(err => console.error(err));
+    }
+    let the_title = new_title();
+    console.log(the_title);
+*/
+
+    document.addEventListener('DOMContentLoaded', function () {
+        function callCalendar(data) {
+            console.log(data);
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                plugins: ['interaction', 'dayGrid'],
+                header: {
+                    left: 'prevYear,prev,next,nextYear today',
+                    center: 'title',
+                    right: 'dayGridMonth,dayGridWeek,dayGridDay'
+                },
+                defaultDate: '2020-02-12',
+                navLinks: true, // can click day/week names to navigate views
+                editable: true,
+                eventLimit: true, // allow "more" link when too many events
+                events: [{
+                        title: data['appointments'][0]['title'],
+                        start: '2020-02-01'
+                    },
+                    {
+                        title: 'Long Event',
+                        start: '2020-02-07',
+                        end: '2020-02-10'
+                    },
+                    {
+                        groupId: 999,
+                        title: 'Repeating Event',
+                        start: '2020-02-09T16:00:00'
+                    },
+                    {
+                        groupId: 999,
+                        title: 'Repeating Event',
+                        start: '2020-02-16T16:00:00'
+                    },
+                    {
+                        title: 'Conference',
+                        start: '2020-02-11',
+                        end: '2020-02-13'
+                    },
+                    {
+                        title: 'Meeting',
+                        start: '2020-02-12T10:30:00',
+                        end: '2020-02-12T12:30:00'
+                    },
+                    {
+                        title: 'Lunch',
+                        start: '2020-02-12T12:00:00'
+                    },
+                    {
+                        title: 'Meeting',
+                        start: '2020-02-12T14:30:00'
+                    },
+                    {
+                        title: 'Happy Hour',
+                        start: '2020-02-12T17:30:00'
+                    },
+                    {
+                        title: 'Dinner',
+                        start: '2020-02-12T20:00:00'
+                    },
+                    {
+                        title: 'Birthday Party',
+                        start: '2020-02-13T07:00:00'
+                    },
+                    {
+                        title: 'Click for Google',
+                        url: 'http://google.com/',
+                        start: '2020-02-28'
+                    }
+                ]
+            });
+
+            calendar.render();
+        }
+        const get_title = async () => {
+            var url = "http://127.0.0.1:8000/appointments/get-appointment";
+            const response = await fetch(url);
+            const data = await response.json();
+            return data
+        };
+
+        get_title().then(data => {
+            callCalendar(data);
+        })
+    })
+</script>
+
+})
+{% endblock %}
+{% endblock %}
