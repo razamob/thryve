@@ -5,6 +5,7 @@
 <script src="{% static 'packages/core/main.js' %}"></script>
 <script src="{% static 'packages/interaction/main.js' %}"></script>
 <script src="{% static 'packages/daygrid/main.js' %}"></script>
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css"
     href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
@@ -161,10 +162,59 @@
 
             <div class="text-center">
                 <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal"
-                    data-target="#modalContactForm">Launch
-                    Modal Contact Form</a>
+                    data-target="#modalContactForm">Book Appointment</a>
+            </div>
+
+            <div class="modal fade" id="CancelForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header text-center">
+                            <h4 class="modal-title w-100 font-weight-bold">Cancel Appointment</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body row">
+                            <table style="width:100%;" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Appointment Start</th>
+                                        <th>Appointment End</th>
+                                        <th>Description</th>
+                                        <th>Delete</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {% for appointment in appointments %}
+                                    <tr>
+                                        <td>{{appointment.title}}</td>
+                                        <td>{{appointment.start_date}}</td>
+                                        <td>{{appointment.end_date}}</td>
+                                        <td>{{appointment.description}}</td>
+                                        <td>
+                                            <form id="delete-appointment" action="{% url 'delete-app' appointment.id %}"
+                                                method="POST">
+                                                {% csrf_token %}
+                                                <button class="btn btn-danger" type="submit">X</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#CancelForm">Cancel
+                    Appointment</a>
             </div>
         </div>
+
         <footer class="footer">
             <div class="container-fluid">
                 <nav class="float-left">
@@ -188,6 +238,8 @@
     </div>
 </div>
 {% block javascript %}
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script>
     /*function new_title() {
         let url = "http://127.0.0.1:8000/appointments/get-appointment";
@@ -200,7 +252,21 @@
     let the_title = new_title();
     console.log(the_title);
 */
-
+    $(".delete-form").submit(function (e) {
+        $.ajax({
+            url: "http://127.0.0.1:8000/appointments/api-appointments/{{appointment.id}}/",
+            type: 'DELETE',
+            data: $(".delete-form").serialize(),
+            cache: false,
+            dataType: "text",
+            success: function (data) {
+                console.log(data);
+            },
+            error: function () {
+                console.log("ERROR")
+            }
+        })
+    })
     document.addEventListener('DOMContentLoaded', function () {
         function callCalendar(data) {
             console.log(data);

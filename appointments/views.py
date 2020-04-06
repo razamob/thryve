@@ -34,6 +34,14 @@ class AppointmentView(viewsets.ModelViewSet):
         serializer = AppointmentSerializer(appointment)
         return JsonResponse({'appointments': serializer.data})
 
+    def destroy(self, request, pk):
+        appointment = Appointment.objects.get(id=pk)
+        appointment.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+        # appointment = self.get_object(pk)
+        # appointment.delete()
+        # return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 class AppointmentAPI(viewsets.ModelViewSet):
     queryset = Appointment.objects.all()
@@ -48,7 +56,16 @@ def index(request):
     #     # context = {
     #     #     'appointments': appointments
     #     # }
-    return render(request, 'appointments/appointments.html')
+    appointments = Appointment.objects.all()
+    return render(request, 'appointments/appointments.html', {'appointments': appointments})
+
+
+def delete_appointment(request, id):
+    if request.method == 'POST':
+        appointment = Appointment.objects.get(id=id)
+        appointment.delete()
+        appointments = Appointment.objects.all()
+        return render(request, 'appointments/appointments.html', {'appointments': appointments})
 
 
 def appointment(request):
