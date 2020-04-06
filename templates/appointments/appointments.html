@@ -5,6 +5,12 @@
 <script src="{% static 'packages/core/main.js' %}"></script>
 <script src="{% static 'packages/interaction/main.js' %}"></script>
 <script src="{% static 'packages/daygrid/main.js' %}"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css"
+    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+<!-- Material Kit CSS -->
+<link rel="stylesheet" href="{% static 'css/material-dashboard.css'%}" />
 <style>
     #calendar {
         max-width: 900px;
@@ -102,6 +108,61 @@
         <div class="content">
             <div class="container-fluid">
                 <div id='calendar'></div>
+            </div>
+            <div class="modal fade" id="modalContactForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <form action="http://127.0.0.1:8000/appointments/api-appointments/" method="POST">
+                        {% csrf_token %}
+                        <div class="modal-content">
+                            <div class="modal-header text-center">
+                                <h4 class="modal-title w-100 font-weight-bold">Book Appointment</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body mx-3">
+                                <div class="md-form mb-5">
+                                    <input name="title" type="text" id="form34" class="form-control validate">
+                                    <label data-error="wrong" data-success="right" for="form34">Appointment
+                                        Reason</label>
+                                </div>
+
+                                <div class="md-form mb-5">
+                                    <i class="fas fa-envelope prefix grey-text"></i>
+                                    <input name="start_date" type="text" id="form29" class="form-control validate">
+                                    <label data-error="wrong" data-success="right" for="form29">Appointment Start
+                                        Time</label>
+                                </div>
+
+                                <div class="md-form mb-5">
+                                    <i class="fas fa-tag prefix grey-text"></i>
+                                    <input name="end_date" type="text" id="form32" class="form-control validate">
+                                    <label data-error="wrong" data-success="right" for="form32">Appointment End
+                                        Time</label>
+                                </div>
+
+                                <div class="md-form">
+                                    <i class="fas fa-pencil prefix grey-text"></i>
+                                    <textarea name="description" type="text" id="form8" class="md-textarea form-control"
+                                        rows="4"></textarea>
+                                    <label data-error="wrong" data-success="right" for="form8">Your message</label>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer d-flex justify-content-center">
+                                <button type="submit" class="btn btn-unique">Send <i
+                                        class="fas fa-paper-plane-o ml-1"></i></button>
+                            </div>
+                        </div>
+                </div>
+                </form>
+            </div>
+
+            <div class="text-center">
+                <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal"
+                    data-target="#modalContactForm">Launch
+                    Modal Contact Form</a>
             </div>
         </div>
         <footer class="footer">

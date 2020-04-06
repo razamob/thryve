@@ -6,6 +6,7 @@ from rest_framework import viewsets
 from .serializers import AppointmentSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.decorators import action
 from rest_framework.response import Response
 import json
 from django.http import JsonResponse
@@ -22,6 +23,21 @@ class AppointmentView(viewsets.ModelViewSet):
         # appointments = [
         #     appointment.title for appointment in Appointment.objects.all()]
         return JsonResponse({"appointments": list(queryset)})
+
+    def create(self, request):
+        appointment = Appointment.objects.create(
+            title=request.POST.get('title'),
+            start_date=request.POST.get('start_date'),
+            end_date=request.POST.get('end_date'),
+            description=request.POST.get('description')
+        )
+        serializer = AppointmentSerializer(appointment)
+        return JsonResponse({'appointments': serializer.data})
+
+
+class AppointmentAPI(viewsets.ModelViewSet):
+    queryset = Appointment.objects.all()
+    serializer_class = AppointmentSerializer
 
 
 def index(request):
