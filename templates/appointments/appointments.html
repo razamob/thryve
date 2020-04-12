@@ -110,10 +110,12 @@
             <div class="container-fluid">
                 <div id='calendar'></div>
             </div>
+
+            BOOK APPOINTMENT!!!
             <div class="modal fade" id="modalContactForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog" role="document">
-                    <form action="http://127.0.0.1:8000/appointments/api-appointments/" method="POST">
+                    <form action="http://127.0.0.1:8000/appointments/get-appointment" method="POST">
                         {% csrf_token %}
                         <div class="modal-content">
                             <div class="modal-header text-center">
@@ -165,18 +167,19 @@
                     data-target="#modalContactForm">Book Appointment</a>
             </div>
 
+            <!-- CANCEL APPOINTMENT!!! -->
             <div class="modal fade" id="CancelForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog" role="document">
-                    <div class="modal-content">
+                    <div style="overflow: auto;" class="modal-content">
                         <div class="modal-header text-center">
                             <h4 class="modal-title w-100 font-weight-bold">Cancel Appointment</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body row">
-                            <table style="width:100%;" class="table table-striped">
+                        <div style="overflow:auto;" class="modal-body row">
+                            <table style="overflow: auto;" style="width:100%;" class="table table-striped">
                                 <thead>
                                     <tr>
                                         <th>Title</th>
@@ -211,6 +214,71 @@
             </div>
             <div class="text-center">
                 <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#CancelForm">Cancel
+                    Appointment</a>
+            </div>
+
+            <!-- EDIT APPOINTMENT!!! -->
+            <div class="modal fade" id="EditForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header text-center">
+                            <h4 class="modal-title w-100 font-weight-bold">Change Appointment</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div style="overflow:auto;" class="modal-body">
+                            <table style="width:100%;" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Appointment Start</th>
+                                        <th>Appointment End</th>
+                                        <th>Description</th>
+                                        <th>Save</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody class="tablebody-data">
+                                    {% for appointment in appointments %}
+                                    <tr>
+                                        <td>{{appointment.title}}</td>
+                                        <td>{{appointment.start_date}}</td>
+                                        <td>{{appointment.end_date}}</td>
+                                        <td>{{appointment.description}}</td>
+                                    </tr>
+                                    <form id="edit-appointment" action="{% url 'edit-app' appointment.id %}"
+                                        method="post">
+                                        {% csrf_token %}
+                                        <tr>
+                                            <td>
+                                                <input type="text" name="title" id="edit-title"
+                                                    class="form-control validate">
+                                            </td>
+                                            <td><input name="start_date" value="" type="text" id="form356"
+                                                    class="form-control validate">
+                                            </td>
+                                            <td><input name="end_date" value="" type="text" id="form367"
+                                                    class="form-control validate">
+                                            </td>
+                                            <td><textarea name="description" value="" type="text" id="form378"
+                                                    class="md-textarea form-control" rows="4"></textarea></td>
+                                            <td>
+                                                <button class="update-btn btn btn-danger" type="submit">Update</button>
+                                            </td>
+                                        </tr>
+                                    </form>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#EditForm">Change
                     Appointment</a>
             </div>
         </div>
@@ -267,10 +335,17 @@
             }
         })
     })
+
+
+    var obj_ex = {}
+    var ex_obj = [];
+
     document.addEventListener('DOMContentLoaded', function () {
         function callCalendar(data) {
             console.log(data);
             var calendarEl = document.getElementById('calendar');
+            appt_dates(data);
+            console.log("ISSSA ME", ex_obj);
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 plugins: ['interaction', 'dayGrid'],
@@ -283,61 +358,7 @@
                 navLinks: true, // can click day/week names to navigate views
                 editable: true,
                 eventLimit: true, // allow "more" link when too many events
-                events: [{
-                        title: data['appointments'][0]['title'],
-                        start: '2020-02-01'
-                    },
-                    {
-                        title: 'Long Event',
-                        start: '2020-02-07',
-                        end: '2020-02-10'
-                    },
-                    {
-                        groupId: 999,
-                        title: 'Repeating Event',
-                        start: '2020-02-09T16:00:00'
-                    },
-                    {
-                        groupId: 999,
-                        title: 'Repeating Event',
-                        start: '2020-02-16T16:00:00'
-                    },
-                    {
-                        title: 'Conference',
-                        start: '2020-02-11',
-                        end: '2020-02-13'
-                    },
-                    {
-                        title: 'Meeting',
-                        start: '2020-02-12T10:30:00',
-                        end: '2020-02-12T12:30:00'
-                    },
-                    {
-                        title: 'Lunch',
-                        start: '2020-02-12T12:00:00'
-                    },
-                    {
-                        title: 'Meeting',
-                        start: '2020-02-12T14:30:00'
-                    },
-                    {
-                        title: 'Happy Hour',
-                        start: '2020-02-12T17:30:00'
-                    },
-                    {
-                        title: 'Dinner',
-                        start: '2020-02-12T20:00:00'
-                    },
-                    {
-                        title: 'Birthday Party',
-                        start: '2020-02-13T07:00:00'
-                    },
-                    {
-                        title: 'Click for Google',
-                        url: 'http://google.com/',
-                        start: '2020-02-28'
-                    }
-                ]
+                events: ex_obj
             });
 
             calendar.render();
@@ -351,7 +372,22 @@
 
         get_title().then(data => {
             callCalendar(data);
-        })
+        });
+
+        function appt_dates(data) {
+
+            for (i = 0; i < Object.keys(data['appointments']).length; i++) {
+                var events_obj = {
+                    title: data['appointments'][i]['title'],
+                    start: data['appointments'][i]['start_date'],
+                    end: data['appointments'][i]['end_date']
+                }
+                ex_obj.push(events_obj);
+            }
+            console.log('HEELLOO', ex_obj)
+
+            return ex_obj;
+        }
     })
 </script>
 

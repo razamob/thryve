@@ -25,6 +25,7 @@ class AppointmentView(viewsets.ModelViewSet):
         return JsonResponse({"appointments": list(queryset)})
 
     def create(self, request):
+        print(request.POST)
         appointment = Appointment.objects.create(
             title=request.POST.get('title'),
             start_date=request.POST.get('start_date'),
@@ -66,6 +67,29 @@ def delete_appointment(request, id):
         appointment.delete()
         appointments = Appointment.objects.all()
         return render(request, 'appointments/appointments.html', {'appointments': appointments})
+
+
+def edit_appointment(request, id):
+    if request.method == 'POST':
+        print(request.body, id)
+        if request.POST.get('title') is not None:
+            Appointment.objects.filter(id=id).update(
+                title=request.POST.get('title')
+            )
+        if request.POST.get('start_date') is not None:
+            Appointment.objects.filter(id=id).update(
+                start_date=request.POST.get('start_date')
+            )
+        if request.POST.get('end_date') is not None:
+            Appointment.objects.filter(id=id).update(
+                end_date=request.POST.get('end_date')
+            )
+        if request.POST.get('description') is not None:
+            Appointment.objects.filter(id=id).update(
+                description=request.POST.get('description')
+            )
+    appointments = Appointment.objects.all()
+    return render(request, 'appointments/appointments.html', {'appointments': appointments})
 
 
 def appointment(request):
