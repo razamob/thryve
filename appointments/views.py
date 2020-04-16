@@ -33,7 +33,9 @@ class AppointmentView(viewsets.ModelViewSet):
             description=request.POST.get('description')
         )
         serializer = AppointmentSerializer(appointment)
-        return JsonResponse({'appointments': serializer.data})
+        appointments = Appointment.objects.all()
+        return render(request, 'appointments/appointments.html', {'appointments': appointments})
+        # return JsonResponse({'appointments': serializer.data})
 
     def destroy(self, request, pk):
         appointment = Appointment.objects.get(id=pk)
@@ -63,6 +65,7 @@ def index(request):
 
 def delete_appointment(request, id):
     if request.method == 'POST':
+        print(request.POST, id)
         appointment = Appointment.objects.get(id=id)
         appointment.delete()
         appointments = Appointment.objects.all()
@@ -71,25 +74,24 @@ def delete_appointment(request, id):
 
 def edit_appointment(request, id):
     if request.method == 'POST':
-        print(request.body, id)
-        if request.POST.get('title') is not None:
+        if request.POST.get('title'):
             Appointment.objects.filter(id=id).update(
                 title=request.POST.get('title')
             )
-        if request.POST.get('start_date') is not None:
+        if request.POST.get('start_date'):
             Appointment.objects.filter(id=id).update(
                 start_date=request.POST.get('start_date')
             )
-        if request.POST.get('end_date') is not None:
+        if request.POST.get('end_date'):
             Appointment.objects.filter(id=id).update(
                 end_date=request.POST.get('end_date')
             )
-        if request.POST.get('description') is not None:
+        if request.POST.get('description'):
             Appointment.objects.filter(id=id).update(
                 description=request.POST.get('description')
             )
-    appointments = Appointment.objects.all()
-    return render(request, 'appointments/appointments.html', {'appointments': appointments})
+        appointments = Appointment.objects.all()
+        return render(request, 'appointments/appointments.html', {'appointments': appointments})
 
 
 def appointment(request):

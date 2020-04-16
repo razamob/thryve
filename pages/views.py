@@ -15,6 +15,7 @@ def index(request):
             auth.login(request, user)
             return redirect('dashboard')
         else:
+            messages.error(request, 'Invalid Credentials')
             return redirect('index')
     else:
         return render(request, 'pages/home.html')

@@ -110,8 +110,6 @@
             <div class="container-fluid">
                 <div id='calendar'></div>
             </div>
-
-            BOOK APPOINTMENT!!!
             <div class="modal fade" id="modalContactForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -229,31 +227,31 @@
                             </button>
                         </div>
                         <div style="overflow:auto;" class="modal-body">
-                            <table style="width:100%;" class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Title</th>
-                                        <th>Appointment Start</th>
-                                        <th>Appointment End</th>
-                                        <th>Description</th>
-                                        <th>Save</th>
-                                    </tr>
-                                </thead>
+                            {% for appointment in appointments %}
+                            <form action="{% url 'edit-app' appointment.id %}" method="POST">
+                                {% csrf_token %}
+                                <table style="width:100%;" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Appointment Start</th>
+                                            <th>Appointment End</th>
+                                            <th>Description</th>
+                                            <th>Save</th>
+                                        </tr>
+                                    </thead>
 
-                                <tbody class="tablebody-data">
-                                    {% for appointment in appointments %}
-                                    <tr>
-                                        <td>{{appointment.title}}</td>
-                                        <td>{{appointment.start_date}}</td>
-                                        <td>{{appointment.end_date}}</td>
-                                        <td>{{appointment.description}}</td>
-                                    </tr>
-                                    <form id="edit-appointment" action="{% url 'edit-app' appointment.id %}"
-                                        method="post">
-                                        {% csrf_token %}
+                                    <tbody class="tablebody-data">
+                                        <tr>
+                                            <td>{{appointment.title}}</td>
+                                            <td>{{appointment.start_date}}</td>
+                                            <td>{{appointment.end_date}}</td>
+                                            <td>{{appointment.description}}</td>
+                                        </tr>
+
                                         <tr>
                                             <td>
-                                                <input type="text" name="title" id="edit-title"
+                                                <input value="" type="text" name="title" id="edit{{appointment.id}}"
                                                     class="form-control validate">
                                             </td>
                                             <td><input name="start_date" value="" type="text" id="form356"
@@ -268,10 +266,10 @@
                                                 <button class="update-btn btn btn-danger" type="submit">Update</button>
                                             </td>
                                         </tr>
-                                    </form>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </form>
+                            {% endfor %}
                         </div>
 
                     </div>
