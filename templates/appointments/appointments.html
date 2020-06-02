@@ -113,7 +113,9 @@
             <div class="modal fade" id="modalContactForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog" role="document">
-                    <form action="http://127.0.0.1:8000/appointments/get-appointment" method="POST">
+                    <form
+                        action="http://trv-env.eba-3vvt5cdz.us-east-2.elasticbeanstalk.com/appointments/get-appointment"
+                        method="POST">
                         {% csrf_token %}
                         <div class="modal-content">
                             <div class="modal-header text-center">
@@ -307,20 +309,9 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script>
-    /*function new_title() {
-        let url = "http://127.0.0.1:8000/appointments/get-appointment";
-        return fetch(url)
-            .then(res => {
-                return res.json()
-            })
-            .then((out) => out).catch(err => console.error(err));
-    }
-    let the_title = new_title();
-    console.log(the_title);
-*/
     $(".delete-form").submit(function (e) {
         $.ajax({
-            url: "http://127.0.0.1:8000/appointments/api-appointments/{{appointment.id}}/",
+            url: "http://trv-env.eba-3vvt5cdz.us-east-2.elasticbeanstalk.com/appointments/api-appointments/{{appointment.id}}/",
             type: 'DELETE',
             data: $(".delete-form").serialize(),
             cache: false,
@@ -362,7 +353,8 @@
             calendar.render();
         }
         const get_title = async () => {
-            var url = "http://127.0.0.1:8000/appointments/get-appointment";
+            var url =
+                "http://trv-env.eba-3vvt5cdz.us-east-2.elasticbeanstalk.com/appointments/get-appointment";
             const response = await fetch(url);
             const data = await response.json();
             return data
