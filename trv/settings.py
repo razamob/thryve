@@ -27,7 +27,7 @@ SECRET_KEY = 'wn^s8d-of-*9@w@&2nt8-1kf$*p2$+fc8ihb8oct3is8^50-dp'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'http://trv-env.eba-3vvt5cdz.us-east-2.elasticbeanstalk.com/']
+    'django-thryve.eba-p3pcsa5n.us-east-2.elasticbeanstalk.com']
 
 
 # Application definition
