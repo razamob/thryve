@@ -14,7 +14,7 @@ urlpatterns = [
          AppointmentView.as_view({'get': 'list', 'post': 'create'}), name="get-appointment"),
     # path(r'', include(router.urls)),
     path('delete-appointment/<int:id>',
-         views.delete_appointment, name="delete-app"),
+         views.delete_appointment, name="delete-appointment"),
     path('edit-appointment/<int:id>/',
-         views.edit_appointment, name="edit-app")
+         views.edit_appointment, name="edit-appointment")
 ]

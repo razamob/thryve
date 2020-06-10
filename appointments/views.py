@@ -36,10 +36,10 @@ class AppointmentView(viewsets.ModelViewSet):
         appointments = Appointment.objects.all()
         return render(request, 'appointments/appointments.html', {'appointments': appointments})
 
-    def destroy(self, request, pk):
-        appointment = Appointment.objects.get(id=pk)
-        appointment.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    # def destroy(self, request, pk):
+    #     appointment = Appointment.objects.get(id=pk)
+    #     appointment.delete()
+    #     return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class AppointmentAPI(viewsets.ModelViewSet):

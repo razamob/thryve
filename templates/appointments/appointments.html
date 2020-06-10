@@ -113,9 +113,7 @@
             <div class="modal fade" id="modalContactForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog" role="document">
-                    <form
-                        action="http://trv-env.eba-3vvt5cdz.us-east-2.elasticbeanstalk.com/appointments/get-appointment"
-                        method="POST">
+                    <form action="get-appointment" method="POST">
                         {% csrf_token %}
                         <div class="modal-content">
                             <div class="modal-header text-center">
@@ -198,8 +196,8 @@
                                         <td>{{appointment.end_date}}</td>
                                         <td>{{appointment.description}}</td>
                                         <td>
-                                            <form id="delete-appointment" action="{% url 'delete-app' appointment.id %}"
-                                                method="POST">
+                                            <form id="delete-appointment"
+                                                action="{% url 'delete-appointment' appointment.id %}" method="POST">
                                                 {% csrf_token %}
                                                 <button class="btn btn-danger" type="submit">X</button>
                                             </form>
@@ -230,7 +228,7 @@
                         </div>
                         <div style="overflow:auto;" class="modal-body">
                             {% for appointment in appointments %}
-                            <form action="{% url 'edit-app' appointment.id %}" method="POST">
+                            <form action="{% url 'edit-appointment' appointment.id %}" method="POST">
                                 {% csrf_token %}
                                 <table style="width:100%;" class="table table-striped">
                                     <thead>
@@ -309,16 +307,15 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script>
+    //api-appointments
     $(".delete-form").submit(function (e) {
         $.ajax({
-            url: "http://trv-env.eba-3vvt5cdz.us-east-2.elasticbeanstalk.com/appointments/api-appointments/{{appointment.id}}/",
+            url: "delete-appointment/{{appointment.id}}/",
             type: 'DELETE',
             data: $(".delete-form").serialize(),
             cache: false,
             dataType: "text",
-            success: function (data) {
-                console.log(data);
-            },
+            success: function (data) {},
             error: function () {
                 console.log("ERROR")
             }
@@ -354,7 +351,7 @@
         }
         const get_title = async () => {
             var url =
-                "http://trv-env.eba-3vvt5cdz.us-east-2.elasticbeanstalk.com/appointments/get-appointment";
+                "get-appointment";
             const response = await fetch(url);
             const data = await response.json();
             return data
