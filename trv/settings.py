@@ -51,7 +51,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'schedule',
     'djangobower',
-    'rest_framework'
+    'rest_framework',
+    "program.apps.ProgramConfig",
+    "student.apps.StudentConfig",
+    "form.apps.FormConfig"
+
 ]
 
 MIDDLEWARE = [
