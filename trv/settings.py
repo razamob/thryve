@@ -27,7 +27,7 @@ SECRET_KEY = 'wn^s8d-of-*9@w@&2nt8-1kf$*p2$+fc8ihb8oct3is8^50-dp'
 DEBUG = True
 
 ALLOWED_HOSTS = ['web-app-dev.us-east-2.elasticbeanstalk.com',
-                 'localhost', '172.31.5.94']
+                 'localhost', '172.31.30.196']
 
 
 # Application definition
