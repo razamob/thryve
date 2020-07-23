@@ -3,14 +3,22 @@ branch-defaults:
     environment: null
     group_suffix: null
   prod:
-    environment: web-app-dev
+    environment: null
+  production:
+    environment: web-app-thrv
 environment-defaults:
   thryve-capstone:
     branch: null
     repository: null
+  web-app-dev:
+    branch: prod
+    repository: codecommit-origin
+  web-app-thrv:
+    branch: production
+    repository: codecomm-origin
 global:
   application_name: web-app
-  branch: null
+  branch: production
   default_ec2_keyname: aws-eb
   default_platform: Python 3.6 running on 64bit Amazon Linux
   default_region: us-east-2
@@ -19,6 +27,6 @@ global:
   platform_name: null
   platform_version: null
   profile: eb-cli
-  repository: null
+  repository: codecomm-origin
   sc: git
   workspace_type: Application
