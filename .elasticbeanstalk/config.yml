@@ -1,7 +1,13 @@
 branch-defaults:
   master:
-    environment: thryve-capstone
+    environment: null
     group_suffix: null
+  prod:
+    environment: web-app-dev
+environment-defaults:
+  thryve-capstone:
+    branch: null
+    repository: null
 global:
   application_name: web-app
   branch: null

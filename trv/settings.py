@@ -99,7 +99,7 @@ DATABASES = {
         'NAME': 'thryvedatabase',
         'USER': 'thryve2020',
         'PASSWORD': 'Thryve2020!',
-        'HOST': 'thryve-database-2020.clkzzm3gdrpr.us-east-2.rds.amazonaws.com'
+        'HOST': 'web-app-dev.us-east-2.elasticbeanstalk.com'
     }
 }
 
