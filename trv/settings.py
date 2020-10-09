@@ -27,7 +27,7 @@ SECRET_KEY = 'wn^s8d-of-*9@w@&2nt8-1kf$*p2$+fc8ihb8oct3is8^50-dp'
 DEBUG = True
 
 ALLOWED_HOSTS = ['web-app-thrv.us-east-2.elasticbeanstalk.com',
-                 'localhost', '172.31.1.170', '127.0.0.1']
+                 'localhost', '172.31.1.170', '127.0.0.1', 'thryve-capstone.eba-zurtgmrg.us-east-2.elasticbeanstalk.com']
 
 
 # Application definition
@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'data_analysis.apps.DataAnalysisConfig',
     'staff.apps.StaffConfig',
     'students.apps.StudentConfig',
+    'studentauth.apps.StudentauthConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -57,7 +58,6 @@ INSTALLED_APPS = [
     "program.apps.ProgramConfig",
     "student.apps.StudentConfig",
     "form.apps.FormConfig"
-
 ]
 
 MIDDLEWARE = [
