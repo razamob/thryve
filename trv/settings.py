@@ -27,7 +27,7 @@ SECRET_KEY = 'wn^s8d-of-*9@w@&2nt8-1kf$*p2$+fc8ihb8oct3is8^50-dp'
 DEBUG = True
 
 ALLOWED_HOSTS = ['web-app-thrv.us-east-2.elasticbeanstalk.com',
-                 'localhost', '172.31.1.170']
+                 'localhost', '172.31.1.170', '127.0.0.1']
 
 
 # Application definition
@@ -42,6 +42,7 @@ BOWER_INSTALLED_APPS = (
 INSTALLED_APPS = [
     'pages.apps.PagesConfig',
     'appointments.apps.AppointmentsConfig',
+    'data_analysis.apps.DataAnalysisConfig',
     'staff.apps.StaffConfig',
     'students.apps.StudentConfig',
     'django.contrib.admin',
