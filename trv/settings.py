@@ -26,8 +26,8 @@ SECRET_KEY = 'wn^s8d-of-*9@w@&2nt8-1kf$*p2$+fc8ihb8oct3is8^50-dp'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['web-app-thrv.us-east-2.elasticbeanstalk.com',
-                 'localhost', '172.31.1.170', '127.0.0.1']
+ALLOWED_HOSTS = ['http://web-app-thrv.us-east-2.elasticbeanstalk.com', 'web-app-thrv.us-east-2.elasticbeanstalk.com',
+                 'localhost', '172.31.1.170', '127.0.0.1', '172.31.28.160']
 
 
 # Application definition
