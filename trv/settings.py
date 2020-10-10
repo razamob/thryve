@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'data_analysis.apps.DataAnalysisConfig',
     'staff.apps.StaffConfig',
     'students.apps.StudentConfig',
+    'studentauth.apps.StudentauthConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -57,7 +58,6 @@ INSTALLED_APPS = [
     "program.apps.ProgramConfig",
     "student.apps.StudentConfig",
     "form.apps.FormConfig"
-
 ]
 
 MIDDLEWARE = [
