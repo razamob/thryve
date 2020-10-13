@@ -1,6 +1,5 @@
 from django.http import JsonResponse
 from django.shortcuts import render
-from dashboard.models import Order
 from django.core import serializers
 from .models import StudentAccount
 from rest_framework.renderers import TemplateHTMLRenderer
@@ -44,7 +43,7 @@ class StudentAccountView(viewsets.ModelViewSet):
         )
         serializer = StudentAccountSerializer(studentaccount)
         studentaccounts = StudentAccountSerializer.objects.all()
-        return render(request, 'studentaccounts/studentaccounts.html', {'appointments': appointments})
+        return render(request, 'studentaccounts/studentaccounts.html', {'studentaccounts': studentaccounts})
 
 
     # def destroy(self, request, pk):
@@ -67,7 +66,7 @@ def index(request):
     #     #     'appointments': appointments
     #     # }
     studentaccounts = StudentAccount.objects.all()
-    return render(request, 'studentaccounts/studentaccounts.html', {'appointments': appointments})
+    return render(request, 'studentaccounts/studentaccounts.html', {'studentaccounts': studentaccounts})
 
 
 def delete_studentaccount(request, id):
@@ -76,7 +75,7 @@ def delete_studentaccount(request, id):
         studentaccount = StudentAccount.objects.get(id=id)
         studentaccount.delete()
         studentaccounts = StudentAccount.objects.all()
-        return render(request, 'studentaccounts/studentaccounts.html', {'appointments': appointments})
+        return render(request, 'studentaccounts/studentaccounts.html', {'studentaccounts': studentaccounts})
 
 
 def edit_studentaccount(request, id):
@@ -131,12 +130,3 @@ def edit_studentaccount(request, id):
 
 def studentaccount(request):
     return render(request, 'studentaccounts/studentaccount.html')
-
-def data_dashboard(request):
-    return render(request, 'data_dashboard.html', {})
-
-
-def staff_data(request):
-    dataset = Order.objects.all()
-    data = serializers.serialize('json', dataset)
-    return JsonResponse(data, safe=False)

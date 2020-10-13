@@ -21,7 +21,7 @@ class StudentAuthView(viewsets.ModelViewSet):
         queryset = StudentAuth.objects.all().values()
         # studentauths = [
         #     studentauth.title for studentauth in StudentAuth.objects.all()]
-        return JsonResponse(list(queryset))
+        return JsonResponse({"studentauths": list(queryset)})
 
     def create(self, request):
         print(request.POST)
