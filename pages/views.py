@@ -28,3 +28,4 @@ def logout(request):
 def dashboard(request):
     if request.user.is_authenticated:
         return render(request, 'pages/dashboard.html')
+
