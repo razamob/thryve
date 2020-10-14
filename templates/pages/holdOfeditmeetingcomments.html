@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<!--
+-------------------------------------------
+Student: Igbinosa Idahosa <idahosai@sheridan.desire2learn.com>
+StudentID: 991462246
+-------------------------------------------
+-->
+
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Thryve</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <!--     Fonts and icons     -->
+  <link rel="stylesheet" type="text/css"
+    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+  <!-- Material Kit CSS -->
+  <link href="assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet" />
+  
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>  
+        
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+      
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" crossorigin="anonymous"></script>
+
+ 
+</head>
+
+
+<body class="dark-edition">
+  <div class="wrapper ">
+    <div class="sidebar" data-color="purple" data-background-color="black" data-image="./assets/img/sidebar-2.jpg">
+      <div class="logo">
+        <a href="./home.html" class="simple-text logo-normal">
+          Thryve
+        </a>
+      </div>
+      <div class="sidebar-wrapper">
+        <ul class="nav">
+          <li class="nav-item active  ">
+            <a class="nav-link" href="{% url 'dashboard' %}">
+              <i class="material-icons">dashboard</i>
+              <p>Dashboard</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="{% url 'appointments' %}">
+              <i class="material-icons">calendar_today</i>
+              <p>View Calendar</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="{% url 'manageData' %}">
+              <i class="material-icons">folder</i>
+              <p>Manage Data</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="#">
+              <i class="material-icons">bubble_chart</i>
+              <p>Data Analysis</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="#">
+              <i class="material-icons">person</i>
+              <p>Account Management</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="#">
+              <i class="material-icons">notifications</i>
+              <p>Notifications</p>
+            </a>
+          </li>
+
+          <li class="nav-item ">
+            <a class="nav-link" href="./editmeetingcomments.html">
+                <i class="material-icons">subject</i>
+                <p>Edit Meeting Comments</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+              <a class="nav-link" href="./filterData.html">
+                  <i class="material-icons">find_in_page</i>
+                  <p>Filter Data</p>
+              </a>
+          </li>
+
+
+
+          <li class="nav-item ">
+            <a class="nav-link" href="./home.html">
+              <i class="material-icons">backspace</i>
+              <p>Logout</p>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="main-panel">
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <a class="navbar-brand" href="javascript:void(0)">Dashboard</a>
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="javascript:void(0)">
+                  <i class="material-icons">notifications</i>
+                  <p class="d-lg-none d-md-block">
+                    Notifications
+                  </p>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+      
+  </div>
+      <br>
+      <div class="row justify-content-center">
+          <h1> <font color="white">Edit Student/Alumni Comment</font></h1>  
+          
+      </div>
+      <div class="row justify-content-center">
+      
+      <textarea   rows="24" cols="70" placeholder="This is the default text"></textarea>
+      </div>
+         <div class="row justify-content-center" >    
+   <button type="button" onClick="location.href='manageData.html'"  class="btn btn-primary">go back to student/alumni meeting page</button>    
+   </div>
+
+    
+
+        
+       
+   
+    
+  <!--   JS Files   -->
+  <script src="./assets/js/core/jquery.min.js"></script>
+  <script src="./assets/js/core/popper.min.js"></script>
+  <script src="./assets/js/core/bootstrap-material-design.min.js"></script>
+  <script src="https://unpkg.com/default-passive-events"></script>
+  <script src="./assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+  <!-- Place this tag in your head or just before your close body tag. -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <script src="./assets/js/plugins/chartist.min.js"></script>
+  <!--  Notifications Plugin    -->
+  <script src="./assets/js/plugins/bootstrap-notify.js"></script>
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="./assets/js/material-dashboard.js?v=2.1.0"></script>
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+     
