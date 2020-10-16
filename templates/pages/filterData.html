@@ -673,16 +673,17 @@ function exportToExcel(tableID, filename = ''){
                
               <input type="submit" value="Submit" style="display: block;">
             </form>
-
+            <!--
             <p>Here is the result: {{ allData }}</p>
             <p>Here is the result2: {{ backup }}</p>
+            -->
             <p>  {% if allData != None %}{{ backup }}{% else %} backup Coming Soon{% endif %}</p>
             {% for instance in allData %}
               <!-- ur actually using feild names of the actual database, the model creation of it on here might actually have less feild 
               database variables than what is there(cus of not having the current commited work) -->
               <p>{{instance}}</p>
-              <b>{{instance}} - {{instance.attachment4}} - {{instance.attachment1}} - {{instance.attachment2}} - {{instance.attachment3}}</b>
-              <p>[][][][][][] {{ instance.id }} - {{ instance.title }} - {{instance.start_date}} - {{instance.end_date}} - {{instance.description}}</p>
+              <!--<b>{{instance}} - {{instance.attachment4}} - {{instance.attachment1}} - {{instance.attachment2}} - {{instance.attachment3}}</b>-->
+              <p> {{ instance.id }} - {{ instance.title }} - {{instance.start_date}} - {{instance.end_date}} - {{instance.description}} - {{instance.student_id_id}}</p>
               
               {% endfor %}
       </div>

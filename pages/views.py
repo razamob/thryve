@@ -12,6 +12,10 @@ from django.db import connection
 # Create your views here.
 import datetime
 
+from studentauth.models import StudentAuth
+from student.models import StudentAccount
+
+
 
 def index(request):
     if request.method == 'POST':
@@ -148,8 +152,40 @@ def check_frequency(request):
             '''
             #--tip: save the QuerySet and reuse it cus its cached
             
-            all_data_in_appointments = Appointment.objects.filter(start_date__gte=datetime.date(2020, 3, 7), end_date__lte = datetime.date(2020, 4, 9))
+            #all_data_in_appointments = Appointment.objects.filter(start_date__gte=datetime.date(2020, 3, 7), end_date__lte = datetime.date(2020, 4, 9))
             
+            
+            #all_data_in_appointments = Appointment.objects.filter(student_id__auth_id_id__sheridan_id = 9516584235)
+
+
+            
+
+            # this is how you get the request data when you use form models
+            student_number = my_form.cleaned_data['student_number']
+            name_of_student = my_form.cleaned_data['name']
+            user_start_date = my_form.cleaned_data['start_date']
+            user_end_date = my_form.cleaned_data['end_date']
+            print("see if it get correct dataaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+            print(name_of_student)
+            print(type(name_of_student))
+            print(student_number)
+            print(type(student_number))
+            print(user_start_date)
+            #print(type(user_start_date.today().day))
+            print(user_end_date)
+            
+
+            print(user_start_date.day)
+            print(user_end_date.month)
+            print(user_end_date.year)
+
+            print(type(user_start_date.today().day))
+            print(type(user_start_date.today().month))
+            print(type(user_start_date.today().year))
+            
+            all_data_in_appointments = Appointment.objects.filter(student_id__auth_id_id__sheridan_id = student_number, start_date__gte=datetime.date(user_start_date.year, user_start_date.month, user_start_date.day), end_date__lte = datetime.date(user_end_date.year, user_end_date.month, user_end_date.day))
+
+            #all_data_in_appointments = StudentAccount.objects.filter(auth_id__sheridan_id = 9516584235)
             #context = {'allData': all_data_in_appointments,
             #            'backup': name_of_student,
             #            'form': my_form}
