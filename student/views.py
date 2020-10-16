@@ -68,7 +68,6 @@ def index(request):
     studentaccounts = StudentAccount.objects.all()
     return render(request, 'studentaccounts/studentaccounts.html', {'studentaccounts': studentaccounts})
 
-
 def delete_studentaccount(request, id):
     if request.method == 'POST':
         print(request.POST, id)
