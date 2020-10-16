@@ -34,7 +34,8 @@ class AppointmentView(viewsets.ModelViewSet):
         )
         serializer = AppointmentSerializer(appointment)
         appointments = Appointment.objects.all()
-        return render(request, 'appointments/appointments.html', {'appointments': appointments})
+        #return render(request, 'appointments/appointments.html', {'appointments': appointments})
+        return JsonResponse(appointment)
 
     # def destroy(self, request, pk):
     #     appointment = Appointment.objects.get(id=pk)
