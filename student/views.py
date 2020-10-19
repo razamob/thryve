@@ -42,8 +42,8 @@ class StudentAccountView(viewsets.ModelViewSet):
             auth_id=request.POST.get('auth_id')
         )
         serializer = StudentAccountSerializer(studentaccount)
-        studentaccounts = StudentAccountSerializer.objects.all()
-        return render(request, 'studentaccounts/studentaccounts.html', {'studentaccounts': studentaccounts})
+        studentaccounts = StudentAccount.objects.last().values()
+        return JsonResponse({"studentaccounts": list(studentaccount)})
 
 
     # def destroy(self, request, pk):
@@ -123,7 +123,7 @@ def edit_studentaccount(request, id):
             StudentAccount.objects.filter(id=id).update(
                 auth_id=request.POST.get('auth_id')
             )
-        studentaccounts = StudentAccount.objects.all()
+        studentaccounts = StudentAccount.objects.filter(id=id).values()
         return render(request, 'studentaccounts/studentaccounts.html', {'studentaccounts': studentaccounts})
 
 
