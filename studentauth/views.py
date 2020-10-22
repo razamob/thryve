@@ -31,8 +31,7 @@ class StudentAuthView(viewsets.ModelViewSet):
         )
         serializer = StudentAuthSerializer(studentauth)
         studentauths = StudentAuth.objects.last().values()
-        #return render(request, 'studentauths/studentauths.html', {'studentauths': studentauths})
-        return JsonResponse({'studentauths': list(studentauths)})
+        return JsonResponse(studentauths)
 
     # def destroy(self, request, pk):
     #     studentauth = StudentAuth.objects.get(id=pk)
