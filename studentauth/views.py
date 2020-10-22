@@ -53,8 +53,8 @@ def index(request):
     #     # context = {
     #     #     'appointments': appointments
     #     # }
-    studentauths = StudentAuth.objects.all().values()
-    return JsonResponse({'studentauths': list(studentauths)})
+    studentauths = StudentAuth.objects.all()
+    return JsonResponse(request, 'studentauths/studentauths.html', {'studentauths': studentauths})
 
 
 def delete_studentauth(request, id):
@@ -62,8 +62,8 @@ def delete_studentauth(request, id):
         print(request.POST, id)
         studentauth = StudentAuth.objects.get(id=id)
         studentauth.delete()
-        studentauths = StudentAuth.objects.all().values()
-        return JsonResponse({'studentauths': list(studentauths)})
+        studentauths = StudentAuth.objects.all()
+        return render(request, 'studentauths/studentauths.html', {'studentauths': studentauths})
 
 
 def edit_studentauth(request, id):
@@ -76,8 +76,8 @@ def edit_studentauth(request, id):
             StudentAuth.objects.filter(id=id).update(
                 password=request.POST.get('password')
             )
-        studentauths = StudentAuth.objects.all().values()
-        return return JsonResponse({'studentauths': list(studentauths)})
+        studentauths = StudentAuth.objects.all()
+        return render(request, 'studentauths/studentauths.html', {'studentauths': studentauths})
 
 
 def studentauth(request):
