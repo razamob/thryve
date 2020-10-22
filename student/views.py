@@ -1,6 +1,5 @@
 from django.http import JsonResponse
 from django.shortcuts import render
-from dashboard.models import Order
 from django.core import serializers
 from .models import StudentAccount
 from rest_framework.renderers import TemplateHTMLRenderer
@@ -14,6 +13,7 @@ from rest_framework.response import Response
 import json
 from django.http import JsonResponse
 # Create your views here.
+
 
 class StudentAccountView(viewsets.ModelViewSet):
     serializer_class = StudentAccountSerializer
@@ -45,7 +45,6 @@ class StudentAccountView(viewsets.ModelViewSet):
         serializer = StudentAccountSerializer(studentaccount)
         studentaccounts = StudentAccountSerializer.objects.all()
         return render(request, 'studentaccounts/studentaccounts.html', {'appointments': appointments})
-
 
     # def destroy(self, request, pk):
     #     studentaccount = StudentAccount.objects.get(id=pk)
@@ -132,8 +131,8 @@ def edit_studentaccount(request, id):
 def studentaccount(request):
     return render(request, 'studentaccounts/studentaccount.html')
 
-def data_dashboard(request):
-    return render(request, 'data_dashboard.html', {})
+# def data_dashboard(request):
+#     return render(request, 'data_dashboard.html', {})
 
 
 def staff_data(request):
