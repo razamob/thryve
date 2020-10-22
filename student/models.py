@@ -14,8 +14,8 @@ class StudentAccount(models.Model):
     als = models.BooleanField(default=False)
     coop = models.BooleanField(default=False)
     international = models.BooleanField(default=False)
-    program_id = models.ForeignKey(SchoolProgram, on_delete=models.CASCADE, null=True)
-    auth_id = models.ForeignKey(StudentAuth, on_delete=models.CASCADE, null=True)
+    program_id = models.ForeignKey(SchoolProgram, on_delete=models.CASCADE, default=1)
+    auth_id = models.ForeignKey(StudentAuth, on_delete=models.CASCADE, default=1)
     
     def __str__(self):
         return self.lname

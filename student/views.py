@@ -43,8 +43,8 @@ class StudentAccountView(viewsets.ModelViewSet):
             auth_id=request.POST.get('auth_id')
         )
         serializer = StudentAccountSerializer(studentaccount)
-        studentaccounts = StudentAccountSerializer.objects.all()
-        return render(request, 'studentaccounts/studentaccounts.html', {'appointments': appointments})
+        studentaccounts = StudentAccount.objects.last().values()
+        return JsonResponse({"studentaccounts": list(studentaccount)})
 
     # def destroy(self, request, pk):
     #     studentaccount = StudentAccount.objects.get(id=pk)
@@ -66,7 +66,7 @@ def index(request):
     #     #     'appointments': appointments
     #     # }
     studentaccounts = StudentAccount.objects.all()
-    return render(request, 'studentaccounts/studentaccounts.html', {'appointments': appointments})
+    return render(request, 'studentaccounts/studentaccounts.html', {'studentaccounts': studentaccounts})
 
 
 def delete_studentaccount(request, id):
@@ -75,7 +75,7 @@ def delete_studentaccount(request, id):
         studentaccount = StudentAccount.objects.get(id=id)
         studentaccount.delete()
         studentaccounts = StudentAccount.objects.all()
-        return render(request, 'studentaccounts/studentaccounts.html', {'appointments': appointments})
+        return render(request, 'studentaccounts/studentaccounts.html', {'studentaccounts': studentaccounts})
 
 
 def edit_studentaccount(request, id):
@@ -124,18 +124,9 @@ def edit_studentaccount(request, id):
             StudentAccount.objects.filter(id=id).update(
                 auth_id=request.POST.get('auth_id')
             )
-        studentaccounts = StudentAccount.objects.all()
+        studentaccounts = StudentAccount.objects.filter(id=id).values()
         return render(request, 'studentaccounts/studentaccounts.html', {'studentaccounts': studentaccounts})
 
 
 def studentaccount(request):
     return render(request, 'studentaccounts/studentaccount.html')
-
-# def data_dashboard(request):
-#     return render(request, 'data_dashboard.html', {})
-
-
-def staff_data(request):
-    dataset = Order.objects.all()
-    data = serializers.serialize('json', dataset)
-    return JsonResponse(data, safe=False)

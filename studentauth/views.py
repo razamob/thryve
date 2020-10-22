@@ -21,7 +21,7 @@ class StudentAuthView(viewsets.ModelViewSet):
         queryset = StudentAuth.objects.all().values()
         # studentauths = [
         #     studentauth.title for studentauth in StudentAuth.objects.all()]
-        return JsonResponse(list(queryset))
+        return JsonResponse({'studentauths': list(queryset)})
 
     def create(self, request):
         print(request.POST)
@@ -30,8 +30,9 @@ class StudentAuthView(viewsets.ModelViewSet):
             password=request.POST.get('password')
         )
         serializer = StudentAuthSerializer(studentauth)
-        studentauths = StudentAuth.objects.all()
-        return render(request, 'studentauths/studentauths.html', {'studentauths': studentauths})
+        studentauths = StudentAuth.objects.last().values()
+        #return render(request, 'studentauths/studentauths.html', {'studentauths': studentauths})
+        return JsonResponse({'studentauths': list(studentauths)})
 
     # def destroy(self, request, pk):
     #     studentauth = StudentAuth.objects.get(id=pk)
@@ -53,7 +54,7 @@ def index(request):
     #     #     'appointments': appointments
     #     # }
     studentauths = StudentAuth.objects.all()
-    return render(request, 'studentauths/studentauths.html', {'studentauths': studentauths})
+    return JsonResponse(request, 'studentauths/studentauths.html', {'studentauths': studentauths})
 
 
 def delete_studentauth(request, id):
