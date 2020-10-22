@@ -64,7 +64,6 @@ def index(request):
     #    # appointments = Appointment.objects.all()
     #     # context = {
     #     #     'appointments': appointments
-    #     # }
     studentaccounts = StudentAccount.objects.all()
     return render(request, 'studentaccounts/studentaccounts.html', {'studentaccounts': studentaccounts})
 
