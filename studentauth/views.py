@@ -21,7 +21,7 @@ class StudentAuthView(viewsets.ModelViewSet):
         queryset = StudentAuth.objects.all().values()
         # studentauths = [
         #     studentauth.title for studentauth in StudentAuth.objects.all()]
-        return JsonResponse({"studentauths": list(queryset)})
+        return JsonResponse({'studentauths': list(queryset)})
 
     def create(self, request):
         print(request.POST)
@@ -32,7 +32,7 @@ class StudentAuthView(viewsets.ModelViewSet):
         serializer = StudentAuthSerializer(studentauth)
         studentauths = StudentAuth.objects.last().values()
         #return render(request, 'studentauths/studentauths.html', {'studentauths': studentauths})
-        return JsonResponse({"studentauths": list(studentauths)})
+        return JsonResponse({'studentauths': list(studentauths)})
 
     # def destroy(self, request, pk):
     #     studentauth = StudentAuth.objects.get(id=pk)
@@ -53,8 +53,8 @@ def index(request):
     #     # context = {
     #     #     'appointments': appointments
     #     # }
-    studentauths = StudentAuth.objects.all()
-    return render(request, 'studentauths/studentauths.html', {'studentauths': studentauths})
+    studentauths = StudentAuth.objects.all().values()
+    return JsonResponse({'studentauths': list(studentauths)})
 
 
 def delete_studentauth(request, id):
@@ -62,8 +62,8 @@ def delete_studentauth(request, id):
         print(request.POST, id)
         studentauth = StudentAuth.objects.get(id=id)
         studentauth.delete()
-        studentauths = StudentAuth.objects.all()
-        return render(request, 'studentauths/studentauths.html', {'studentauths': studentauths})
+        studentauths = StudentAuth.objects.all().values()
+        return JsonResponse({'studentauths': list(studentauths)})
 
 
 def edit_studentauth(request, id):
@@ -76,8 +76,8 @@ def edit_studentauth(request, id):
             StudentAuth.objects.filter(id=id).update(
                 password=request.POST.get('password')
             )
-        studentauths = StudentAuth.objects.all()
-        return render(request, 'studentauths/studentauths.html', {'studentauths': studentauths})
+        studentauths = StudentAuth.objects.all().values()
+        return return JsonResponse({'studentauths': list(studentauths)})
 
 
 def studentauth(request):
