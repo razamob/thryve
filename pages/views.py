@@ -14,8 +14,12 @@ import datetime
 
 from studentauth.models import StudentAuth
 from student.models import StudentAccount
-
-
+# i need this so i can use regex
+import re
+# i need to get rid of messages cus i dont need it
+from django.contrib import messages
+from django.http import JsonResponse
+from django.core import serializers
 
 def index(request):
     if request.method == 'POST':
@@ -60,7 +64,7 @@ def edit_meeting_comments(request):
 def check_frequency(request):
     print(request.GET)
     print(request.POST)
-    #my_form = CheckFrequencyForm()
+    my_form = CheckFrequencyForm()
     if request.method == "POST":
         my_form = CheckFrequencyForm(request.POST or None)
         #my_form.clean_name_n_student_number()
@@ -129,7 +133,7 @@ def check_frequency(request):
             #my_form.save()
             #my_form = CheckFrequencyForm()
             print("***********************************************************************************************This is post")
-            name_of_student = request.POST['studentname']
+            #name_of_student = request.POST['studentname']
             #id_of_student = request.POST['studentid']
             #date_of_starting = request.POST['startdate']
             #date_of_end = request.POST['enddate']
@@ -162,12 +166,14 @@ def check_frequency(request):
 
             # this is how you get the request data when you use form models
             student_number = my_form.cleaned_data['student_number']
+            #the begining spaces and ending spaces do not get stored in here when it collects user input so less work for us
             name_of_student = my_form.cleaned_data['name']
             user_start_date = my_form.cleaned_data['start_date']
             user_end_date = my_form.cleaned_data['end_date']
             print("see if it get correct dataaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
             print(name_of_student)
             print(type(name_of_student))
+            #student_number is a NoneType if no number is typed up by user in the student number input form
             print(student_number)
             print(type(student_number))
             print(user_start_date)
@@ -182,9 +188,75 @@ def check_frequency(request):
             print(type(user_start_date.today().day))
             print(type(user_start_date.today().month))
             print(type(user_start_date.today().year))
-            
-            all_data_in_appointments = Appointment.objects.filter(student_id__auth_id_id__sheridan_id = student_number, start_date__gte=datetime.date(user_start_date.year, user_start_date.month, user_start_date.day), end_date__lte = datetime.date(user_end_date.year, user_end_date.month, user_end_date.day))
+            print("***************************************************")
+            print("name_of_student is: " + name_of_student)
 
+            #if empty
+            if (name_of_student == "" or len(name_of_student)== 0):
+                print("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111")
+                # i think that this would work. This one says auth_id witch is exactly in the model made her about the database
+                #must student_number be converted iinto a string befor i can check it against the datbase?
+                all_data_in_appointments = Appointment.objects.filter(student_id__auth_id__sheridan_id = student_number, start_date__gte=datetime.date(user_start_date.year, user_start_date.month, user_start_date.day), end_date__lte = datetime.date(user_end_date.year, user_end_date.month, user_end_date.day))
+                # this one should also work
+                # this one says auth_id_id witch is exact as in the database
+                #all_data_in_appointments = Appointment.objects.filter(student_id__auth_id_id__sheridan_id = student_number, start_date__gte=datetime.date(user_start_date.year, user_start_date.month, user_start_date.day), end_date__lte = datetime.date(user_end_date.year, user_end_date.month, user_end_date.day))
+                # i have confirmed that both of those work
+
+            #if empty
+            #how to check if integer has a value
+            #elif (str(student_number) == "" or len(str(student_number)) == 0):
+            
+            #elif (student_number is None):
+            elif(student_number ==None):
+                print("2222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222")
+                if((" " in name_of_student) == True):
+                    print("33333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333")
+                    striped_name = name_of_student.strip()
+                    #striped_name.replace(" ", "")
+                    print("name_of_student.strip() = : " + name_of_student.strip())
+                    print("striped name is: " + striped_name)
+                    #turned to a list of teh first name and last name
+
+                    #firstname_lastname = striped_name.split(" ")
+                    firstname_lastname = re.split("\W+", striped_name)
+                    print("firstname_lastname is: " + firstname_lastname[0] + firstname_lastname[1])
+                    all_data_in_appointments = Appointment.objects.filter(student_id__fname = firstname_lastname[0], student_id__lname = firstname_lastname[1], start_date__gte=datetime.date(user_start_date.year, user_start_date.month, user_start_date.day), end_date__lte = datetime.date(user_end_date.year, user_end_date.month, user_end_date.day))
+                else:
+                    print("44444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444")
+                    the_first_name_only = name_of_student
+                    print("the_first_name_only is: " + the_first_name_only)
+                    all_data_in_appointments = Appointment.objects.filter(student_id__fname = the_first_name_only, start_date__gte=datetime.date(user_start_date.year, user_start_date.month, user_start_date.day), end_date__lte = datetime.date(user_end_date.year, user_end_date.month, user_end_date.day))
+                
+            else:
+                print("55555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555")
+                if((" " in name_of_student) == True):
+                    print("6666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666")
+                    striped_name = name_of_student.strip()
+                    #striped_name.replace(" ", "")
+                    #s.replace(" ", "")        
+                    print("name_of_student.strip() = : " + name_of_student.strip())
+                    print("striped name is: " + striped_name)
+                    #turned to a list of the first name and last name
+                    #this doesn't work
+                    #firstname_lastname = striped_name.split(r'\W') #r'[\s]'
+                    # this works but i must import re first
+                    firstname_lastname = re.split("\W+", striped_name)
+                    #r'[^\w]'
+                    print("going into first_lastname: ")
+                    for h in firstname_lastname:
+                        print("_]"+h+"[_")
+
+                    print("out of the loop")
+                    print("firstname_lastname is: " + firstname_lastname[0] + firstname_lastname[1])
+                    #so i can't send a NoneType student_number value to check against the database
+                    all_data_in_appointments = Appointment.objects.filter(student_id__fname = firstname_lastname[0], student_id__lname = firstname_lastname[1], student_id__auth_id__sheridan_id = student_number, start_date__gte=datetime.date(user_start_date.year, user_start_date.month, user_start_date.day), end_date__lte = datetime.date(user_end_date.year, user_end_date.month, user_end_date.day))
+                
+                else:
+                    print("77777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777")
+                    the_first_name_only = name_of_student
+                    print("the_first_name_only is: " + the_first_name_only)
+                    all_data_in_appointments = Appointment.objects.filter(student_id__fname = the_first_name_only, student_id__auth_id__sheridan_id = student_number, start_date__gte=datetime.date(user_start_date.year, user_start_date.month, user_start_date.day), end_date__lte = datetime.date(user_end_date.year, user_end_date.month, user_end_date.day))
+                
             #all_data_in_appointments = StudentAccount.objects.filter(auth_id__sheridan_id = 9516584235)
             #context = {'allData': all_data_in_appointments,
             #            'backup': name_of_student,
@@ -197,17 +269,23 @@ def check_frequency(request):
             '''
             
             context = {'allData': all_data_in_appointments,
+                        #backup show be changed to search_result_frequency ?????????????????????????????????????????????????
                         'backup': name_of_student,
                         'form': my_form}
             return render(request, "pages/filterData.html", context)
         else:
-            print("BOUT TO PRINT CLEANED DATA ERRORS ###############################################################################################################")
+            #print("BOUT TO PRINT CLEANED DATA ERRORS ###############################################################################################################")
+            #validation error came up
             print(my_form.errors)
+            # im using message to print errors
             
 
 
-        name_of_student = request.POST['studentname']
-        context = {'allData': ['jim, dav john'],
+        messages.error(request,my_form.errors) 
+    
+        #this runs if we have a empty student_number and name_of_student
+        name_of_student = 'studentname'
+        context = {'allData': [""],
                         'backup': name_of_student,
                         'form': my_form}
 
@@ -215,9 +293,11 @@ def check_frequency(request):
 
     else:
         name_of_student = "jake the man"
-        all_data_in_appointments = "nothing in context"
+        #this actuall shows up on get rather than post
+        all_data_in_appointments = ""
         context = {'allData': all_data_in_appointments,
-                    'backup': name_of_student}
+                    'backup': name_of_student,
+                     'form': my_form}
 
         return render(request, "pages/filterData.html", context)
 
@@ -236,3 +316,47 @@ def check_frequency(request):
         #post = Appointment.objects.filter(start_date='**dateOne',end_date='**dateTwo')
 
         #return render(request, 'pages/filterData.html',{})
+
+def table_load_up(request):
+    username = request.GET.get('actionToTake', None)
+    print("this is ittttttttttttttttttttttttttttttttttttttttttttttt: " + username)
+    # this is a xml serializer if you want the data transmited as xml
+    #data = serializers.serialize("xml", SomeModel.objects.all())
+    #i needed to import to make "serializers work
+    #Appointment.objects.select_related('student_id__auth_id').all()
+    #the select_related lets me reuse. it for feild variables in the model tables here
+    
+    #prepdata = Appointment.objects.all().select_related('student_id', 'student_id__auth_id')
+
+    #prepdata = Appointment.objects.all().prefetch_related('student_id__auth_id')
+
+
+
+    #THIS IS THE ONE THAT WORKS!!!
+    prepdata = Appointment.objects.filter(student_id__auth_id__sheridan_id = 9516584235).prefetch_related('student_id__auth_id', 'student_id')
+
+    #predata2 = prepdata.as_manager().StudentAuth.objects.all()
+    #prepdata2 = list(Appointment.objects.all())
+    #print(prepdata.values("student_id__auth_id__sheridan_id", 'student_id__fname', "student_id__lname", "title", "start_date", "end_date", "staff_notes"))
+    #Manager.obj
+    
+
+    #print(prepdata2)
+
+    #data = serializers.serialize("json", prepdata)
+    
+    #prepdata.allDataStudentAccount
+    
+    #print("data.student_id: "+prepdata.student_id.all())
+    dataB = serializers.serialize("json", prepdata)
+    #data3 = serializers.serialize("json", prepdata.auth_id())
+    
+    #Appointment.objects.select_related('blog')
+    
+    response = {
+        'allData': dataB #,
+        #'allDataStudentAccount': data2 #,
+        #'allDataStudentAuth': data3
+    }
+    # i needed to make an import to have "JsonResponse" work
+    return JsonResponse(response)
