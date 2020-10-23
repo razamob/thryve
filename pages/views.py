@@ -326,7 +326,7 @@ def table_load_up(request):
     #Appointment.objects.select_related('student_id__auth_id').all()
     #the select_related lets me reuse. it for feild variables in the model tables here
     
-    prepdata = Appointment.objects.all().prefetch_related('student_id__auth_id').select_related('student_id', 'student_id__auth_id').order_by("start_date")
+    prepdata = Appointment.objects.all().prefetch_related('student_id__auth_id').select_related('student_id', 'student_id__auth_id').order_by("-start_date")
     #d = StudentAccount.auth_id
     #prepdata = Appointment.objects.all().prefetch_related('student_id__auth_id')
 
