@@ -326,14 +326,14 @@ def table_load_up(request):
     #Appointment.objects.select_related('student_id__auth_id').all()
     #the select_related lets me reuse. it for feild variables in the model tables here
     
-    #prepdata = Appointment.objects.all().select_related('student_id', 'student_id__auth_id')
-
+    prepdata = Appointment.objects.all().prefetch_related('student_id__auth_id').select_related('student_id', 'student_id__auth_id').order_by("start_date")
+    #d = StudentAccount.auth_id
     #prepdata = Appointment.objects.all().prefetch_related('student_id__auth_id')
 
 
 
     #THIS IS THE ONE THAT WORKS!!!
-    prepdata = Appointment.objects.filter(student_id__auth_id__sheridan_id = 9516584235).prefetch_related('student_id__auth_id', 'student_id')
+    #prepdata = Appointment.objects.filter(student_id__auth_id__sheridan_id = 9516584235).prefetch_related('student_id__auth_id', 'student_id')
 
     #predata2 = prepdata.as_manager().StudentAuth.objects.all()
     #prepdata2 = list(Appointment.objects.all())
@@ -354,8 +354,8 @@ def table_load_up(request):
     #Appointment.objects.select_related('blog')
     
     response = {
-        'allData': dataB #,
-        #'allDataStudentAccount': data2 #,
+        'allData': dataB ,
+        'allDataStudentAccount': 6 #,
         #'allDataStudentAuth': data3
     }
     # i needed to make an import to have "JsonResponse" work
