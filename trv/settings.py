@@ -59,7 +59,8 @@ INSTALLED_APPS = [
     'rest_framework',
     "program.apps.ProgramConfig",
     "student.apps.StudentConfig",
-    "form.apps.FormConfig"
+    "form.apps.FormConfig",
+    "widget_tweaks",
 ]
 
 MIDDLEWARE = [
