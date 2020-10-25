@@ -39,8 +39,8 @@ class StudentAccountView(viewsets.ModelViewSet):
             als=request.POST.get('als'),
             coop=request.POST.get('coop'),
             international=request.POST.get('international'),
-            program_id=request.POST.get('program_id'),
-            auth_id=request.POST.get('auth_id')
+            program_id=request.POST.get('program_id_id'),
+            auth_id=request.POST.get('auth_id_id')
         )
         serializer = StudentAccountSerializer(studentaccount)
         studentaccounts = StudentAccount.objects.last().values()
