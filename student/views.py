@@ -44,7 +44,7 @@ class StudentAccountView(viewsets.ModelViewSet):
         )
         serializer = StudentAccountSerializer(studentaccount)
         studentaccounts = StudentAccount.objects.last().values()
-        return JsonResponse({"studentaccounts": list(studentaccount)})
+        return JsonResponse(studentaccounts)
 
     # def destroy(self, request, pk):
     #     studentaccount = StudentAccount.objects.get(id=pk)
