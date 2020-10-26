@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import StudentAccount
+from student.models import StudentAccount
 from studentauth.models import StudentAuth
 from program.models import SchoolProgram
 from rest_framework.renderers import TemplateHTMLRenderer

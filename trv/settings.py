@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'appointments.apps.AppointmentsConfig',
     'data_analysis.apps.DataAnalysisConfig',
     'staff.apps.StaffConfig',
-    'students.apps.StudentConfig',
+    "student.apps.StudentAccountConfig",
     'studentauth.apps.StudentauthConfig',
     'careerform.apps.CareerformConfig',
     'employmentform.apps.EmploymentformConfig',
@@ -58,7 +58,7 @@ INSTALLED_APPS = [
     'djangobower',
     'rest_framework',
     "program.apps.ProgramConfig",
-    "student.apps.StudentConfig",
+    "students.apps.StudentConfig",
     "form.apps.FormConfig"
 ]
 
