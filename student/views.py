@@ -21,30 +21,55 @@ class StudentAccountView(viewsets.ModelViewSet):
     template_name = 'studentaccounts/studentaccounts.html'
     queryset = StudentAccount.objects.all()
 
+    serializer_class = StudentAccountSerializer
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'studentaccounts/studentaccounts.html'
+    queryset = StudentAccount.objects.all()
+
     def list(self, request):
         queryset = StudentAccount.objects.all().values()
         # student = [
         #     student.title for student in Student.objects.all()]
         return JsonResponse({"studentaccounts": list(queryset)})
 
+    #def create(self, request):
+    #    print(request.POST)
+    #    studentaccount = StudentAccount.objects.create(
+    #        fname=request.POST.get('fname'),
+    #        lname=request.POST.get('lname'),
+    #        email=request.POST.get('email'),
+    #        student_number=request.POST.get('student_number'),
+    #        program_year=request.POST.get('program_year'),
+    #        als=request.POST.get('als'),
+    #        coop=request.POST.get('coop'),
+    #        international=request.POST.get('international'),
+    #        program_id=request.POST.get('program_id_id'),
+    #        auth_id=request.POST.get('auth_id_id'),            
+    #        phone_number=request.POST.get('phone_number')
+    #    )
+    #    serializer = StudentAccountSerializer(studentaccount)
+    #    studentaccounts = StudentAccount.objects.last().values()
+    #    return JsonResponse(studentaccounts)
+
     def create(self, request):
         print(request.POST)
         studentaccount = StudentAccount.objects.create(
-            fname=request.POST.get('fname'),
-            lname=request.POST.get('lname'),
-            email=request.POST.get('email'),
-            student_number=request.POST.get('student_number'),
-            program_year=request.POST.get('program_year'),
-            als=request.POST.get('als'),
-            coop=request.POST.get('coop'),
-            international=request.POST.get('international'),
-            program_id=request.POST.get('program_id_id'),
-            auth_id=request.POST.get('auth_id_id'),            
-            phone_number=request.POST.get('phone_number')
+            fname = request.POST.get('fname'),
+            lname = request.POST.get('lname'),
+            email = request.POST.get('email'),
+            student_number = request.POST.get('student_number'),
+            program_year = request.POST.get('program_year'),
+            als = request.POST.get('als'),
+            coop = request.POST.get('coop'),
+            international = request.POST.get('international'),
+            program_id = request.POST.get('program_id_id'),
+            auth_id = request.POST.get('auth_id_id'),
+            phone_number = request.POST.get('phone number')
         )
         serializer = StudentAccountSerializer(studentaccount)
-        studentaccounts = StudentAccount.objects.last().values()
-        return JsonResponse(studentaccounts)
+        studentaccounts = StudentAccount.objects.all()
+        #return render(request, 'appointments/appointments.html', {'appointments': appointments})
+        return render(request, 'studentaccounts/studentaccounts.html', {'studentaccounts': studentaccounts})
 
     # def destroy(self, request, pk):
     #     studentaccount = StudentAccount.objects.get(id=pk)

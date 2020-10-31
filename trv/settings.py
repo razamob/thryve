@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "student.apps.StudentAccountConfig",
     'studentauth.apps.StudentauthConfig',
     'careerform.apps.CareerformConfig',
+    'studentdata.apps.StudentdataConfig',
     'employmentform.apps.EmploymentformConfig',
     'django.contrib.admin',
     'django.contrib.auth',
