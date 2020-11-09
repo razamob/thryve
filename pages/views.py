@@ -21,6 +21,10 @@ from django.contrib import messages
 from django.http import JsonResponse
 from django.core import serializers
 
+import json
+#from rest_framework import serializers 
+
+
 def index(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -196,7 +200,7 @@ def check_frequency(request):
                 print("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111")
                 # i think that this would work. This one says auth_id witch is exactly in the model made her about the database
                 #must student_number be converted iinto a string befor i can check it against the datbase?
-                all_data_in_appointments = Appointment.objects.filter(student_id__auth_id__sheridan_id = student_number, start_date__gte=datetime.date(user_start_date.year, user_start_date.month, user_start_date.day), end_date__lte = datetime.date(user_end_date.year, user_end_date.month, user_end_date.day))
+                all_data_in_appointments = Appointment.objects.filter(student_id__auth_id__sheridan_id = student_number, start_date__gte=datetime.date(user_start_date.year, user_start_date.month, user_start_date.day), end_date__lte = datetime.date(user_end_date.year, user_end_date.month, user_end_date.day)).select_related("student_id").prefetch_related('student_id__auth_id').order_by("-start_date").values_list('student_id__fname', 'student_id__lname', 'student_id__auth_id__sheridan_id', 'title', 'start_date', 'end_date', 'staff_notes')
                 # this one should also work
                 # this one says auth_id_id witch is exact as in the database
                 #all_data_in_appointments = Appointment.objects.filter(student_id__auth_id_id__sheridan_id = student_number, start_date__gte=datetime.date(user_start_date.year, user_start_date.month, user_start_date.day), end_date__lte = datetime.date(user_end_date.year, user_end_date.month, user_end_date.day))
@@ -220,12 +224,12 @@ def check_frequency(request):
                     #firstname_lastname = striped_name.split(" ")
                     firstname_lastname = re.split("\W+", striped_name)
                     print("firstname_lastname is: " + firstname_lastname[0] + firstname_lastname[1])
-                    all_data_in_appointments = Appointment.objects.filter(student_id__fname = firstname_lastname[0], student_id__lname = firstname_lastname[1], start_date__gte=datetime.date(user_start_date.year, user_start_date.month, user_start_date.day), end_date__lte = datetime.date(user_end_date.year, user_end_date.month, user_end_date.day))
+                    all_data_in_appointments = Appointment.objects.filter(student_id__fname = firstname_lastname[0], student_id__lname = firstname_lastname[1], start_date__gte=datetime.date(user_start_date.year, user_start_date.month, user_start_date.day), end_date__lte = datetime.date(user_end_date.year, user_end_date.month, user_end_date.day)).select_related("student_id").prefetch_related('student_id__auth_id').order_by("-start_date").values_list('student_id__fname', 'student_id__lname', 'student_id__auth_id__sheridan_id', 'title', 'start_date', 'end_date', 'staff_notes')
                 else:
                     print("44444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444")
                     the_first_name_only = name_of_student
                     print("the_first_name_only is: " + the_first_name_only)
-                    all_data_in_appointments = Appointment.objects.filter(student_id__fname = the_first_name_only, start_date__gte=datetime.date(user_start_date.year, user_start_date.month, user_start_date.day), end_date__lte = datetime.date(user_end_date.year, user_end_date.month, user_end_date.day))
+                    all_data_in_appointments = Appointment.objects.filter(student_id__fname = the_first_name_only, start_date__gte=datetime.date(user_start_date.year, user_start_date.month, user_start_date.day), end_date__lte = datetime.date(user_end_date.year, user_end_date.month, user_end_date.day)).select_related("student_id").prefetch_related('student_id__auth_id').order_by("-start_date").values_list('student_id__fname', 'student_id__lname', 'student_id__auth_id__sheridan_id', 'title', 'start_date', 'end_date', 'staff_notes')
                 
             else:
                 print("55555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555")
@@ -249,13 +253,13 @@ def check_frequency(request):
                     print("out of the loop")
                     print("firstname_lastname is: " + firstname_lastname[0] + firstname_lastname[1])
                     #so i can't send a NoneType student_number value to check against the database
-                    all_data_in_appointments = Appointment.objects.filter(student_id__fname = firstname_lastname[0], student_id__lname = firstname_lastname[1], student_id__auth_id__sheridan_id = student_number, start_date__gte=datetime.date(user_start_date.year, user_start_date.month, user_start_date.day), end_date__lte = datetime.date(user_end_date.year, user_end_date.month, user_end_date.day))
+                    all_data_in_appointments = Appointment.objects.filter(student_id__fname = firstname_lastname[0], student_id__lname = firstname_lastname[1], student_id__auth_id__sheridan_id = student_number, start_date__gte=datetime.date(user_start_date.year, user_start_date.month, user_start_date.day), end_date__lte = datetime.date(user_end_date.year, user_end_date.month, user_end_date.day)).select_related("student_id").prefetch_related('student_id__auth_id').order_by("-start_date").values_list('student_id__fname', 'student_id__lname', 'student_id__auth_id__sheridan_id', 'title', 'start_date', 'end_date', 'staff_notes')
                 
                 else:
                     print("77777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777")
                     the_first_name_only = name_of_student
                     print("the_first_name_only is: " + the_first_name_only)
-                    all_data_in_appointments = Appointment.objects.filter(student_id__fname = the_first_name_only, student_id__auth_id__sheridan_id = student_number, start_date__gte=datetime.date(user_start_date.year, user_start_date.month, user_start_date.day), end_date__lte = datetime.date(user_end_date.year, user_end_date.month, user_end_date.day))
+                    all_data_in_appointments = Appointment.objects.filter(student_id__fname = the_first_name_only, student_id__auth_id__sheridan_id = student_number, start_date__gte=datetime.date(user_start_date.year, user_start_date.month, user_start_date.day), end_date__lte = datetime.date(user_end_date.year, user_end_date.month, user_end_date.day)).select_related("student_id").prefetch_related('student_id__auth_id').order_by("-start_date").values_list('student_id__fname', 'student_id__lname', 'student_id__auth_id__sheridan_id', 'title', 'start_date', 'end_date', 'staff_notes')
                 
             #all_data_in_appointments = StudentAccount.objects.filter(auth_id__sheridan_id = 9516584235)
             #context = {'allData': all_data_in_appointments,
@@ -268,6 +272,10 @@ def check_frequency(request):
                         'form': my_form}
             '''
             
+
+            #i don't have to serialize the data befor putting it as a context cus thats not the purpose of serialization
+            print(all_data_in_appointments)
+
             context = {'allData': all_data_in_appointments,
                         #backup show be changed to search_result_frequency ?????????????????????????????????????????????????
                         'backup': name_of_student,
@@ -298,7 +306,7 @@ def check_frequency(request):
         context = {'allData': all_data_in_appointments,
                     'backup': name_of_student,
                      'form': my_form}
-
+        # render Combines a given template with a given context dictionary and returns an HttpResponse object with that rendered text
         return render(request, "pages/filterData.html", context)
 
 
@@ -326,7 +334,56 @@ def table_load_up(request):
     #Appointment.objects.select_related('student_id__auth_id').all()
     #the select_related lets me reuse. it for feild variables in the model tables here
     
-    prepdata = Appointment.objects.all().prefetch_related('student_id__auth_id').select_related('student_id', 'student_id__auth_id').order_by("-start_date")
+
+
+
+    #prepdata = Appointment.objects.all().select_related('student_id', 'student_id__auth_id').prefetch_related('student_id', 'student_id__auth_id').order_by("-start_date")
+    # joins the table together based on specified values
+    #Django serializer only serialize queryset, values() and values)list returns valuesQuerySet so it wont work
+    #prepdata = Appointment.objects.values_list('title', 'start_date', 'end_date', 'staff_notes', 'student_id__fname','student_id__lname', 'student_id__auth_id__sheridan_id')
+    
+    #data_table_of_two = list(prepdata) #ValuesQuerySet object needs to be converted to list first
+    #dataB = serializers.ListField(data_table_of_two)
+    #dataB = json.dumps(data_table_of_two) # convert list to json
+    
+    datetime.date.today() # Returns 2018-01-15
+    #datetime.date.today().time().hour  #datetime.date' object has no attribute 'hour',can't use this for time specifically like in now()
+    datetime.datetime.now().time().hour # Returns 2018-01-15 09:00, now() and today() are super similar
+    #for select_related() the choice for Appointment are student_id, staff_id, cc_form, ec_form
+
+    #     EFFICIENT FILTER OPTION 0#(LESS EFFICIENT)
+    #objectQuerySet = Appointment.objects.filter(start_date__time__lte = datetime.time(datetime.datetime.now().time().hour, datetime.datetime.now().time().minute, datetime.datetime.now().time().second), start_date__lte = datetime.date(datetime.datetime.now().year, datetime.datetime.now().month, datetime.datetime.now().day)).select_related("student_id").prefetch_related('student_id__auth_id').order_by("-start_date")
+    #******THE BETTER WAY TO COMPARE THEM(DATETIME) IS JUST TO COMPARE THEM AT THESAME TIME SUCH AS LIKE A STRING******
+    
+    #datetime.datetime(year, month, day, hour=0, minute=0, second=0, microsecond=0, tzinfo=None, *, fold=0)
+    #     EFFICIENT FILTER OPTION 1# (MOST EFFICIENT)
+    objectQuerySet = Appointment.objects.filter(start_date__lte = datetime.datetime(datetime.datetime.now().year, datetime.datetime.now().month, datetime.datetime.now().day, datetime.datetime.now().time().hour, datetime.datetime.now().time().minute, datetime.datetime.now().time().second)).select_related("student_id").prefetch_related('student_id__auth_id').order_by("-start_date")
+    #you need the brackests over datetime.datetime.now() if your gonna convert it to string through casting
+    print("TODAYS DATE AND TIME IS:-------------------------------->" + (str)(datetime.datetime.now()))
+    #objectQuerySet = Appointment.objects.filter(end_date__lte = datetime.date(user_end_date.year, user_end_date.month, user_end_date.day)).order_by("-start_date")
+    #objectQuerySet = Appointment.objects.all().prefetch_related('student_id__auth_id').select_related('student_id', 'student_id__auth_id').order_by("-start_date")
+   
+    # If p is a Restaurant object, this will give the child class:
+    print(objectQuerySet)
+    print("mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm")
+    #print(objectQuerySet.StudentAccount.StudentAuth)
+    print("lllllllllllllllllllllllllllllllllllllllllllllllllllll")
+    #print(objectQuerySet)
+    #The people who made Django prefer to put all the SQL-affecting methods first, followed (optionally) by any output-affecting methods (such as values())
+    #prepdata = Appointment.objects.all().select_related("student_id").prefetch_related('student_id__auth_id').order_by("-start_date").values_list('title', 'start_date', 'end_date', 'staff_notes', 'student_id__fname','student_id__lname', 'student_id__auth_id__sheridan_id')
+    #print(prepdata)
+
+    #dataB2 = serializers.serialize('json', list(prepdata), fields=('title', 'start_date', 'end_date', 'staff_notes', 'student_id__fname','student_id__lname', 'student_id__auth_id__sheridan_id'))
+
+
+
+    #objectQuerySet = ConventionCard.objects.filter(ownerUser = user)
+    #data = serializers.serialize('json', list(objectQuerySet), fields=('fileName','id'))
+
+    #print(ghgh)
+
+
+
     #d = StudentAccount.auth_id
     #prepdata = Appointment.objects.all().prefetch_related('student_id__auth_id')
 
@@ -348,14 +405,40 @@ def table_load_up(request):
     #prepdata.allDataStudentAccount
     
     #print("data.student_id: "+prepdata.student_id.all())
-    dataB = serializers.serialize("json", prepdata)
+    #objectQuerySet = Appointment.objects.all()
+    #all_objects = [*objectQuerySet, *objectQuerySet.studentAccount, *objectQuerySet.studentAccount.studentauth]
+    #dataB = serializers.serialize('json', all_objects)
+    
+
+    '''
+    The default serialization strategy for foreign keys and many-to-many relations is to serialize the value of the 
+    primary key(s) of the objects in the relation. This strategy works well for most objects, but it can cause 
+    difficulty in some circumstances.
+    There is also the matter of convenience. An integer id isn’t always the most convenient way to refer to an object; 
+    sometimes, a more natural reference would be helpful. It is for these reasons that Django provides natural keys. 
+    A natural key is a tuple of values that can be used to uniquely identify an object instance without using the primary key value.
+    '''
+    '''
+    dataB = serializers.serialize("json", objectQuerySet)
+    '''
+    '''
+    When use_natural_foreign_keys=True is specified, Django will use the natural_key() method to serialize any foreign key 
+    reference to objects of the type that defines the method. When use_natural_primary_keys=True is specified, Django will 
+    not provide the primary key in the serialized data of this object since it can be calculated during deserialization:
+    '''
+    dataB = serializers.serialize("json", objectQuerySet, use_natural_foreign_keys=True, use_natural_primary_keys=True)
+
+
+    #dataB = json.loads(serializers.serialize('json', [prepdata]))[0]
+    print(dataB)
+
     #data3 = serializers.serialize("json", prepdata.auth_id())
     
     #Appointment.objects.select_related('blog')
     
     response = {
-        'allData': dataB ,
-        'allDataStudentAccount': 6 #,
+        'allData': dataB #,
+        #'allDataStudentAccount': dateB2 #,
         #'allDataStudentAuth': data3
     }
     # i needed to make an import to have "JsonResponse" work
