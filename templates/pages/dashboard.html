@@ -3,14 +3,14 @@
 <div class="wrapper ">
   <div class="sidebar" data-color="purple" data-background-color="black" data-image="./assets/img/sidebar-2.jpg">
     <div class="logo">
-      <a href="./home.html" class="simple-text logo-normal">
+      <a href="{% url 'dashboard' %}" class="simple-text logo-normal">
         Thryve
       </a>
     </div>
     <div class="sidebar-wrapper">
       <ul class="nav">
         <li class="nav-item active  ">
-          <a class="nav-link" href="{% url 'dashboard' %}">
+          <a class="nav-link" href="{% url 'overview' %}">
             <i class="material-icons">dashboard</i>
             <p>Dashboard</p>
           </a>
@@ -34,7 +34,7 @@
           </a>
         </li>
         <li class="nav-item ">
-          <a class="nav-link" href="#">
+          <a class="nav-link" href="{% url 'account' %}">
             <i class="material-icons">person</i>
             <p>Account Management</p>
           </a>
@@ -49,15 +49,15 @@
 
         <li class="nav-item ">
           <a class="nav-link" href="{% url 'editmeetingcomments' %}">
-              <i class="material-icons">subject</i>
-              <p>Edit Meeting Comments</p>
+            <i class="material-icons">subject</i>
+            <p>Edit Meeting Comments</p>
           </a>
         </li>
         <li class="nav-item ">
-            <a class="nav-link" href="{% url 'filterData' %}">
-                <i class="material-icons">find_in_page</i>
-                <p>Filter Data</p>
-            </a>
+          <a class="nav-link" href="{% url 'filterData' %}">
+            <i class="material-icons">find_in_page</i>
+            <p>Filter Data</p>
+          </a>
         </li>
 
 

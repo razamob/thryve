@@ -11,6 +11,7 @@ from rest_framework.response import Response
 import json
 from django.http import JsonResponse
 
+
 class StudentAuthView(viewsets.ModelViewSet):
     serializer_class = StudentAuthSerializer
     renderer_classes = [TemplateHTMLRenderer]
@@ -30,8 +31,9 @@ class StudentAuthView(viewsets.ModelViewSet):
             password=request.POST.get('password')
         )
         serializer = StudentAuthSerializer(studentauth)
-        studentauths = StudentAuth.objects.last().values()
-        #return render(request, 'studentauths/studentauths.html', {'studentauths': studentauths})
+        studentauths = StudentAuth.objects.all().values()
+        # last().values()
+        # return render(request, 'studentauths/studentauths.html', {'studentauths': studentauths})
         return JsonResponse({'studentauths': list(studentauths)})
 
     # def destroy(self, request, pk):
