@@ -5,50 +5,14 @@ from django import forms
 
 # Create your models here.
 
-class CareerCounselorForm(models.Model):
-    q1_sso = models.BooleanField(default=False)
-    q1_friend = models.BooleanField(default=False)
-    q1_faculty = models.BooleanField(default=False)
-    q1_visit = models.BooleanField(default=False)
-    q1_orient = models.BooleanField(default=False)
-    q1_event = models.BooleanField(default=False)
-    q1_kpi = models.BooleanField(default=False)
-    q1_outreach = models.BooleanField(default=False)
-    q1_posters = models.BooleanField(default=False)
-    q1_stv = models.BooleanField(default=False)
-    q1_social = models.BooleanField(default=False)
-    q1_media = models.BooleanField(default=False)
-    ccs_resume = models.BooleanField(default=False)
-    ccs_cover = models.BooleanField(default=False)
-    ccs_interview = models.BooleanField(default=False)
-    ccs_jobsearch = models.BooleanField(default=False)
-    ccs_mockinterview = models.BooleanField(default=False)
-    ccs_networking = models.BooleanField(default=False)
-    ccs_portfolio = models.BooleanField(default=False)
+class CareerForm(models.Model):
+    sso = models.BooleanField(default=False)
 
     def __str__(self):
         return self.q1_sso
 
-class EmploymentConsultantForm(models.Model):
-    q1_sso = models.BooleanField(default=False)
-    q1_friend = models.BooleanField(default=False)
-    q1_faculty = models.BooleanField(default=False)
-    q1_visit = models.BooleanField(default=False)
-    q1_orient = models.BooleanField(default=False)
-    q1_event = models.BooleanField(default=False)
-    q1_kpi = models.BooleanField(default=False)
-    q1_outreach = models.BooleanField(default=False)
-    q1_posters = models.BooleanField(default=False)
-    q1_stv = models.BooleanField(default=False)
-    q1_social = models.BooleanField(default=False)
-    q1_media = models.BooleanField(default=False)
-    ccs_resume = models.BooleanField(default=False)
-    ccs_cover = models.BooleanField(default=False)
-    ecs_exploration = models.BooleanField(default=False)
-    ecs_eplanning = models.BooleanField(default=False)
-    ecs_cplanning = models.BooleanField(default=False)
-    ecs_labourmarket = models.BooleanField(default=False)
-    ecs_other = models.CharField(null=True, max_length=255)
+class EmploymentForm(models.Model):
+    sso = models.BooleanField(default=False)
 
     def __str__(self):
         return self.q1_sso
@@ -64,10 +28,14 @@ class CheckFrequencyForm(forms.Form):
 
     # they will all be text input unless i change the widget
     #change defaults
-    name = forms.CharField(max_length=200, label='Student name', required=False, widget=forms.TextInput())
-    student_number = forms.CharField(max_length=15, required=False,widget=forms.NumberInput())
-    start_date = forms.DateTimeField( widget=DateInput)
-    end_date = forms.DateTimeField(widget=DateInput)
+    name = forms.CharField(max_length=200, label='Student Name', required=False, widget=forms.TextInput(attrs={"class":"form-control"})) #"class":"form-control",
+    # because of this minimum length an error can pop up for me if user puts in a student number over 15
+    # shouldn't the student bumber be integer feild?
+    #student_number = forms.CharField(max_length=15, required=False,widget=forms.NumberInput(attrs={'size': '20'}))
+    student_number = forms.IntegerField(label='Student Number', required=False, widget=forms.NumberInput(attrs={"class":"form-control"})) #"placeholder": 33
+
+    start_date = forms.DateTimeField(label='Start Date', widget=DateInput(attrs={"class":"form-control"}))
+    end_date = forms.DateTimeField(label='End Date', widget=DateInput(attrs={"class":"form-control"}))
     
 
     # the individual clean_... check methods run first in sequenqial order then it goes to the clean(), 
@@ -173,13 +141,20 @@ class CheckFrequencyForm(forms.Form):
         #EXAMPLE CODE: change this code below
         print("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM")
         print("I have student number: ", student_number, " and name :", name)
-        print("the length of student number is ",len(student_number))
+        #The len() function returns the number of items in an object.An object. Must be a sequence or a collection
+        #so using len() on a integer will give us errors
+        print("the length of str(student_number) is ",len(str(student_number)))
+        print("the actual value of student_number is ",student_number)
         print("the length of name is ",len(name))
 
 
         if name !="" or len(name)!= 0:# don't use "if name !=None" use instead "name !='' "
             print("1")
-            if student_number != "" or len(student_number) != 0:
+            #student_number is not None
+            #if (str(student_number) != "" or len(str(student_number)) != 0):
+            # i wonder if if(student_number !=None): will work also?
+            #if (student_number is not None):
+            if(student_number !=None):
                 print("3")
                 
             print("4")
@@ -187,7 +162,9 @@ class CheckFrequencyForm(forms.Form):
 
         else:
             print("2")
-            if student_number != "" or len(student_number)!= 0:
+            #if str(student_number) != "" or len(str(student_number))!= 0:
+            #if (student_number is not None):
+            if(student_number !=None):
                 print("5")
                 
             else:
@@ -210,8 +187,8 @@ class CheckFrequencyForm(forms.Form):
                 '''
                 # this also works for making the validation show up on top of the different and separate form inputs, whitch are within the from
                 
-                self.add_error('name',"Must input a name here or fill out the student id feild in the number box beside this.")
-                self.add_error('student_number',"Must input a student number here or fill out the name feild in the text box beside this.")
+                self.add_error('name',"No Student Name was inputed")
+                self.add_error('student_number',"No Student Number was inputed")
                          
                 # this works for making all validation to show up on top of the whole form
                 '''

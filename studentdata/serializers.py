@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from student.models import StudentAccount
+from .models import StudentData
 
-class StudentAccountSerializer(serializers.ModelSerializer):
+class StudentDataSerializer(serializers.ModelSerializer):
     class Meta:
-        model = StudentAccount
-        fields = ('fname',
+        model = StudentData
+        fields = fields = ('fname',
         'lname',
         'email',
         'student_number',

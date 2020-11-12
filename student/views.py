@@ -1,7 +1,7 @@
-from django.http import JsonResponse
 from django.shortcuts import render
-from django.core import serializers
-from .models import StudentAccount
+from student.models import StudentAccount
+from studentauth.models import StudentAuth
+from program.models import SchoolProgram
 from rest_framework.renderers import TemplateHTMLRenderer
 from django.core import serializers
 from rest_framework import viewsets
@@ -18,7 +18,12 @@ from django.http import JsonResponse
 class StudentAccountView(viewsets.ModelViewSet):
     serializer_class = StudentAccountSerializer
     renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'studentaccount/studentaccounts.html'
+    template_name = 'studentaccounts/studentaccounts.html'
+    queryset = StudentAccount.objects.all()
+
+    serializer_class = StudentAccountSerializer
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'studentaccounts/studentaccounts.html'
     queryset = StudentAccount.objects.all()
 
     def list(self, request):
@@ -27,6 +32,25 @@ class StudentAccountView(viewsets.ModelViewSet):
         #     student.title for student in Student.objects.all()]
         return JsonResponse({"studentaccounts": list(queryset)})
 
+    # def create(self, request):
+    #    print(request.POST)
+    #    studentaccount = StudentAccount.objects.create(
+    #        fname=request.POST.get('fname'),
+    #        lname=request.POST.get('lname'),
+    #        email=request.POST.get('email'),
+    #        student_number=request.POST.get('student_number'),
+    #        program_year=request.POST.get('program_year'),
+    #        als=request.POST.get('als'),
+    #        coop=request.POST.get('coop'),
+    #        international=request.POST.get('international'),
+    #        program_id=request.POST.get('program_id_id'),
+    #        auth_id=request.POST.get('auth_id_id'),
+    #        phone_number=request.POST.get('phone_number')
+    #    )
+    #    serializer = StudentAccountSerializer(studentaccount)
+    #    studentaccounts = StudentAccount.objects.last().values()
+    #    return JsonResponse(studentaccounts)
+
     def create(self, request):
         print(request.POST)
         studentaccount = StudentAccount.objects.create(
@@ -34,13 +58,13 @@ class StudentAccountView(viewsets.ModelViewSet):
             lname=request.POST.get('lname'),
             email=request.POST.get('email'),
             student_number=request.POST.get('student_number'),
-            phone_number=request.POST.get('phone_number'),
             program_year=request.POST.get('program_year'),
             als=request.POST.get('als'),
             coop=request.POST.get('coop'),
             international=request.POST.get('international'),
-            program_id=request.POST.get('program_id'),
-            auth_id=request.POST.get('auth_id')
+            program_id=request.POST.get('program_id_id'),
+            auth_id=request.POST.get('auth_id_id'),
+            phone_number=request.POST.get('phone number')
         )
         serializer = StudentAccountSerializer(studentaccount)
         studentaccounts = StudentAccount.objects.all().values()

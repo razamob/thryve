@@ -46,8 +46,10 @@ INSTALLED_APPS = [
     'staff.apps.StaffConfig',
     'dashboard.apps.DashboardConfig',
     'students.apps.StudentConfig',
+    "student.apps.StudentAccountConfig",
     'studentauth.apps.StudentauthConfig',
     'careerform.apps.CareerformConfig',
+    'studentdata.apps.StudentdataConfig',
     'employmentform.apps.EmploymentformConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -59,7 +61,7 @@ INSTALLED_APPS = [
     'djangobower',
     'rest_framework',
     "program.apps.ProgramConfig",
-    "student.apps.StudentConfig",
+    "students.apps.StudentConfig",
     "form.apps.FormConfig"
 ]
 

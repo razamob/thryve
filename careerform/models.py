@@ -17,13 +17,11 @@ class CareerCounselorForm(models.Model):
     q1c_media = models.BooleanField(default=False)
     q1c_walkby = models.BooleanField(default=False)
     q1c_website = models.BooleanField(default=False)
-    ccs_resume = models.BooleanField(default=True)
-    ccs_cover = models.BooleanField(default=True)
-    ccs_interview = models.BooleanField(default=True)
-    ccs_jobsearch = models.BooleanField(default=True)
-    ccs_mockinterview = models.BooleanField(default=True)
-    ccs_networking = models.BooleanField(default=True)
-    ccs_portfolio = models.BooleanField(default=True)
+    ccs_exploration = models.BooleanField(default=False)
+    ccs_eplanning = models.BooleanField(default=False)
+    ccs_cplanning = models.BooleanField(default=False)
+    ccs_labourmarket = models.BooleanField(default=False)
+    ccs_other = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title

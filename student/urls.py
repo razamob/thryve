@@ -1,5 +1,5 @@
 from django.urls import path, include
-from . import views
+from student import views
 from rest_framework import routers
 from student.views import StudentAccountView
 from student.views import StudentAccountAPI
