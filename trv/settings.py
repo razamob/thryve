@@ -61,8 +61,8 @@ INSTALLED_APPS = [
     'djangobower',
     'rest_framework',
     "program.apps.ProgramConfig",
-    "students.apps.StudentConfig",
-    "form.apps.FormConfig"
+    "form.apps.FormConfig",
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [

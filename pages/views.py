@@ -22,7 +22,11 @@ from django.http import JsonResponse
 from django.core import serializers
 
 import json
+from django.http import HttpResponse
 #from rest_framework import serializers 
+#if you disabled django.middleware.csrf.CsrfViewMiddleware, which is not recommended, you can use csrf_protect() on particular views you want to protect
+#i don't need this since the maddleware covers it for all views withought me having to do so myself
+#from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
 
 def index(request):
     if request.method == 'POST':
@@ -64,10 +68,25 @@ def edit_meeting_comments(request):
     return render(request, 'pages/editmeetingcomments.html')
 
 
+'''
+#----All types of calls to the server(Form GET,Form POST, Ajax GET, Ajax POST) requires a return value back 
+#----To take advantage of CSRF protection in your views: ensure that RequestContext is used to render the response 
+#so that {% csrf_token %} will work properly. If you’re using the render() function, generic views, or 
+# contrib apps, you are covered already since these all use RequestContext.
+#----Django sets the csrftoken cookie every time when you request the server, and when you post the data from client to 
+# server this token matches that token, If it matches no probs and if not matches it throws an error it is malicious request.
+#----Normally the csrf_token template tag will not work if CsrfViewMiddleware.process_view or an equivalent like csrf_protect has not run
+#----@ensure_csrf_cookie is the decorator forces a view to send the CSRF cookie, this view don't need it cus it does send 
+# a CSRF throught the request in the return. csrf_protect is the decorator that provides the protection of CsrfViewMiddleware 
+# to a view. It must be used both on views that insert the CSRF token in the output, and on those that accept the POST form data
+'''
+#@csrf_protect
 def check_frequency(request):
     print(request.GET)
     print(request.POST)
     my_form = CheckFrequencyForm()
+    
+
     if request.method == "POST":
         my_form = CheckFrequencyForm(request.POST or None)
         # my_form.clean_name_n_student_number()
@@ -316,9 +335,32 @@ def check_frequency(request):
 
         #return render(request, 'pages/filterData.html',{})
 
+'''
+#----All types of calls to the server(Form GET,Form POST, Ajax GET, Ajax POST) requires a return value back 
+#----i don't think i need it here cus this uses ajax GET
+#----The first defense against CSRF attacks is to ensure that GET requests are side effect free 
+#----csrf_protect is the decorator that provides the protection of CsrfViewMiddleware to a view. It must be used both on views 
+# that insert the CSRF token in the output, and on those that accept the POST form data
+'''
+#@csrf_protect
 def table_load_up(request):
-    username = request.GET.get('actionToTake', None)
-    print("this is ittttttttttttttttttttttttttttttttttttttttttttttt: " + username)
+    action_to_take = request.GET.get('actionToTake', None)
+    #This doesn't work
+    action_to_take2 = request.GET['actionToTake']
+    print("this is ittttttttttttttttttttttttttttttttttttttttttttttt: " + action_to_take + "and action_to_take2 is " + action_to_take2)
+
+    print("*************************************************************************************************************************")
+    # the authentication by default makes & fpopulates the auth_user table in the database, 
+    # you can access the attributed by '.' & then <table column name>
+    current_user = request.user 
+    print("the current users id issssssssssssssssssssssssssssssssssssssssss")
+    print("the current user id: " + str(current_user.id))
+    print("the current users name issssssssssssssssssssssssssssssssssssssssss" + str(current_user))
+    print("is the current users staff?" + str(current_user.is_staff))
+    print("is the current users name?" + str(current_user.username))
+    print("is the current users password?" + str(current_user.password))
+
+
     # this is a xml serializer if you want the data transmited as xml
     #data = serializers.serialize("xml", SomeModel.objects.all())
     #i needed to import to make "serializers work
@@ -346,16 +388,24 @@ def table_load_up(request):
     #objectQuerySet = Appointment.objects.filter(start_date__time__lte = datetime.time(datetime.datetime.now().time().hour, datetime.datetime.now().time().minute, datetime.datetime.now().time().second), start_date__lte = datetime.date(datetime.datetime.now().year, datetime.datetime.now().month, datetime.datetime.now().day)).select_related("student_id").prefetch_related('student_id__auth_id').order_by("-start_date")
     #******THE BETTER WAY TO COMPARE THEM(DATETIME) IS JUST TO COMPARE THEM AT THESAME TIME SUCH AS LIKE A STRING******
     
+    '''
+    This is what i should use when the table is fixed today
+    objectQuerySet = Appointment.objects.filter(start_date__lte = datetime.datetime(datetime.datetime.now().year, datetime.datetime.now().month, datetime.datetime.now().day, datetime.datetime.now().time().hour, datetime.datetime.now().time().minute, datetime.datetime.now().time().second), staff_id = current_user.id).select_related("student_id").prefetch_related('student_id__auth_id').order_by("-start_date")
+    '''
+
+
     #datetime.datetime(year, month, day, hour=0, minute=0, second=0, microsecond=0, tzinfo=None, *, fold=0)
     #     EFFICIENT FILTER OPTION 1# (MOST EFFICIENT)
+    
     objectQuerySet = Appointment.objects.filter(start_date__lte = datetime.datetime(datetime.datetime.now().year, datetime.datetime.now().month, datetime.datetime.now().day, datetime.datetime.now().time().hour, datetime.datetime.now().time().minute, datetime.datetime.now().time().second)).select_related("student_id").prefetch_related('student_id__auth_id').order_by("-start_date")
+    
     #you need the brackests over datetime.datetime.now() if your gonna convert it to string through casting
     print("TODAYS DATE AND TIME IS:-------------------------------->" + (str)(datetime.datetime.now()))
     #objectQuerySet = Appointment.objects.filter(end_date__lte = datetime.date(user_end_date.year, user_end_date.month, user_end_date.day)).order_by("-start_date")
     #objectQuerySet = Appointment.objects.all().prefetch_related('student_id__auth_id').select_related('student_id', 'student_id__auth_id').order_by("-start_date")
    
     # If p is a Restaurant object, this will give the child class:
-    print(objectQuerySet)
+    #print(objectQuerySet)
     print("mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm")
     #print(objectQuerySet.StudentAccount.StudentAuth)
     print("lllllllllllllllllllllllllllllllllllllllllllllllllllll")
@@ -378,6 +428,12 @@ def table_load_up(request):
     #d = StudentAccount.auth_id
     #prepdata = Appointment.objects.all().prefetch_related('student_id__auth_id')
 
+
+    #objectQuerySet2 = Appointment.objects.filter(start_date__lte = datetime.datetime(datetime.datetime.now().year, datetime.datetime.now().month, datetime.datetime.now().day, datetime.datetime.now().time().hour, datetime.datetime.now().time().minute, datetime.datetime.now().time().second), staff_id = current_user.id).select_related("student_id").prefetch_related('student_id__auth_id').order_by("-start_date").values_list("id","student_id__auth_id__sheridan_id", 'student_id__fname', "student_id__lname", "title", "start_date", "end_date", "staff_notes")
+    
+    #objectQuerySet2 = Appointment.objects.filter(start_date__lte = datetime.datetime(datetime.datetime.now().year, datetime.datetime.now().month, datetime.datetime.now().day, datetime.datetime.now().time().hour, datetime.datetime.now().time().minute, datetime.datetime.now().time().second), staff_id = current_user.id).select_related("student_id").prefetch_related('student_id__auth_id').order_by("-start_date").values("id","student_id__auth_id__sheridan_id", 'student_id__fname', "student_id__lname", "title", "start_date", "end_date", "staff_notes")
+    #print("this is objectQueryset2 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+    #print(list(objectQuerySet2.all()))
 
 
     #THIS IS THE ONE THAT WORKS!!!
@@ -417,11 +473,28 @@ def table_load_up(request):
     reference to objects of the type that defines the method. When use_natural_primary_keys=True is specified, Django will 
     not provide the primary key in the serialized data of this object since it can be calculated during deserialization:
     '''
-    dataB = serializers.serialize("json", objectQuerySet, use_natural_foreign_keys=True, use_natural_primary_keys=True)
-
-
+    '''
+    When use_natural_primary_keys=True is specified, Django will not provide the primary key in the serialized 
+    data of this object since it can be calculated during deserialization:
+    '''
+    dataB = serializers.serialize("json", objectQuerySet, use_natural_foreign_keys=True, use_natural_primary_keys=False)
+    #dataB2 = serializers.serialize("json", objectQuerySet2, use_natural_foreign_keys=True, use_natural_primary_keys=True)
+    '''
+    print("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
+    print(type(objectQuerySet))
+    print(str(objectQuerySet))
+    print("serialized type version of above")
+    print(type(dataB))
+    print(str(dataB))
+    print("next type")
+    '''
+    #print(type(objectQuerySet2))
+    #print("string type of above, maybe i should serialize this")
+    #print(objectQuerySet2)
+    #print(type(dataB2))
     #dataB = json.loads(serializers.serialize('json', [prepdata]))[0]
-    print(dataB)
+    #print("this is dataB +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+    #print(dataB)
 
     #data3 = serializers.serialize("json", prepdata.auth_id())
     
@@ -429,8 +502,46 @@ def table_load_up(request):
     
     response = {
         'allData': dataB #,
-        #'allDataStudentAccount': dateB2 #,
+        #'allDataStudentAccount': str(objectQuerySet2) #,
         #'allDataStudentAuth': data3
     }
+    
+    #response = objectQuerySet2
+    '''
+    response = {
+        'allDataStudentAccount': str(objectQuerySet2) #,
+        #'allDataStudentAuth': data3
+    }
+    '''
     # i needed to make an import to have "JsonResponse" work
+    '''
+    does jsonresponse use RequestContext??:
+    https://docs.djangoproject.com/en/dev/ref/csrf/#ajax
+    '''
     return JsonResponse(response)
+    # i must install "from django.http import HttpResponse" to use this   
+    #return HttpResponse(response)
+
+'''
+#----All types of calls to the server(Form GET,Form POST, Ajax GET, Ajax POST) requires a return value back 
+#----csrf_protect is the decorator that provides the protection of CsrfViewMiddleware to a view. It must be used both on views that insert the CSRF token in the output, and on those that accept the POST form data
+'''
+#@csrf_protect
+def table_row_delete(request):
+    print("We are in table_row_delete")
+    #id_to_delete = request.POST('actionToTake', None)
+    #this below code seems to give an error of MultiValueDictKeyError: 'actionToTake'
+    #id_to_delete = request.POST['actionToTake']
+    id_to_delete = request.POST.get('actionToTake')
+    print("this is the Appointment id that we will delete: " + id_to_delete)
+
+    #request.POST['actionToTake']
+    #i don't think i have to validate the post cus the user didn't type up that input ans send it, 
+    # it is a number that the system is sending to itself
+    #Appointment.objects.filter(pk=1).delete()
+    response = { 'id_to_delete':id_to_delete
+    }
+    #return
+    return JsonResponse(response)
+    #this just gave an error
+    #return render(request, response, {})
