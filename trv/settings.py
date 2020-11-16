@@ -61,7 +61,6 @@ INSTALLED_APPS = [
     'djangobower',
     'rest_framework',
     "program.apps.ProgramConfig",
-    "students.apps.StudentConfig",
     "form.apps.FormConfig"
 ]
 
@@ -165,14 +164,14 @@ MESSAGE_TAGS = {
 
 # Email config
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST: 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'mobeenraza39@gmail.com'
-EMAIL_HOST_PASSWORD = 'breezy02'
-EMAIL_USE_TLS = True
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST: 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = 'mobeenraza39@gmail.com'
+# EMAIL_HOST_PASSWORD = 'nqdqhstoueyuuhfw'
+# EMAIL_USE_TLS = True
 # EMAIL_HOST = 'smtp.sendgrid.net'
 # EMAIL_PORT = 587
 # EMAIL_USE_TLS = True
 # EMAIL_HOST_USER = 'apikey'
-# EMAIL_HOST_PASSWORD = os.environ.get('SENDGRID_API_KEY')
+# EMAIL_HOST_PASSWORD = os.getenv('SENDGRID_API_KEY')
