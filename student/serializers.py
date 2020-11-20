@@ -13,5 +13,5 @@ class StudentAccountSerializer(serializers.ModelSerializer):
         'als',
         'coop',
         'international',
-        'program_id_id',
-        'auth_id_id')
+        'program_id',
+        'auth_id')

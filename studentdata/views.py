@@ -105,13 +105,13 @@ def edit_studentdata(request, id):
             StudentData.objects.filter(id=id).update(
                 international=request.POST.get('international')
             )
-        if request.POST.get('program_id'):
+        if request.POST.get('program_id_id'):
             StudentData.objects.filter(id=id).update(
-                program_id=request.POST.get('program_id')
+                program_id=request.POST.get('program_id_id')
             )
-        if request.POST.get('auth_id'):
+        if request.POST.get('auth_id_id'):
             StudentData.objects.filter(id=id).update(
-                auth_id=request.POST.get('auth_id')
+                auth_id=request.POST.get('auth_id_id')
             )
         studentdatas = StudentData.objects.all().values()
         return JsonResponse({"studentdatas": list(studentdata)})
