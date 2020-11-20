@@ -32,24 +32,48 @@ class StudentAccountView(viewsets.ModelViewSet):
         #     student.title for student in Student.objects.all()]
         return JsonResponse({"studentaccounts": list(queryset)})
 
+    # def create(self, request):
+    #    print(request.POST)
+    #    studentaccount = StudentAccount.objects.create(
+    #        fname=request.POST.get('fname'),
+    #        lname=request.POST.get('lname'),
+    #        email=request.POST.get('email'),
+    #        student_number=request.POST.get('student_number'),
+    #        program_year=request.POST.get('program_year'),
+    #        als=request.POST.get('als'),
+    #        coop=request.POST.get('coop'),
+    #        international=request.POST.get('international'),
+    #        program_id=request.POST.get('program_id_id'),
+    #        auth_id=request.POST.get('auth_id_id'),
+    #        phone_number=request.POST.get('phone_number')
+    #    )
+    #    serializer = StudentAccountSerializer(studentaccount)
+    #    studentaccounts = StudentAccount.objects.last().values()
+    #    return JsonResponse(studentaccounts)
+
     def create(self, request):
         print(request.POST)
         studentaccount = StudentAccount.objects.create(
-            fname = request.POST.get('fname'),
-            lname = request.POST.get('lname'),
-            email = request.POST.get('email'),
-            student_number = request.POST.get('student_number'),
-            program_year = request.POST.get('program_year'),
-            als = request.POST.get('als'),
-            coop = request.POST.get('coop'),
-            international = request.POST.get('international'),
-            program_id = request.POST.get('program_id'),
-            auth_id = request.POST.get('auth_id'),
-            phone_number = request.POST.get('phone_number')
+            fname=request.POST.get('fname'),
+            lname=request.POST.get('lname'),
+            email=request.POST.get('email'),
+            student_number=request.POST.get('student_number'),
+            program_year=request.POST.get('program_year'),
+            als=request.POST.get('als'),
+            coop=request.POST.get('coop'),
+            international=request.POST.get('international'),
+            program_id=request.POST.get('program_id_id'),
+            auth_id=request.POST.get('auth_id_id'),
+            phone_number=request.POST.get('phone number')
         )
         serializer = StudentAccountSerializer(studentaccount)
         studentaccounts = StudentAccount.objects.all().values()
         return JsonResponse({"studentaccounts": list(studentaccounts)})
+
+    # def destroy(self, request, pk):
+    #     studentaccount = StudentAccount.objects.get(id=pk)
+    #     studentaccount.delete()
+    #     return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class StudentAccountAPI(viewsets.ModelViewSet):

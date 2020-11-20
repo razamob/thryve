@@ -14,7 +14,7 @@ urlpatterns = [
     # is it cus they had thesame name?
     path('filterDatachange', views.check_frequency, name="check-frequency"),
     #i may have to change the username of the below to manageData also
-    path('managedata-table-load', views.table_load_up, name="managedata-table-load")
-
+    path('managedata-table-load', views.table_load_up, name="managedata-table-load"),
+    path('managedata-table-row-delete', views.table_row_delete, name="managedata-table-row-delete")
     #path('filterdatasearch', views.filter_data_search, name="filterdatasearch")
 ]

@@ -21,19 +21,19 @@
 <div class="wrapper ">
     <div class="sidebar" data-color="purple" data-background-color="black" data-image="./assets/img/sidebar-2.jpg">
         <div class="logo">
-            <a href="./home.html" class="simple-text logo-normal">
+            <a href="{% url 'overview' %}" class="simple-text logo-normal">
                 Thryve
             </a>
         </div>
         <div class="sidebar-wrapper">
             <ul class="nav">
                 <li class="nav-item   ">
-                    <a class="nav-link" href="{% url 'dashboard' %}">
+                    <a class="nav-link" href="{% url 'overview' %}">
                         <i class="material-icons">dashboard</i>
                         <p>Dashboard</p>
                     </a>
                 </li>
-                <li class="nav-item active ">
+                <li class="nav-item active">
                     <a class="nav-link" href="{% url 'appointments' %}">
                         <i class="material-icons">calendar_today</i>
                         <p>View Calendar</p>
@@ -45,14 +45,14 @@
                         <p>Manage Data</p>
                     </a>
                 </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="#">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'data_dashboard' %}">
                         <i class="material-icons">bubble_chart</i>
                         <p>Data Analysis</p>
                     </a>
                 </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="#">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'account' %}">
                         <i class="material-icons">person</i>
                         <p>Account Management</p>
                     </a>
@@ -78,9 +78,8 @@
                 </li>
 
 
-
                 <li class="nav-item ">
-                    <a class="nav-link" href="./home.html">
+                    <a class="nav-link" href="{% url 'logout_btn' %}">
                         <i class="material-icons">backspace</i>
                         <p>Logout</p>
                     </a>
@@ -140,6 +139,26 @@
                             </div>
                             <div class="modal-body mx-3">
                                 <div class="md-form mb-5">
+                                    <input name="fname" type="text" id="form34" class="form-control validate">
+                                    <label data-error="wrong" data-success="right" for="form34">Student First Name
+                                    </label>
+                                </div>
+                                <div class="md-form mb-5">
+                                    <input name="lname" type="text" id="form34" class="form-control validate">
+                                    <label data-error="wrong" data-success="right" for="form34">Student Last Name
+                                    </label>
+                                </div>
+                                <div class="md-form mb-5">
+                                    <input name="studentid" type="text" id="form34" class="form-control validate">
+                                    <label data-error="wrong" data-success="right" for="form34">Student ID
+                                    </label>
+                                </div>
+                                <div class="md-form mb-5">
+                                    <input name="email" type="text" id="form34" class="form-control validate">
+                                    <label data-error="wrong" data-success="right" for="form34">Student Email
+                                    </label>
+                                </div>
+                                <div class="md-form mb-5">
                                     <input name="title" type="text" id="form34" class="form-control validate">
                                     <label data-error="wrong" data-success="right" for="form34">Appointment
                                         Reason</label>
@@ -185,7 +204,7 @@
             <div class="modal fade" id="CancelForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog" role="document">
-                    <div style="overflow: auto;" class="modal-content">
+                    <div style="overflow: auto; width:800px" class="modal-content">
                         <div class="modal-header text-center">
                             <h4 class="modal-title w-100 font-weight-bold">Cancel Appointment</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -196,6 +215,9 @@
                             <table style="overflow: auto;" style="width:100%;" class="table table-striped">
                                 <thead>
                                     <tr>
+                                        <th>Student Name</th>
+                                        <th>Student ID</th>
+                                        <th>Student Email</th>
                                         <th>Title</th>
                                         <th>Appointment Start</th>
                                         <th>Appointment End</th>
@@ -207,6 +229,9 @@
                                 <tbody>
                                     {% for appointment in appointments %}
                                     <tr>
+                                        <td>{{appointment.student_id.fname}}<br>{{appointment.student_id}}</td>
+                                        <td>{{appointment.student_id.student_number}}</td>
+                                        <td>{{appointment.student_id.email}}</td>
                                         <td>{{appointment.title}}</td>
                                         <td>{{appointment.start_date}}</td>
                                         <td>{{appointment.end_date}}</td>
@@ -235,7 +260,7 @@
             <div class="modal fade" id="EditForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog" role="document">
-                    <div class="modal-content">
+                    <div style="width:800px;" class="modal-content">
                         <div class="modal-header text-center">
                             <h4 class="modal-title w-100 font-weight-bold">Change Appointment</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -249,6 +274,10 @@
                                 <table style="width:100%;" class="table table-striped">
                                     <thead>
                                         <tr>
+                                            <th>Student First Name</th>
+                                            <th>Student Last Name</th>
+                                            <th>Student ID</th>
+                                            <th>Student Email</th>
                                             <th>Title</th>
                                             <th>Appointment Start</th>
                                             <th>Appointment End</th>
@@ -259,6 +288,10 @@
 
                                     <tbody class="tablebody-data">
                                         <tr>
+                                            <td>{{appointment.student_id.fname}}</td>
+                                            <td>{{appointment.student_id}}</td>
+                                            <td>{{appointment.student_id.student_number}}</td>
+                                            <td>{{appointment.student_id.email}}</td>
                                             <td>{{appointment.title}}</td>
                                             <td>{{appointment.start_date}}</td>
                                             <td>{{appointment.end_date}}</td>
@@ -266,6 +299,22 @@
                                         </tr>
 
                                         <tr>
+                                            <td>
+                                                <input value="" type="text" name="fname" id="edit{{appointment.id}}"
+                                                    class="form-control validate">
+                                            </td>
+                                            <td>
+                                                <input value="" type="text" name="lname" id="edit{{appointment.id}}"
+                                                    class="form-control validate">
+                                            </td>
+                                            <td>
+                                                <input value="" type="text" name="studentnumber"
+                                                    id="edit{{appointment.id}}" class="form-control validate">
+                                            </td>
+                                            <td>
+                                                <input value="" type="email" name="email" id="edit{{appointment.id}}"
+                                                    class="form-control validate">
+                                            </td>
                                             <td>
                                                 <input value="" type="text" name="title" id="edit{{appointment.id}}"
                                                     class="form-control validate">

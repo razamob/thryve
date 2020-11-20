@@ -1,83 +1,57 @@
-<!DOCTYPE html>
-<!--
--------------------------------------------
-Student: Igbinosa Idahosa <idahosai@sheridan.desire2learn.com>
-StudentID: 991462246
--------------------------------------------
--->
 
-<!doctype html>
-<html lang="en">
+{% extends 'base.html' %} {% block content %}
+{% load static %}
 
-<head>
-  <title>Thryve</title>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <!--     Fonts and icons     -->
-  <link rel="stylesheet" type="text/css"
-    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
-  <!-- Material Kit CSS -->
-  <link href="assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet" />
-  
-  
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>  
-        
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<script type="text/javascript">
+  function exportToExcel(tableID, filename = ''){
+      var downloadurl;
+      var dataFileType = 'application/vnd.ms-excel';
+      var tableSelect = document.getElementById(tableID);
+      var tableHTMLData = tableSelect.outerHTML.replace(/ /g, '%20');
       
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" crossorigin="anonymous"></script>
-
- <script type="text/javascript">
-function exportToExcel(tableID, filename = ''){
-    var downloadurl;
-    var dataFileType = 'application/vnd.ms-excel';
-    var tableSelect = document.getElementById(tableID);
-    var tableHTMLData = tableSelect.outerHTML.replace(/ /g, '%20');
-    
-    // Specify file name//if statement,conditional ternary operator
-    filename = filename?filename+'.xls':'export_excel_data.xls';
-    
-    // Create download link element,//it should not lead to anywhere
-    downloadurl = document.createElement("a");
-    //put link at bottom of page
-    document.body.appendChild(downloadurl);
-    //navigator contains info about my browser/shouldnt be used to detect browser version
-    //msSaveOrOpenBlob saves the file or blob to diskn enables file open option
-    if(navigator.msSaveOrOpenBlob){
-        var blob = new Blob(['\ufeff', tableHTMLData], {
-            type: dataFileType
-        });
-        navigator.msSaveOrOpenBlob( blob, filename);
-    }else{
-        // Create a link to the file
-        downloadurl.href = 'data:' + dataFileType + ', ' + tableHTMLData;
-    
-        // Setting the file name
-        downloadurl.download = filename;
-        
-        //triggering the function
-        downloadurl.click();
-    }
-}
-        $(document).ready(function () {
-        $('#tblexportData').DataTable();
-        $('.dataTables_length').addClass('bs-select');
-        });
-        // Basic example
-        $(document).ready(function () {
-        $('#tblexportData').DataTable({
-        "searching": false // false to disable search (or any other option)
-        });
-        $('.dataTables_length').addClass('bs-select');
-        });
- 
-</script>
-</head>
+      // Specify file name//if statement,conditional ternary operator
+      filename = filename?filename+'.xls':'export_excel_data.xls';
+      
+      // Create download link element,//it should not lead to anywhere
+      downloadurl = document.createElement("a");
+      //put link at bottom of page
+      document.body.appendChild(downloadurl);
+      //navigator contains info about my browser/shouldnt be used to detect browser version
+      //msSaveOrOpenBlob saves the file or blob to diskn enables file open option
+      if(navigator.msSaveOrOpenBlob){
+          var blob = new Blob(['\ufeff', tableHTMLData], {
+              type: dataFileType
+          });
+          navigator.msSaveOrOpenBlob( blob, filename);
+      }else{
+          // Create a link to the file
+          downloadurl.href = 'data:' + dataFileType + ', ' + tableHTMLData;
+      
+          // Setting the file name
+          downloadurl.download = filename;
+          
+          //triggering the function
+          downloadurl.click();
+      }
+  }
+          $(document).ready(function () {
+          $('#tblexportData').DataTable();
+          $('.dataTables_length').addClass('bs-select');
+          });
+          // Basic example
+          $(document).ready(function () {
+          $('#tblexportData').DataTable({
+          "searching": false // false to disable search (or any other option)
+          });
+          $('.dataTables_length').addClass('bs-select');
+          });
+   
+  </script>
 
 
-<body class="dark-edition">
+
   <div class="wrapper ">
     <div class="sidebar" data-color="purple" data-background-color="black" data-image="./assets/img/sidebar-2.jpg">
       <div class="logo">
@@ -88,19 +62,19 @@ function exportToExcel(tableID, filename = ''){
       <div class="sidebar-wrapper">
         <ul class="nav">
           <li class="nav-item active  ">
-            <a class="nav-link" href="javascript:void(0)">
+            <a class="nav-link" href="{% url 'dashboard' %}">
               <i class="material-icons">dashboard</i>
               <p>Dashboard</p>
             </a>
           </li>
           <li class="nav-item ">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{% url 'appointments' %}">
               <i class="material-icons">calendar_today</i>
               <p>View Calendar</p>
             </a>
           </li>
           <li class="nav-item ">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{% url 'manageData' %}">
               <i class="material-icons">folder</i>
               <p>Manage Data</p>
             </a>
@@ -123,6 +97,22 @@ function exportToExcel(tableID, filename = ''){
               <p>Notifications</p>
             </a>
           </li>
+
+          <li class="nav-item ">
+            <a class="nav-link" href="{% url 'editmeetingcomments' %}">
+                <i class="material-icons">subject</i>
+                <p>Edit Meeting Comments</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="{% url 'filterData' %}">
+                <i class="material-icons">find_in_page</i>
+                <p>Filter Data</p>
+            </a>
+          </li>
+
+
+
           <li class="nav-item ">
             <a class="nav-link" href="./home.html">
               <i class="material-icons">backspace</i>
@@ -161,8 +151,39 @@ function exportToExcel(tableID, filename = ''){
         </div>
       </nav>
       
+      <div class="row justify-content-center">
+        <!--for a string this is how you check if theirs a value in them in html-->
+        {% if user.first_name and user.last_name %}
+          <h1> <font color="white"><h1 style="color:blue;display: inline-flex;">{{ user.first_name }} {{ user.last_name }} </h1>'s Most Current Appointment Meetings</font></h1> 
+        {% else %}
+        <h1> <font color="white"><h1 style="color:blue;display: inline-flex;">{{ user.username }}</h1>'s Most Current Appointment Meetings</font></h1> 
+        {% endif %}
+    </div>
+
+
+      <div style="margin-top:90px; margin-left: 20%; overflow-y: auto; overflow-x: auto; height:50%; max-width:700px">
+        <table data-check="6" id="tblexportData" class="table table-striped table-bordered table-sm" cellspacing="0" >
+          <thead>
+            <tr>
+              <th class="th-sm">Name
+              </th>
+              <th class="th-sm">Student Number
+              </th>
+              <th class="th-sm">Their Reason For The Appointment
+              </th>
+              <th class="th-sm">Appointment Starting Date & Time
+              </th>
+              <th class="th-sm">Appointment Ending Date & Time
+              </th>
+              <th class="th-sm">My Comment On The Appointment
+              </th>
+            </tr>
+          </thead>
+        </table>
+      </div>
   
       <br>
+      <!--
       <div style="margin-top:90px; margin-left: 20%; overflow-y: auto; overflow-x: auto; height:50%; width: 50%;display:none">
         <table class="table table-striped table-bordered table-sm" cellspacing="0" id="tblexportData">
       <thead>
@@ -657,13 +678,12 @@ function exportToExcel(tableID, filename = ''){
       </tfoot>
     </table>
       </div>
+    -->
       
       
-           <div class="row justify-content-center">
-          <h1> <font color="white">Most Current Appointment Meetings</font></h1>   
-      </div>
+           
       
-      <div style="margin-top:90px; margin-left: 20%; overflow-y: auto; overflow-x: auto; height:50%; width: 50%">
+      <!--<div style="margin-top:90px; margin-left: 20%; overflow-y: auto; overflow-x: auto; height:50%; width: 50%">
         <table class="table table-striped table-bordered table-sm" cellspacing="0">
       <thead>
         <tr>
@@ -726,76 +746,70 @@ function exportToExcel(tableID, filename = ''){
       </tfoot>       
      
     </table>
-      </div>
+      </div>-->
       
       
       <div class="row justify-content-center">
-          <h1> <font color="white">Deletion Queue</font></h1>   
+          <!--<h1> <font color="white">Deletion Queue</font></h1>  -->
+            <!--for a string this is how you check if theirs a value in them in html-->
+          {% if user.first_name and user.last_name %}
+            <h1> <font color="white"><h1 style="color:blue;display: inline-flex;">{{ user.first_name }} {{ user.last_name }} </h1>'s Deletion Queue</font></h1> 
+          {% else %}
+            <h1> <font color="white"><h1 style="color:blue;display: inline-flex;">{{ user.username }}</h1>'s Deletion Queue</font></h1> 
+          {% endif %} 
       </div>
       
       
         <div style="margin-top:90px; margin-left: 20%; overflow-y: auto; overflow-x: auto; height:50%; width: 50%">
-        <table class="table table-striped table-bordered table-sm" cellspacing="0">
+        <table id="deletionQueueTable" class="table table-striped table-bordered table-sm" cellspacing="0">
       <thead>
         <tr>
-          <th class="th-sm">Undo
-          </th>
-          <th class="th-sm">Delete
+          <th class="th-sm">Undo Delete
           </th>
           <th class="th-sm">Name
           </th>
-          <th class="th-sm">Date
+          <th class="th-sm">Student Number
+          </th>
+          <th class="th-sm">Their Reason For The Appointment
+          </th>
+          <th class="th-sm">Appointment Starting Date & Time
+          </th>
+          <th class="th-sm">Appointment Ending Date & Time
+          </th>
+          <th class="th-sm">My Comment On The Appointment
           </th>
           
         </tr>
       </thead>
       <tbody>
+        <!--
         <tr>
-          <td><button  type="button"   style="width: 50%">Undo</button> </td>
-          <td><span style='font-size:20px;'>&#9785;</span></td>
+          <td><button  type="button"   style="width: auto"><span style='font-size:20px;'>&#9785;</span>Undo This Deletion</button> </td>
           <td>Ashton Cox</td>
           <td>2020/04/12</td>
         </tr>
         <tr>
-            <td><button  type="button"   style="width: 50%">Undo</button></td>
-          <td><span style='font-size:20px;'>&#9785;</span></td>
+            <td><button  type="button"   style="width: auto"><span style='font-size:20px;'>&#9785;</span>Undo This Deletion</button></td>
           <td>Colleen Hurst</td>
           <td>2019/03/11</td>
         </tr>
         <tr>
-          <td><button  type="button"   style="width: 50%">Undo</button></td>
-          <td><span style='font-size:20px;'>&#9785;</span></td>
+          <td><button  type="button"   style="width: auto"><span style='font-size:20px;'>&#9785;</span>Undo This Deletion</button></td>
           <td>Donna Snider</td>
           <td>2019/01/01</td>
         </tr>
         <tr>
-          <td><button  type="button"   style="width: 50%">Undo</button></td>
-          <td><span style='font-size:20px;'>&#9785;</span></td>
+          <td><button  type="button"   style="width: auto"><span style='font-size:20px;'>&#9785;</span>Undo This Deletion</button></td>
           <td>Lael Greer</td>
           <td>2020/02/28</td>
         </tr>
 
         <tr>
-          <td><button  type="button"   style="width: 50%">Undo</button></td>
-          <td><span style='font-size:20px;'>&#9785;</span></td>
+          <td><button  type="button"   style="width: auto"><span style='font-size:20px;'>&#9785;</span>Undo This Deletion</button></td>
           <td>Charde Marshall</td>
           <td>2018/03/11</td>
-    
-            </tbody>
-      <tfoot>
-        <tr>
-          <th>Undo
-          </th>
-          <th>Delete
-          </th>
-          <th>Name
-          </th>
-          <th>Date
-          </th>
-    
-        </tr>
-      </tfoot>       
-     
+        -->
+            </tbody>    
     </table>
       </div>
       
@@ -807,9 +821,29 @@ function exportToExcel(tableID, filename = ''){
       
       
       
+      <!--<div style="margin-top:90px; margin-left: 20%; overflow-y: auto; overflow-x: auto; height:50%; max-width:700px">
+        <table id="groupTable" class="table table-striped table-bordered table-sm" cellspacing="0" >
+          <thead>
+            <tr>
+              <th class="th-sm">Name
+              </th>
+              <th class="th-sm">Student Number
+              </th>
+              <th class="th-sm">Their Reason For The Appointment
+              </th>
+              <th class="th-sm">Appointment Starting Date & Time
+              </th>
+              <th class="th-sm">Appointment Ending Date & Time
+              </th>
+              <th class="th-sm">My Comment On The Appointment
+              </th>
+            </tr>
+          </thead>
+        </table>
+      </div>-->
+      
 
-      
-      
+
       
       
       
@@ -850,7 +884,9 @@ function exportToExcel(tableID, filename = ''){
     
    <script>
     
-       
+
+
+
 document.addEventListener("DOMContentLoaded", function(event) {
 
         let allData = {1:{cellAD: 'Iggy'},2: {cellAE: 'Thea'}, 3:{cellAF: 'Mobeen'}};
@@ -1142,15 +1178,345 @@ document.addEventListener("DOMContentLoaded", function(event) {
                */
         }
     });
+    
     </script> 
     
     
-    
+    <script>
+          /*
+          $(document).ready(function(){
+          })*/
+          
+          //the type can be 'POST'
+          //data is like the context variable you will python backend
+          var theAction = "1";
+          $.ajax({
+                type: "get",
+                url: "{% url 'managedata-table-load' %}",
+                dataType: "json",
+                data: { actionToTake: JSON.stringify(theAction) },
+                success: function(response) {
+                     
+                     var theOutput = JSON.parse(response.allData);   //this shows "[object][object]"
 
-        
-       
-   
-    
+                     //this only parses JSON string, if it's not a Json string,it will give an error
+                     //var theOutput2 = JSON.parse(response.allDataStudentAccount);
+                     //var theOutput3 = JSON.parse(response.allDataStudentAuth)
+                            //var theOutput = response.allData;
+                     //console.log(response.theOutput);
+                     alert(response.allData); //this shows the actual things inside the object
+                     //i can just start using it since this one doesn't need to be parsed
+                     //var theOutput = JSON.parse(response.allDataStudentAccount);
+                      /*
+                     alert(response);
+                     var g = JSON.stringify(response);
+                     alert(g[0]);
+                     alert(JSON.parse(response));
+                     */
+                     
+                     /*
+                     alert(response.allDataStudentAccount);
+                     */
+                     //alert(response.response.allDataStudentAuth);
+                    /*
+                     alert(response.allDataStudentAccount)
+                     alert(theOutput2)
+                     alert(response[0]);
+                     alert(response.allDataStudentAccount[0]);
+                     */
+                     //alert(response.allDataStudentAccount)
+
+
+                            //alert((response.allData)[8]);
+                            //alert(theOutput)// this shows "[object][object]"
+                     var table = $('<tbody>');
+                      
+                     //var table = document.getElementById('groupTable')
+                            //alert(theOutput);
+                     var row = $('<tr>');
+
+                     var name1 = "John";
+                     var name2 = "Green";
+                     var name3 = "First";
+                     var name4 = "Last";
+                      /*
+                     for (var i=0; i<theOutput.length; i++) {
+                      var obj = theOutput[i];
+                      alert(obj[0]);
+                     } 
+                    */
+
+                     for (var i=0; i<theOutput.length; i++) { 
+
+                      
+
+                           var obj = theOutput[i];//this says [object,object]
+                           //alert(theOutput[i].fields);
+                           //alert(JSON.parse(theOutput[i]));
+                           var fields = obj.fields;
+                           //alert(fields)
+                           var pk = obj.pk;
+                           //make sure the foreign key table feild value isn't null so you can go into it and maybe go into it further if the next foreign key table feild value isn't null
+                           if (fields.student_id != null){
+
+                            if (fields.student_id.auth_id !=null){
+
+
+                              //alert(fields.title); //this shows the actual result of the one value
+                              //var eventcode = fields.eventcode;
+                              //var collegecode = fields.collegecode;
+
+                              // data-* is for html5. 
+                              var row = $('<tr data-row-id="' + pk + '">');
+                              //alert(pk);
+                              //django takes care of joins automatically so we can do this
+                              row.append('<td>' + fields.student_id.fname + " " + fields.student_id.lname + '</td>');
+                              row.append('<td>' + fields.student_id["auth_id"].sheridan_id + '</td>');
+                              //row.append('<td>' + fields.student_id.auth_id.sheridan_id + '</td>');
+                              //row.append('<td>' + "First" + " " + "Name" + '</td>');
+                              //row.append('<td>' + "9516584235" + '</td>');
+                              //This below will print the whole list if the foreigh key is stored as a list in the object when serialized
+                              //row.append('<td>' + fields.student_id + '</td>');
+                              row.append('<td>' + fields.title + '</td>');
+                              row.append('<td>' + fields.start_date + '</td>');
+                              row.append('<td>' + fields.end_date + '</td>');
+                              row.append('<td>' + fields.staff_notes + '</td>');
+                              
+                              row.append('<td><input  type="button" onclick="deleteRowMaybe(this)" value="Delete"></td>')
+                              // putting the / at the right side of a single element creates the whole elemement rather than close a
+                              //previously opened element so watch out, an example is: row.append('<tr/>');
+                              row.append('</tr>');
+                              table.append(row);
+                            }
+
+                           }
+                        
+
+
+                    
+                             
+
+                      }
+                      //var row = $('<tr/>');//its possible that i must write this variable in this way befor appending
+                      //row.append($('</tr>'));
+                      //table.append(row);
+                      table.append($('</tbody>'));
+                      //table.add
+                      //$('#groupTable').appendChild = table;
+                      //$('#groupTable').innerHTML(table);
+                      //$('#groupTable').innerHTML(table.children)
+                      $('#tblexportData').append(table);
+                      
+
+                     $(theOutput).each(function() {//use to be $(response)
+                           //alert(response.allData)
+                           //var obj = theOutput[i];
+                           //var fields = obj.fields;
+                           //var eventcode = fields.eventcode;
+                           //var collegecode = fields.collegecode;
+                           //alert(obj)
+                           //alert(fields.title)
+                           //var row = $('<tr/>');
+                           //row.append('<td>' + fields.title + '</td>');
+                           //row.append('<td>' + fields.title + '</td>');
+                           /*
+                           var row = $('<tr/>');
+                           row.append('<td>' + this.Value + '</td>');
+                           row.append('<td>' + this.Value + '</td>');
+                           */
+                           
+                           //alert(row);
+                           //alert(this.Value);
+                     });
+                     //table.append(row);  
+                     //this is saying all the elements with this tag should have "this" in it                  
+                     //$('#groupTable').html(table); // not refreshing table withdata
+                     
+                    //alert(response.allData)
+                },
+                error: function(request, status, error) {
+                    alert("this is an error");
+                    //alert(request.responseText);
+                }
+            });
+    </script>
+
+    <script>
+      //remember than there
+      //fuction to acquire the CSRF token if were not using a Form POST but rather Ajax POST without any HTML form
+      //Were specifically getting the csrftoken from Cookie
+      function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+      }
+      const csrftoken = getCookie('csrftoken');
+
+      function deleteRowMaybe(btnElement){
+        //btnElement is the html element passed by (this) reference
+        Swal.fire({
+        title: 'Do you want to delete this past appointment?',
+        showDenyButton: true,
+        confirmButtonText: 'Yes',
+        denyButtonText: 'No',
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+
+          //get the tr table row
+          var trRowToDelete = btnElement.parentNode.parentNode;
+
+          //this does't work :    alert("the row id is" + $(trRowToDelete).data('rowId'));
+          //THE WAY YOU CALL data() can be very different so pay attention!!
+          /*when attribute is data-rowId='1' use $().data(rowid) to get attribute value.This is for all CamelCase attributes as such!!!
+          alert("the row id gotten from $(trRowToDelete).data('row-id') is" + $(trRowToDelete).data('rowid'));
+          when attribute is data-row-id='1' use $().data(rowId) to get attribute value.This is for all attributes with dash "-" !!!
+          alert("the row id gotten from $(trRowToDelete).data('row-id') is" + $(trRowToDelete).data('rowId'));
+          you can also just be literal in dash "-" attribute situation such as
+          alert("the row id gotten from $(trRowToDelete).data('row-id') is" + $(trRowToDelete).data('row-id'));
+          */
+          alert("the row id gotten from $(trRowToDelete).data('row-id') is" + $(trRowToDelete).data('row-id'));
+          //so innerHTML only shows you whats in the element not the element itself so you can possibly become confused if 
+          
+          //YOU HAVE TO GET COORECT ELEMENT OR THE data('check') will give you undefined which is wronge
+          //alert("the top attribute is :" + $(trRowToDelete.parentNode.parentNode).data('check'))
+
+          //Delete row from actual database
+
+          
+          var theAction = $(trRowToDelete).data('row-id');
+
+          //i can only use the below code if i install the library that allows for it
+          //const csrftoken = Cookies.get('csrftoken');
+
+          $.ajax({
+                type: "post",
+                url: "{% url 'managedata-table-row-delete' %}",
+                dataType: "json",
+                data: { actionToTake: JSON.stringify(theAction) },
+                headers: {'X-CSRFToken': csrftoken},
+                success: function(response) {},
+                error: function(request, status, error) {
+                    alert("did not delete the row");
+                    //alert(request.responseText);
+                }
+              });
+          
+
+          //add row to deletion queue display on this screen
+          var table = $('<tbody>');
+          var row = $('<tr>');
+          //i must first add the first coulumn value for the tabel row for i do the loop dynamic fill up
+          // i do the quotes this way currently
+          row.append('<td><button type="button" onclick="addRowMaybe(this)" style="width: auto"><span style="font-size:20px;">&#9785;</span>Undo This Deletion</button></td>');
+          
+          
+          /*
+          alert("btnElement.innerHTML = " + btnElement.innerHTML);
+          alert("the next print is thesame as this cus  var trRowToDelete = btnElement.parentNode.parentNode and :" + trRowToDelete.innerHTML);
+          alert("btnElement.parentNode.innerHTML = " + btnElement.parentNode.innerHTML);
+          alert("btnElement.parentNode.parentNode.innerHTML = " + btnElement.parentNode.parentNode.innerHTML);
+          alert("btnElement.parentNode.parentNode.parentNode.innerHTML = " + btnElement.parentNode.parentNode.parentNode.innerHTML);
+          alert("btnElement.parentNode.parentNode.parentNode.parentNode.innerHTML = " + btnElement.parentNode.parentNode.parentNode.parentNode.innerHTML);
+          */
+
+          
+          var listOfWholeRow = trRowToDelete.children;
+          //alert(listOfWholeRow);
+          //  the -1 is so that it doesn't take the last <tr> with the delete button in it as a element also
+          //alert("the length is :" + listOfWholeRow.length)
+          for (var i=0; i<(listOfWholeRow.length - 1); i++) { 
+            row.append('<td>' + listOfWholeRow[i].innerHTML + '</td>')
+            //alert(listOfWholeRow[i].innerHTML);
+          }
+          row.append('<tr/>');
+          table.append(row);
+          table.append($('</tbody>'));
+          $('#deletionQueueTable').append(table);
+          //delete the tr table row
+          trRowToDelete.parentNode.removeChild(trRowToDelete);
+          Swal.fire("This appointment was sent to the deletion queue, 24 hour til it's deletion!", '', 'success')
+        }
+      })
+      }
+
+
+      function addRowMaybe(btnElement){
+        //btnElement is the html element passed by (this) reference
+        Swal.fire({
+        title: 'Do you want to Undo the deletion of this past appointmet?',
+        showClass: {popup: 'animate__animated animate__fadeInDown'},
+        hideClass: {popup: 'animate__animated animate__fadeOutUp'},
+        showDenyButton: true,
+        confirmButtonText: 'Yes',
+        denyButtonText: 'No'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $('#tblexportData').removeChild($('#tblexportData').children.last);
+          //$('#tblexportData').lastElementChild.remove
+
+          Swal.fire("This appointment has been placed back into the past appointment queue", '', 'success')
+
+          var theAction = "1";
+          /*
+          $.ajax({
+                type: "get",
+                url: "{% url 'managedata-table-load' %}",
+                dataType: "json",
+                data: { actionToTake: JSON.stringify(theAction) },
+                success: function(response) {
+                     var theOutput = JSON.parse(response.allData);   //this shows "[object][object]"
+                            //alert(theOutput)// this shows "[object][object]"
+                     var table = $('<tbody>');
+                     var row = $('<tr>');
+                     for (var i=0; i<theOutput.length; i++) { 
+                           var obj = theOutput[i];//this says [object,object]
+                           var fields = obj.fields;
+                           //alert(fields)
+                           var pk = obj.pk;
+                           //make sure the foreign key table feild value isn't null so you can go into it and maybe go into it further if the next foreign key table feild value isn't null
+                           if (fields.student_id != null){
+                            if (fields.student_id.auth_id !=null){
+                              // data-* is for html5. 
+                              var row = $('<tr data-row-id="' + pk + '">');
+                              //django takes care of joins automatically so we can do this
+                              row.append('<td>' + fields.student_id.fname + " " + fields.student_id.lname + '</td>');
+                              row.append('<td>' + fields.student_id["auth_id"].sheridan_id + '</td>');
+                              row.append('<td>' + fields.title + '</td>');
+                              row.append('<td>' + fields.start_date + '</td>');
+                              row.append('<td>' + fields.end_date + '</td>');
+                              row.append('<td>' + fields.staff_notes + '</td>');
+                              row.append('<td><input  type="button" onclick="deleteRowMaybe(this)" value="Delete"></td>')
+                              // putting the / at the right side of a single element creates the whole elemement rather than close a
+                              //previously opened element so watch out, an example is: row.append('<tr/>');
+                              row.append('</tr>');
+                              table.append(row);
+                            }
+                           }
+                      }
+                      table.append($('</tbody>'));
+                      $('#tblexportData').append(table);
+                     $(theOutput).each(function() {//use to be $(response)
+                     });
+                },
+                error: function(request, status, error) {
+                    alert("this is an error");
+                }
+            }); */
+        }
+      })
+    }
+    </script>
   <!--   JS Files   -->
   <script src="./assets/js/core/jquery.min.js"></script>
   <script src="./assets/js/core/popper.min.js"></script>
@@ -1165,6 +1531,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="./assets/js/material-dashboard.js?v=2.1.0"></script>
 
-</body>
 
-</html>
+
+  
+
+
+  {% endblock %}

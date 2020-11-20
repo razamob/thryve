@@ -1,8 +1,7 @@
 {% extends 'base.html' %} {% block content %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'css/data_analysis.css' %}">
+<link rel="stylesheet" href="{% static 'css/account.css' %}">
 
-<link rel="stylesheet" href="">
 <div class="wrapper ">
     <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
         <span class="show-list material-icons">list</span>
@@ -36,13 +35,13 @@
                         <p>Manage Data</p>
                     </a>
                 </li>
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" href="{% url 'data_dashboard' %}">
                         <i class="material-icons">bubble_chart</i>
                         <p>Data Analysis</p>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item active">
                     <a class="nav-link" href="{% url 'account' %}">
                         <i class="material-icons">person</i>
                         <p>Account Management</p>
@@ -78,39 +77,41 @@
             </ul>
         </div>
     </div>
-    <div id="data-analysis-container" data-url="{% url 'staff_data' %}"></div>
-    <div class="flex-container">
-        <div class="search_categories">
-            <div class="select">
-                <select class="select-cats" name="search_categories" id="search_categories">
-                    <option value="1" selected="selected">Education Level</option>
-                    <option value="2">Grades</option>
-                    <option value="3">Co-ops</option>
-                    <option value="4">International Students</option>
-                </select>
+    <section>
+        <div class="container">
+            <div class="profile-pic"><img src="{% static 'img/img_avatar2.png' %}" alt="Avatar image of womans">
+            </div>
+            <div class="profile-text">
+                <h1>{{user.fname}} {{user.lname}}</h1>
+                <p class="email_title"><a href="#">{{user.email}}</a> - <span>{{user.job_title}}</span>
+                </p>
             </div>
         </div>
-
-        <div class="chart-type">
-            <div class="select">
-                <select onchange="onGoogleChartsLoaded()" class="select-chart" name="chart_type" id="chart_type">
-                    <option value="1" selected="selected">Chart Type</option>
-                    <option value="column">Column</option>
-                    <option value="pie">Pie</option>
-                    <option value="bar">Bar</option>
-                    <option value="line">Line</option>
-                    <option value="area">Area</option>
-                </select>
+    </section>
+    <section>
+        <h2 class="account-header">Account</h2>
+        <hr>
+        <form id="profile-form" action="{% url 'update-account'%}" method="POST">
+            {% csrf_token %}
+            <div class="container">
+                <label for="username">Username</label>
+                <input type="text" id="username" disabled placeholder="{{userlogin.username}}" name="username">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="{{user.email}}" name="email">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" disabled value="{{userlogin.password}}">
+                <label for="fname">First Name</label>
+                <input type="text" id="fname" placeholder="{{user.fname}}" name="fname">
+                <label for="lname">Last Name</label>
+                <input type="text" id="lname" name="lname" placeholder="{{user.lname}}">
+                <label for="title">Title</label>
+                <input type="text" id="title" placeholder="{{user.job_title}}" name="title">
+                <label></label>
+                <input id="submit" class="submit" type="submit" value="Save">
+                <div>{{user.auth_id.id}}</div>
             </div>
-        </div>
-    </div>
-    <button class="update-btn btn btn-success btn-large" type="submit">Update</button>
-    <div style="width:100%;height:450px;" id="googlechartContainer">
-    </div>
-    <!-- <div id="data-chart-container"></div> -->
-    <script src="{% static 'js/data_analysis.js' %}"></script>
-    <!-- <script>
-        
-    </script> -->
+        </form>
+    </section>
 </div>
+<script src="{% static 'js/account.js' %}"></script>
 {% endblock %}

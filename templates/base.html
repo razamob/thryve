@@ -28,17 +28,26 @@
     <!-- Material Kit CSS -->
     <link rel="stylesheet" href="{% static 'css/material-dashboard.css'%}" />
 
-
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css"
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <!-- Material Kit CSS -->
     <link rel="stylesheet" href="{% static 'css/material-dashboard.css'%}" />
+
+    <!--This is for the sweetalert's animations witch are from someother website which is https://animate.style/ -->
+    <!--The href attribute specifies the location (URL) of a resource, that an anchor element points to, or the location 
+    of a linked resource, like a stylesheet. While the src attribute is used to embed a resource - usually URLs - into 
+    a document, think embedded images (<img>) and <script> tags
+    -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
+
 </head>
 
 <body>
     {% block content %}
+
     {% endblock %}
 
     <!-- jQuery library -->
