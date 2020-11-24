@@ -1,5 +1,5 @@
 from django.urls import path, include
-from . import views
+from appointments import views
 from rest_framework import routers
 from appointments.views import AppointmentView
 from appointments.views import AppointmentAPI

@@ -67,15 +67,6 @@ class AppointmentView(viewsets.ModelViewSet):
         students = StudentAccount.objects.filter(
             id=appointment.student_id.id)
 
-<<<<<<< HEAD
-        send_mail(
-            'Hello Mobeen',
-            'MOBEEN RAZA HELLO APPOINTMENT',
-            'mobeenraza39@gmail.com',
-            ['mobeenraza39@gmail.com'],
-            fail_silently=False
-        )
-=======
         message = Mail(
             from_email='mobeenraza39@gmail.com',
             to_emails=email,
@@ -91,7 +82,6 @@ class AppointmentView(viewsets.ModelViewSet):
             print(response.headers)
         except Exception as e:
             print(e)
->>>>>>> bf30e8e3b50af97991f5dca6e13811ce6483f160
         # # "Appointment for " + request.POST.get('fname') + " " + request.POST.get(
         #     'lname') + " on " + request.POST.get('start_date'),
         # "Hi " + request.POST.get('fname') + ". This is to confirm that your appointment is set for " +
@@ -152,8 +142,6 @@ def delete_appointment(request, id):
         # appointments = Appointment.objects.all()
         appointments = Appointment.objects.filter(
             staff_id=userID)
-<<<<<<< HEAD
-=======
         message = Mail(
             from_email='mobeenraza39@gmail.com',
             to_emails=student.email,
@@ -169,7 +157,6 @@ def delete_appointment(request, id):
             print(response.headers)
         except Exception as e:
             print(e)
->>>>>>> bf30e8e3b50af97991f5dca6e13811ce6483f160
         return redirect('/appointments/')
         # return render(request, 'appointments/appointments.html', {'appointments': appointments})
 
@@ -178,12 +165,6 @@ def edit_appointment(request, id):
     username = request.user.username
     user = StaffAccount.objects.get(email=username)
     userID = user.auth_id.id + 1
-<<<<<<< HEAD
-    userlogin = StaffAuth.objects.get(username=username)
-    if request.method == 'POST':
-        appointment = Appointment.objects.get(id=id)
-        if request.POST.get('fname'):
-=======
     print(userID)
     userlogin = StaffAuth.objects.get(username=username)
     if request.method == 'POST':
@@ -192,33 +173,23 @@ def edit_appointment(request, id):
         if request.POST.get('fname'):
             reason = "Your first name for the appointment was updated to " + \
                 request.POST.get('fname')
->>>>>>> bf30e8e3b50af97991f5dca6e13811ce6483f160
             StudentAccount.objects.filter(id=appointment.student_id.id).update(
                 fname=request.POST.get('fname')
             )
         if request.POST.get('lname'):
-<<<<<<< HEAD
-=======
             reason = "Your last name for the appointment was updated to " + \
                 request.POST.get('lname')
->>>>>>> bf30e8e3b50af97991f5dca6e13811ce6483f160
             StudentAccount.objects.filter(id=appointment.student_id.id).update(
                 lname=request.POST.get('lname')
             )
         if request.POST.get('studentnumber'):
-<<<<<<< HEAD
-=======
             reason = "Your student number for the appointment was updated to " + \
                 request.POST.get('studentnumber')
->>>>>>> bf30e8e3b50af97991f5dca6e13811ce6483f160
             StudentAccount.objects.filter(id=appointment.student_id.id).update(
                 student_number=request.POST.get('studentnumber')
             )
         if request.POST.get('email'):
-<<<<<<< HEAD
-=======
             reason = "Your email was updated to " + request.POST.get('email')
->>>>>>> bf30e8e3b50af97991f5dca6e13811ce6483f160
             StudentAccount.objects.filter(id=appointment.student_id.id).update(
                 email=request.POST.get('email')
             )
@@ -249,8 +220,6 @@ def edit_appointment(request, id):
         # appointments = Appointment.objects.all()
         appointments = Appointment.objects.filter(
             staff_id=userID)
-<<<<<<< HEAD
-=======
         message = Mail(
             from_email='mobeenraza39@gmail.com',
             to_emails=str(appointment.student_id.email),
@@ -265,7 +234,6 @@ def edit_appointment(request, id):
             print(response.headers)
         except Exception as e:
             print(e)
->>>>>>> bf30e8e3b50af97991f5dca6e13811ce6483f160
         return redirect('/appointments/')
 
 
