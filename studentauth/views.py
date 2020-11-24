@@ -34,7 +34,7 @@ class StudentAuthView(viewsets.ModelViewSet):
         studentauths = StudentAuth.objects.last().values()
         # last().values()
         # return render(request, 'studentauths/studentauths.html', {'studentauths': studentauths})
-        return JsonResponse({'studentauths': list(studentauths)})
+        return JsonResponse({'studentauths': list(studentauth)})
 
     # def destroy(self, request, pk):
     #     studentauth = StudentAuth.objects.get(id=pk)
