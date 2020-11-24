@@ -31,7 +31,7 @@ class StudentAuthView(viewsets.ModelViewSet):
             password=request.POST.get('password')
         )
         serializer = StudentAuthSerializer(studentauth)
-        studentauths = StudentAuth.objects.all().values()
+        studentauths = StudentAuth.objects.last().values()
         # last().values()
         # return render(request, 'studentauths/studentauths.html', {'studentauths': studentauths})
         return JsonResponse({'studentauths': list(studentauths)})

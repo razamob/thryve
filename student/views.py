@@ -89,7 +89,7 @@ def index(request):
     #     # context = {
     #     #     'appointments': appointments
     studentaccounts = StudentAccount.objects.all()
-    return render(request, 'studentaccounts/studentaccounts.html', {'studentaccounts': studentaccounts})
+    return JsonResponse(request, 'studentaccounts/studentaccounts.html', {'studentaccounts': studentaccounts})
 
 
 def delete_studentaccount(request, id):
@@ -97,8 +97,8 @@ def delete_studentaccount(request, id):
         print(request.POST, id)
         studentaccount = StudentAccount.objects.get(id=id)
         studentaccount.delete()
-        studentaccounts = StudentAccount.objects.all()
-        return render(request, 'studentaccounts/studentaccounts.html', {'studentaccounts': studentaccounts})
+        studentaccounts = StudentAccount.objects.all().values()
+        return JsonResponse(request, 'studentaccounts/studentaccounts.html', {'studentaccounts': studentaccounts})
 
 
 def edit_studentaccount(request, id):

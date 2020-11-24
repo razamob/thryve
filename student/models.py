@@ -20,12 +20,12 @@ class StudentAccount(models.Model):
     email = models.CharField(null=True, max_length=100)
     student_number = models.CharField(null=True, max_length=15)
     phone_number = models.CharField(null=True, max_length=10)
-    program_year = models.IntegerField(default=1)
-    als = models.BooleanField(default=False)
-    coop = models.BooleanField(default=False)
-    international = models.BooleanField(default=False)
-    program_id = models.ForeignKey(SchoolProgram, on_delete=models.CASCADE, default=1)
-    auth_id = models.ForeignKey(StudentAuth, on_delete=models.CASCADE, default=1)
+    program_year = models.CharField(null=True, max_length=2)
+    als = models.BooleanField(null=True)
+    coop = models.BooleanField(null=True)
+    international = models.BooleanField(null=True)
+    program_id = models.ForeignKey(SchoolProgram, on_delete=models.CASCADE, null=True)
+    auth_id = models.ForeignKey(StudentAuth, on_delete=models.CASCADE, null=True)
 
     #define a default Manager for StudentAccount
     objects = StudentAccountManager()
