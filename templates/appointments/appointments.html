@@ -122,8 +122,9 @@
         </nav>
         <!-- End Navbar -->
         <div class="content">
+            {% include 'partials/_alerts.html' %}
             <div class="container-fluid">
-                <div id='calendar'></div>
+                <div style="margin-top:3rem;" id='calendar'></div>
             </div>
             <div class="modal fade" id="modalContactForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                 aria-hidden="true">
