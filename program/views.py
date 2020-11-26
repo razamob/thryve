@@ -40,13 +40,12 @@ class SchoolProgramAPI(viewsets.ModelViewSet):
 
 
 def index(request):
-    sschoolprograms = SchoolProgram.objects.all()
+    schoolprograms = SchoolProgram.objects.all()
     return JsonResponse(request, 'schoolprograms/schoolprograms.html', {'schoolprograms': schoolprograms})
 
 def find_schoolprogram(request, id):
-    sschoolprogram = SchoolProgram.objects.filter(id=id).values()
+    schoolprogram = SchoolProgram.objects.filter(id=id).values()
     return JsonResponse({"schoolprogram": list(schoolprogram)})
-
 
 def schoolprogram(request):
     return render(request, 'schoolprograms/schoolprograms.html')
