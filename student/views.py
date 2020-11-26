@@ -48,7 +48,7 @@ class StudentAccountView(viewsets.ModelViewSet):
             phone_number=request.POST.get('phone number')
         )
         serializer = StudentAccountSerializer(studentaccount)
-        studentaccounts = StudentAccount.objects.all().values()
+        studentaccounts = StudentAccount.objects.filter(id=studentaccount.id).values()
         return JsonResponse({"studentaccounts": list(studentaccounts)})
 
     # def destroy(self, request, pk):
