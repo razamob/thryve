@@ -164,12 +164,8 @@ def delete_appointment(request, id):
 def edit_appointment(request, id):
     username = request.user.username
     user = StaffAccount.objects.get(email=username)
-<<<<<<< HEAD
-    userID = user.auth_id.id
-=======
     userID = user.auth_id.id + 1
     print(userID)
->>>>>>> fdf915b9ed41669098495309d5169cb5c623ce1c
     userlogin = StaffAuth.objects.get(username=username)
     if request.method == 'POST':
         reason = ""
@@ -190,12 +186,8 @@ def edit_appointment(request, id):
             reason = "Your student number for the appointment was updated to " + \
                 request.POST.get('studentnumber')
             StudentAccount.objects.filter(id=appointment.student_id.id).update(
-<<<<<<< HEAD
-                student_number=request.POST.get('studentnumber'))
-=======
                 student_number=request.POST.get('studentnumber')
             )
->>>>>>> fdf915b9ed41669098495309d5169cb5c623ce1c
         if request.POST.get('email'):
             reason = "Your email was updated to " + request.POST.get('email')
             StudentAccount.objects.filter(id=appointment.student_id.id).update(
@@ -208,31 +200,12 @@ def edit_appointment(request, id):
                 title=request.POST.get('title')
             )
         if request.POST.get('start_date'):
-<<<<<<< HEAD
-            start_date = parser.parse(
-                request.POST.get('start_date')).timestamp()
-            for each in Appointment.objects.all():
-                if start_date >= each.start_date.timestamp() and start_date <= each.end_date.timestamp():
-                    messages.error(
-                        request, 'Appointment for this date is already booked.')
-                    return redirect('/appointments/')
-=======
->>>>>>> fdf915b9ed41669098495309d5169cb5c623ce1c
             reason = "Your appointment start time was updated to " + \
                 request.POST.get('start_date')
             Appointment.objects.filter(id=id).update(
                 start_date=request.POST.get('start_date')
             )
         if request.POST.get('end_date'):
-<<<<<<< HEAD
-            end_date = parser.parse(request.POST.get('end_date')).timestamp()
-            for each in Appointment.objects.all():
-                if end_date >= each.start_date.timestamp() and end_date <= each.end_date.timestamp():
-                    messages.error(
-                        request, 'Appointment for this date is already booked.')
-                    return redirect('/appointments/')
-=======
->>>>>>> fdf915b9ed41669098495309d5169cb5c623ce1c
             reason = "Your appointment ending time was updated to " + \
                 request.POST.get('end_date')
             Appointment.objects.filter(id=id).update(

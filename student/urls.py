@@ -12,6 +12,8 @@ urlpatterns = [
     path('get-studentaccount',
          StudentAccountView.as_view({'get': 'list', 'post': 'create'}), name="get-studentaccount"),
     # path(r'', include(router.urls)),
+    path('find-studentaccount/<int:id>',
+         views.find_studentaccount, name="find-studentaccount"),
     path('delete-studentaccount/<int:id>',
          views.delete_studentaccount, name="delete-studentaccount"),
     path('edit-studentaccount/<int:id>/',

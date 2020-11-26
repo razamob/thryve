@@ -32,25 +32,6 @@ class StudentAccountView(viewsets.ModelViewSet):
         #     student.title for student in Student.objects.all()]
         return JsonResponse({"studentaccounts": list(queryset)})
 
-    # def create(self, request):
-    #    print(request.POST)
-    #    studentaccount = StudentAccount.objects.create(
-    #        fname=request.POST.get('fname'),
-    #        lname=request.POST.get('lname'),
-    #        email=request.POST.get('email'),
-    #        student_number=request.POST.get('student_number'),
-    #        program_year=request.POST.get('program_year'),
-    #        als=request.POST.get('als'),
-    #        coop=request.POST.get('coop'),
-    #        international=request.POST.get('international'),
-    #        program_id=request.POST.get('program_id_id'),
-    #        auth_id=request.POST.get('auth_id_id'),
-    #        phone_number=request.POST.get('phone_number')
-    #    )
-    #    serializer = StudentAccountSerializer(studentaccount)
-    #    studentaccounts = StudentAccount.objects.last().values()
-    #    return JsonResponse(studentaccounts)
-
     def create(self, request):
         print(request.POST)
         studentaccount = StudentAccount.objects.create(
@@ -91,6 +72,9 @@ def index(request):
     studentaccounts = StudentAccount.objects.all()
     return JsonResponse(request, 'studentaccounts/studentaccounts.html', {'studentaccounts': studentaccounts})
 
+def find_studentaccount(request, id):
+    studentaccount = StudentAccount.objects.filter(id=id).values()
+    return JsonResponse({"studentaccount": list(studentaccount)})
 
 def delete_studentaccount(request, id):
     if request.method == 'POST':
