@@ -34,6 +34,12 @@ class StudentAccountView(viewsets.ModelViewSet):
 
     def create(self, request):
         print(request.POST)
+        id_prog = request.POST.get('program_id')
+        new_prog = SchoolProgram.objects.get(id=id_prog)
+
+        id_auth = request.POST.get('auth_id')
+        new_auth = StudentAuth.objects.get(id=id_auth)
+
         studentaccount = StudentAccount.objects.create(
             fname=request.POST.get('fname'),
             lname=request.POST.get('lname'),
@@ -43,8 +49,8 @@ class StudentAccountView(viewsets.ModelViewSet):
             als=request.POST.get('als'),
             coop=request.POST.get('coop'),
             international=request.POST.get('international'),
-            program_id=request.POST.get('program_id_id'),
-            auth_id=request.POST.get('auth_id_id'),
+            program_id=new_prog,
+            auth_id=new_auth,
             phone_number=request.POST.get('phone number')
         )
         serializer = StudentAccountSerializer(studentaccount)
@@ -71,6 +77,29 @@ def index(request):
     #     #     'appointments': appointments
     studentaccounts = StudentAccount.objects.all()
     return JsonResponse(request, 'studentaccounts/studentaccounts.html', {'studentaccounts': studentaccounts})
+
+def insert_studentaccount(request, auth, prog):
+    new_auth = StudentAuth.objects.get(id=auth)
+    new_prog = SchoolProgram.objects.get(id=prog)
+
+    studentaccount = StudentAccount.objects.create(
+        fname=request.POST.get('fname'),
+        lname=request.POST.get('lname'),
+        email=request.POST.get('email'),
+        student_number=request.POST.get('student_number'),
+        program_year=request.POST.get('program_year'),
+        als=request.POST.get('als'),
+        coop=request.POST.get('coop'),
+        international=request.POST.get('international'),
+        program_id=new_prog,
+        auth_id=new_auth,
+        phone_number=request.POST.get('phone number')
+    )
+    serializer = StudentAccountSerializer(studentaccount)
+    studentaccounts = StudentAccount.objects.filter(id=studentaccount.id).values()
+    return JsonResponse({"studentaccounts": list(studentaccounts)})
+
+
 
 def find_studentaccount(request, id):
     studentaccount = StudentAccount.objects.filter(id=id).values()
