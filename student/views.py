@@ -12,6 +12,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 import json
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 
@@ -78,6 +79,7 @@ def index(request):
     studentaccounts = StudentAccount.objects.all()
     return JsonResponse(request, 'studentaccounts/studentaccounts.html', {'studentaccounts': studentaccounts})
 
+@csrf_exempt
 def insert_studentaccount(request, auth, prog):
     new_auth = StudentAuth.objects.get(id=auth)
     new_prog = SchoolProgram.objects.get(id=prog)
