@@ -19,11 +19,7 @@ class Appointment(models.Model):
     attachment2 = models.CharField(max_length=300, null=True)
     attachment3 = models.CharField(max_length=300, null=True)
     status = models.CharField(max_length=20, null=True)
-<<<<<<< HEAD
     delete_appointment_row = models.BooleanField(default=False, null=True, blank=True)
-=======
-    delete_appointment_row = models.BooleanField(default=False, null=True)
->>>>>>> 743615f7a0bdb9393f8e85f4f733e30edbb12569
     student_id = models.ForeignKey(StudentAccount, on_delete=models.CASCADE, null=True)
     staff_id = models.ForeignKey(StaffAccount, on_delete=models.CASCADE, null=True)
     cc_form = models.ForeignKey(CareerCounselorForm, on_delete=models.CASCADE, null=True)
@@ -34,7 +30,6 @@ class Appointment(models.Model):
     # a natural key depends occur in the serialized data before the natural key requires them.
     # To control this ordering, you can define dependencies on your natural_key() methods.
     # You do this by setting a dependencies attribute on the natural_key() method itself.
-<<<<<<< HEAD
     def natural_key(self):
         #This return is what determines the datatype(ex, tuple, list, dictionary) that the objects foreighkey holds at currently "student_id"
         #As it is right now it's dictionary by default, you can add a anoth dictionary to a dictionary so that is what we did here, commas can change outcomes
@@ -44,23 +39,6 @@ class Appointment(models.Model):
     #THIS MIGHT AFFECT THE OTHER SERIALIZATIONS THAT MY TEAM MEMBERS DID BTW SOO CHECK WITH EM
     natural_key.dependencies = ['student.studentAccount', 'careerform.careerCounselorForm']
     #natural_key.dependencies = ['careerform.careerCounselorForm']
-=======
-
-    # def natural_key(self):
-
-# This return is what determines the datatype(ex, tuple, list, dictionary) that the objects foreighkey holds at currently "student_id"
-# As it is right now it's dictionary by default, you can add a anoth dictionary to a dictionary so that is what we did here, commas can change outcomes
-# return (self.title, self.start_date, self.end_date, self.submission_date, self.approval_date, self.description, self.student_notes, self.staff_notes, self.attachment1, self.attachment2, self.attachment3, self.status, self.staff_id, self.cc_form, self.ec_form) + self.student_id.natural_key()
-# This definition ensures that all StudentAccount objects are serialized before any Appointment objects. In turn,
-# This return is what determines the datatype(ex, tuple, list, dictionary) that the objects foreighkey holds at currently "student_id"
-# As it is right now it's dictionary by default, you can add a anoth dictionary to a dictionary so that is what we did here, commas can change outcomes
-# return (self.title, self.start_date, self.end_date, self.submission_date, self.approval_date, self.description, self.student_notes, self.staff_notes, self.attachment1, self.attachment2, self.attachment3, self.status, self.delete_appointment_row, self.staff_id, self.cc_form, self.ec_form) + self.student_id.natural_key()
-# This definition ensures that all StudentAccount objects are serialized before any Appointment objects. In turn,
-# any object referencing Appointment will be serialized after both StudentAccount and Appointment have been serialized.
-# THIS MIGHT AFFECT THE OTHER SERIALIZATIONS THAT MY TEAM MEMBERS DID BTW SOO CHECK WITH EM
-# natural_key.dependencies = ['student.studentAccount']
-
->>>>>>> 743615f7a0bdb9393f8e85f4f733e30edbb12569
 
 def __str__(self):
     return self.title
