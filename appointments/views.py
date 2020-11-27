@@ -15,6 +15,9 @@ import json
 from django.http import JsonResponse
 from django.core.mail import send_mail
 from django.conf import settings
+import os
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 
 
 class AppointmentView(viewsets.ModelViewSet):
@@ -30,15 +33,23 @@ class AppointmentView(viewsets.ModelViewSet):
         return JsonResponse({"appointments": list(queryset)})
 
     def create(self, request):
+        # send_mail(
+        #     'Hello Mobeen',
+        #     'MOBEEN RAZA HELLO APPOINTMENT',
+        #     'mobeenraza39@gmail.com',
+        #     ['mobeenraza39@gmail.com'],
+        #     fail_silently=False
+        # )
         print(request.POST)
         username = request.user.username
         user = StaffAccount.objects.get(email=username)
-        userID = user.auth_id.id + 1
+        userID = user.auth_id.id 
         userlogin = StaffAuth.objects.get(username=username)
+        email = request.POST.get('email')
         student = StudentAccount.objects.create(
             fname=request.POST.get('fname'),
             lname=request.POST.get('lname'),
-            email=request.POST.get('email'),
+            email=email,
             student_number=request.POST.get('studentid')
         )
         appointment = Appointment.objects.create(
@@ -56,13 +67,21 @@ class AppointmentView(viewsets.ModelViewSet):
         students = StudentAccount.objects.filter(
             id=appointment.student_id.id)
 
-        send_mail(
-            'Hello Mobeen',
-            'MOBEEN RAZA HELLO APPOINTMENT',
-            'mobeenraza39@gmail.com',
-            ['mobeenraza39@gmail.com'],
-            fail_silently=False
-        )
+        message = Mail(
+            from_email='mobeenraza39@gmail.com',
+            to_emails=email,
+            subject='Your appointment is booked for ' +
+            request.POST.get('start_date'),
+            html_content=request.POST.get('description'))
+        try:
+            sg = SendGridAPIClient(
+                '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')
+            response = sg.send(message)
+            print(response.status_code)
+            print(response.body)
+            print(response.headers)
+        except Exception as e:
+            print(e)
         # # "Appointment for " + request.POST.get('fname') + " " + request.POST.get(
         #     'lname') + " on " + request.POST.get('start_date'),
         # "Hi " + request.POST.get('fname') + ". This is to confirm that your appointment is set for " +
@@ -123,6 +142,21 @@ def delete_appointment(request, id):
         # appointments = Appointment.objects.all()
         appointments = Appointment.objects.filter(
             staff_id=userID)
+        message = Mail(
+            from_email='mobeenraza39@gmail.com',
+            to_emails=student.email,
+            subject='Your appointment for ' +
+            str(appointment.start_date) + " is cancelled.",
+            html_content="This is your confirmation email for the cancellation of your appointment.")
+        try:
+            sg = SendGridAPIClient(
+                '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')
+            response = sg.send(message)
+            print(response.status_code)
+            print(response.body)
+            print(response.headers)
+        except Exception as e:
+            print(e)
         return redirect('/appointments/')
         # return render(request, 'appointments/appointments.html', {'appointments': appointments})
 
@@ -131,44 +165,75 @@ def edit_appointment(request, id):
     username = request.user.username
     user = StaffAccount.objects.get(email=username)
     userID = user.auth_id.id + 1
+    print(userID)
     userlogin = StaffAuth.objects.get(username=username)
     if request.method == 'POST':
+        reason = ""
         appointment = Appointment.objects.get(id=id)
         if request.POST.get('fname'):
+            reason = "Your first name for the appointment was updated to " + \
+                request.POST.get('fname')
             StudentAccount.objects.filter(id=appointment.student_id.id).update(
                 fname=request.POST.get('fname')
             )
         if request.POST.get('lname'):
+            reason = "Your last name for the appointment was updated to " + \
+                request.POST.get('lname')
             StudentAccount.objects.filter(id=appointment.student_id.id).update(
                 lname=request.POST.get('lname')
             )
         if request.POST.get('studentnumber'):
+            reason = "Your student number for the appointment was updated to " + \
+                request.POST.get('studentnumber')
             StudentAccount.objects.filter(id=appointment.student_id.id).update(
                 student_number=request.POST.get('studentnumber')
             )
         if request.POST.get('email'):
+            reason = "Your email was updated to " + request.POST.get('email')
             StudentAccount.objects.filter(id=appointment.student_id.id).update(
                 email=request.POST.get('email')
             )
         if request.POST.get('title'):
+            reason = "Your appointment reason was updated to " + \
+                request.POST.get('title')
             Appointment.objects.filter(id=id).update(
                 title=request.POST.get('title')
             )
         if request.POST.get('start_date'):
+            reason = "Your appointment start time was updated to " + \
+                request.POST.get('start_date')
             Appointment.objects.filter(id=id).update(
                 start_date=request.POST.get('start_date')
             )
         if request.POST.get('end_date'):
+            reason = "Your appointment ending time was updated to " + \
+                request.POST.get('end_date')
             Appointment.objects.filter(id=id).update(
                 end_date=request.POST.get('end_date')
             )
         if request.POST.get('description'):
+            reason = "The notes for your appointment were updated to " + \
+                request.POST.get('description')
             Appointment.objects.filter(id=id).update(
                 description=request.POST.get('description')
             )
         # appointments = Appointment.objects.all()
         appointments = Appointment.objects.filter(
             staff_id=userID)
+        message = Mail(
+            from_email='mobeenraza39@gmail.com',
+            to_emails=str(appointment.student_id.email),
+            subject=reason,
+            html_content="This is your confirmation email for updating of your appointment.")
+        try:
+            sg = SendGridAPIClient(
+                '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')
+            response = sg.send(message)
+            print(response.status_code)
+            print(response.body)
+            print(response.headers)
+        except Exception as e:
+            print(e)
         return redirect('/appointments/')
 
 

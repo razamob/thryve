@@ -1,5 +1,6 @@
 from django.apps import AppConfig
 
 
-class ProgramConfig(AppConfig):
+class SchoolprogramConfig(AppConfig):
     name = 'program'
+
