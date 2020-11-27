@@ -175,6 +175,7 @@ function exportToExcel(tableID, filename = ''){
           </th>
           <th class="th-sm">My Comment On The Appointment
           </th>
+          <th class="th-sm"> Form</th>
         </tr>
       </thead>
       <tbody>
@@ -192,9 +193,15 @@ function exportToExcel(tableID, filename = ''){
             <td>{{ instance.3 }}</td>
             <td>{{ instance.4 }}</td>
             <td>{{ instance.5 }}</td>
-            <td>{{ instance.6 }}</td>
+            {% if instance.6 == None %}
+              <td></td>
+            {% else %}
+              <td>{{ instance.6 }}</td>
+                  
+            {% endif %}
 
-            
+            <td data-row-id="{{ instance.7 }}"><button type="button" onclick="scrolltoformnow(this)">Go To Form</button></td>
+              
             <!--if its not a object query you cant iterate like this, rn its a list
             <td>{{ instance.title }}</td>
             <td>{{ instance.start_date }}</td>
@@ -212,19 +219,24 @@ function exportToExcel(tableID, filename = ''){
         <tr>
           <th>Name
           </th>
-          <th>Future Position Goal
+          <th>Student Number
           </th>
-          <th>Location
+          <th>Their Reason For The Appointment
           </th>
-          <th>Age
+          <th>Appointment Starting Date & Time
           </th>
-          <th>Date Of Appointment
+          <th>Appointment Ending Date & Time
           </th>
-          <th>Desired Salary Of Almni/Student
+          <th>My Comment On The Appointment
           </th>
+          <th>Form</th>
         </tr>
       </tfoot>
     </table>
+      </div>
+
+      <div id="formwillshow" style="background-color:rgb(158, 193, 202);max-width:auto;">
+        <!--<p style="color:rgb(218, 82, 4);">I am in the div</p>-->
       </div>
       
       <div style="margin-left: 20%; margin-top:5%;">
@@ -713,7 +725,398 @@ document.addEventListener("DOMContentLoaded", function(event) {
     });
     </script> 
     
-    
+    <script>
+      function scrolltoformnow(btnElement) {
+        tdElementNode = btnElement.parentNode;
+        var formpk = $(tdElementNode).data('row-id');
+
+
+        $.ajax({
+          type: "get",
+          url: "{% url 'load_form_of_current_staff_on_filter_page' %}",
+          dataType: "json",
+          data: { actionToTake: JSON.stringify(formpk) },
+          //headers: {'X-CSRFToken': csrftoken},
+          success: function(response) {
+            //alert(response)
+            //alert(response.allforminfo)
+
+            var theOutput = JSON.parse(response.allforminfo);   //this shows "[object][object]"
+            
+            /*
+            var length_of_table_childrenNoCommentTable = $('#formwillshow').children().length;
+          //var list_of_childrenNoCommentTable = $('#formwillshow').children()[length_of_table_childrenNoCommentTable - 1];
+          //If you put a '#' inside document.getElementById(''), u won't get error but the element wont behave well 
+          //const my_table_nodeNoCommentTable = document.getElementById('#nocommenttable');
+          //const my_table_nodeNoCommentTable = document.getElementById('#formwillshow');
+
+          //var my_tbody_table_nodeNoCommentTable = document.getElementById('#formwillshow').lastChild;
+
+          
+          //check if there is an element in the div at all
+          //alert("going into if statement");
+          //alert(length_of_table_childrenNoCommentTable);
+          if (length_of_table_childrenNoCommentTable > 0) {
+           //length_of_table_children = length_of_table_children - 1;
+           //my_table_node.removeChild(my_table_node.lastChild);
+           //find total tr that exist
+           // DONT ADD THE '#' IN formwillshow
+           var justthetable = document.getElementById('formwillshow').lastChild;
+           //THIS IS NOT A FUNCTION IT SEEMS lastChild.children(); BUT lastChild.children; IS
+           var tablechildren = $('#formwillshow').children()[0].children;//lastChild.children;
+           //It seems that .children().length is not a function but .children.length is
+           var alltrlength = $(document.getElementById('formwillshow').lastChild).children().length;
+           //alert("going into while loop");
+           //alert(alltrlength);
+            while (alltrlength > 0){
+              $('#formwillshow').remove($(document.getElementById('formwillshow').lastChild));
+              
+              //tr list
+              //alert("this should be td"); //this is considered the last
+              //alert(tablechildren[alltrlength - 1].innerHTML);
+              //var shouldbetd = tablechildren[alltrlength - 1].lastChild;
+              //innerHTML IS BETTER THAN inner text for error seeing
+              /*
+              alert(tablechildren[alltrlength - 1].parentNode.innerHTML)//portfolio
+              alert(tablechildren[alltrlength - 1].parentNode.children.length)
+              alert(tablechildren[alltrlength - 1].parentNode.parentNode.innerHTML)//says all the lavel values
+              alert(tablechildren[alltrlength - 1].parentNode.parentNode.children.length)
+              alert(tablechildren[alltrlength - 1].parentNode.parentNode.parentNode.innerHTML)
+              alert(tablechildren[alltrlength - 1].parentNode.parentNode.parentNode.children.length)
+              
+              //alert(shouldbetd.innerHTML);
+              //shouldbetd.removeChild(shouldbetd.lastChild);
+              //alert(shouldbetd.parentNode.innerHTML);
+
+              
+
+              //tablechildren[alltrlength - 1].removeChild(tablechildren[alltrlength - 1].lastChild);
+              //delete the top part of the td section
+              //tablechildren[alltrlength - 1].lastChild.removeChild(tablechildren[alltrlength - 1].lastChild.lastChild);
+              //tablechildren[alltrlength - 1].removeChild(tablechildren[alltrlength - 1].lastChild);
+
+              //justthetable.removeChild($(tablechildren[alltrlength - 1]));
+
+              //alltrlength = alltrlength -1;
+            }
+            //alert("out of while loop");
+            //justthetable.parentNode.removeChild(document.getElementById('formwillshow').lastChild);
+            //length_of_table_childrenNoCommentTable = length_of_table_childrenNoCommentTable - 1;
+          }
+
+          */
+
+            
+          var length_of_table_childrenNoCommentTable = $('#formwillshow').children().length;
+          /*
+          alert(length_of_table_childrenNoCommentTable);
+          */
+         
+          if (length_of_table_childrenNoCommentTable > 0) {
+            var length_of_table_childrenNoCommentTable = $('#formwillshow').children().length;
+            //1=out of these children i want to go to this position. 1= were at table now
+            var list_of_childrenNoCommentTable = $('#formwillshow').children()[length_of_table_childrenNoCommentTable - 1];
+            //If you put a '#' inside document.getElementById(''), u won't get error but the element wont behave well 
+            // const my_table_nodeNoCommentTable = document.getElementById('#nocommenttable');
+            const my_table_nodeNoCommentTable = document.getElementById('formwillshow');
+            //2=this is table
+            var my_tbody_table_nodeNoCommentTable = my_table_nodeNoCommentTable.lastChild;
+            //i must add $() for children() to be recognized as a function. 2=find the children length of whats in here now. all tr length total
+            var inside_element_lengthNoCommentTable = $(list_of_childrenNoCommentTable).children().length;
+            /*
+            alert("going into while loop");
+            alert(inside_element_lengthNoCommentTable);//3
+            */
+            while (inside_element_lengthNoCommentTable > 0) {
+           
+            //this deletes the last tr
+              /*
+              alert(my_tbody_table_nodeNoCommentTable.innerHTML);
+              alert("left side of the equation of the next actual computation");
+              alert($(my_tbody_table_nodeNoCommentTable.lastChild).children()[1].innerHTML);
+              alert("right side of the equation of the next actual computation");//works but i don't know y its empty,should have value    ****[its the last td's, input]
+              alert($(my_tbody_table_nodeNoCommentTable.lastChild).children()[1].lastChild.innerText);
+              */
+
+              //this works
+              //alert(my_tbody_table_nodeNoCommentTable.lastChild.innerHTML);
+              //this doesn't work
+              //alert(my_tbody_table_nodeNoCommentTable.lastChild.lastChild.innerHTML);
+              //this is a replacement sollution that works.     ******[its the last tr]
+              
+              //THIS DOESN'T WORK AT ALL
+              //my_tbody_table_nodeNoCommentTable.lastChild.lastChild.removeChild(my_tbody_table_nodeNoCommentTable.lastChild.lastChild.lastChild);
+              /*
+              //[remove inside the last td]
+              $(my_tbody_table_nodeNoCommentTable.lastChild).children()[1].lastChild.removeChild($(my_tbody_table_nodeNoCommentTable.lastChild).children()[1].lastChild.children()[0]); 
+              alert("should only remove the input");
+              alert($(my_tbody_table_nodeNoCommentTable.lastChild).children()[1].lastChild.innerText)
+              //[remove inside the first td]
+              $(my_tbody_table_nodeNoCommentTable.lastChild).children()[0].lastChild.removeChild($(my_tbody_table_nodeNoCommentTable.lastChild).children()[0].lastChild.children()[0]); 
+              alert("should only remove the label");
+              */
+
+
+              //*****[remove the last td's, input]
+              $(my_tbody_table_nodeNoCommentTable.lastChild).children()[1].removeChild($(my_tbody_table_nodeNoCommentTable.lastChild).children()[1].lastChild);
+              /*
+              alert("should only have the bottom td be empty")
+              alert(my_tbody_table_nodeNoCommentTable.lastChild.innerHTML);
+              */
+
+              //*****[remove the first td's, label]
+              $(my_tbody_table_nodeNoCommentTable.lastChild).children()[0].removeChild($(my_tbody_table_nodeNoCommentTable.lastChild).children()[0].lastChild);
+              /*
+              alert("should only have 2 empty td");
+              alert(my_tbody_table_nodeNoCommentTable.lastChild.innerHTML);
+              alert("after the first: see all from outside perspective");
+              alert(my_tbody_table_nodeNoCommentTable.innerHTML);
+              */
+
+              //remove last td. THIS DOES NOTHING FOR SOME REASON!!
+              // my_tbody_table_nodeNoCommentTable.lastChild.removeChild(my_tbody_table_nodeNoCommentTable.lastChild.lastChild);
+              // this is it's replacement code
+              my_tbody_table_nodeNoCommentTable.lastChild.removeChild($(my_tbody_table_nodeNoCommentTable.lastChild).children()[1]);
+              /*
+              alert("the last td should be removed");
+              alert(my_tbody_table_nodeNoCommentTable.lastChild.innerHTML);
+              alert("after the second: see all from outside perspective");
+              alert(my_tbody_table_nodeNoCommentTable.innerHTML);
+              */
+
+              //remove first td. THIS DOES NOTHING FOR SOME REASON!!
+              // my_tbody_table_nodeNoCommentTable.lastChild.removeChild(my_tbody_table_nodeNoCommentTable.lastChild.lastChild);
+              //this is it's replacement code
+              my_tbody_table_nodeNoCommentTable.lastChild.removeChild($(my_tbody_table_nodeNoCommentTable.lastChild).children()[0]);
+              /*
+              alert("both last td should be gone leaving a empty tr behind");
+              alert("after the third: see all from outside perspective");
+              alert(my_tbody_table_nodeNoCommentTable.innerHTML);
+              */
+
+              //remove the last tr
+              my_tbody_table_nodeNoCommentTable.removeChild(my_tbody_table_nodeNoCommentTable.lastChild);
+              /*
+              alert("the last tr should now be gone");
+              alert(my_tbody_table_nodeNoCommentTable.innerHTML);
+              */
+              inside_element_lengthNoCommentTable = inside_element_lengthNoCommentTable - 1;
+            }
+            /*
+            alert("outside while loop");
+            alert("should only have a emptytable");
+            alert(my_table_nodeNoCommentTable.innerHTML);
+            */
+            my_table_nodeNoCommentTable.removeChild(my_tbody_table_nodeNoCommentTable);
+            /*
+            alert(my_table_nodeNoCommentTable.innerHTML);
+            */
+          
+
+          }
+
+            
+            for (var i=0; i<theOutput.length; i++) { 
+              var obj = theOutput[i];//this says [object,object]
+              var fields = obj.fields;
+              var valuesdeeperinobject = fields.ec_form;
+              var valuesdeeperinobject2 = fields.cc_form;
+              //alert(fields)
+              var pk = obj.pk;
+              //alert(response.idfromappointmentfdpage)
+              //alert(JSON.parse(response.idfromappointmentfdpage))
+
+              if(response.idfromappointmentfdpage == 6){
+                //alert("user is Lydia Novak since staff id is 6");
+                if (valuesdeeperinobject2 !=null){
+                  var thenewlabel = $('<table align="center" ></table>');
+                  thenewlabel.append('<tr><td><label for="c_sso" size="4">SSO</label></td> <td><input type="text" id="c_sso" value="' + valuesdeeperinobject2.q1c_sso + '" name="c_sso" readonly> </td> </tr>');
+                  thenewlabel.append('<tr> <td><label for="c_friend" size="4">Friend</label></td> <td><input type="text" id="c_friend" value="' + valuesdeeperinobject2.q1c_friend + '" name="c_friend" readonly></td> </tr>');
+                  thenewlabel.append('<tr> <td><label for="c_faculty" size="4">Faculty</label></td> <td><input type="text" id="c_faculty" value="' + valuesdeeperinobject2.q1c_faculty + '" name="c_faculty" readonly></td> </tr>');
+                  thenewlabel.append('<tr> <td><label for="c_visit" size="4">Visit</label></td> <td><input type="text" id="c_visit" value="' + valuesdeeperinobject2.q1c_visit + '" name="c_visit" readonly></td> </tr>');
+                  thenewlabel.append('<tr> <td><label for="c_orient" size="4">Orient</label></td> <td><input type="text" id="c_orient" value="' + valuesdeeperinobject2.q1c_orient + '" name="c_orient" readonly></td> </tr>');
+                  thenewlabel.append('<tr> <td><label for="c_event" size="4">Event</label></td> <td><input type="text" id="c_event" value="' + valuesdeeperinobject2.q1c_event + '" name="c_event" readonly></td> </tr>');
+                  thenewlabel.append('<tr> <td><label for="c_kpi" size="4">Kpi</label></td> <td><input type="text" id="c_kpi" value="' + valuesdeeperinobject2.q1c_kpi + '" name="c_kpi" readonly></td> </tr>');
+                  thenewlabel.append('<tr> <td><label for="c_outreach" size="4">Outreach</label></td> <td><input type="text" id="c_outreach" value="' + valuesdeeperinobject2.q1c_outreach + '" name="c_outreach" readonly></td> </tr>');
+                  thenewlabel.append('<tr> <td><label for="c_posters" size="4">Posters</label></td> <td><input type="text" id="c_posters" value="' + valuesdeeperinobject2.q1c_posters + '" name="c_posters" readonly></td> </tr>');
+                  thenewlabel.append('<tr> <td><label for="c_stv" size="4">Stv</label></td> <td><input type="text" id="c_stv" value="' + valuesdeeperinobject2.q1c_stv + '" name="c_stv" readonly></td> </tr>');
+                  thenewlabel.append('<tr> <td><label for="c_social" size="4">Social</label></td> <td><input type="text" id="c_social" value="' + valuesdeeperinobject2.q1c_social + '" name="c_social" readonly></td> </tr>');
+                  thenewlabel.append('<tr> <td><label for="c_media" size="4">Media</label></td> <td><input type="text" id="c_media" value="' + valuesdeeperinobject2.q1c_media + '" name="c_media" readonly></td> </tr>');
+                  thenewlabel.append('<tr> <td><label for="c_walkby" size="4">Walkby</label></td> <td><input type="text" id="c_walkby" value="' + valuesdeeperinobject2.q1c_walkby + '" name="c_walkby" readonly></td> </tr>');
+                  thenewlabel.append('<tr> <td><label for="c_website" size="4">Website</label></td> <td><input type="text" id="c_website" value="' + valuesdeeperinobject2.q1c_website + '" name="c_website" readonly></td> </tr>');
+                  thenewlabel.append('<tr> <td><label for="s_cplanning" size="4">Cplanning</label></td> <td><input type="text" id="s_cplanning" value="' + valuesdeeperinobject2.ccs_cplanning + '" name="s_cplanning" readonly></td> </tr>');
+                  thenewlabel.append('<tr> <td><label for="s_eplanning" size="4">Eplanning</label></td> <td><input type="text" id="s_eplanning" value="' + valuesdeeperinobject2.ccs_eplanning + '" name="s_eplanning" readonly></td> </tr>');
+                  thenewlabel.append('<tr> <td><label for="s_exploration" size="4">Exploration</label></td> <td><input type="text" id="s_exploration" value="' + valuesdeeperinobject2.ccs_exploration + '" name="s_exploration" readonly></td> </tr>');
+                  thenewlabel.append('<tr> <td><label for="s_labourmarket" size="4">Labourmarket</label></td> <td><input type="text" id="s_labourmarket" value="' + valuesdeeperinobject2.ccs_labourmarket + '" name="s_labourmarket" readonly></td> </tr>');
+                  thenewlabel.append('<tr> <td><label for="s_other" size="4">Other</label></td> <td><input type="text" id="s_other" value="' + valuesdeeperinobject2.ccs_other + '" name="s_other" readonly></td> </tr>');
+                  
+                  $('#formwillshow').append(thenewlabel);
+                }
+              }
+              //make sure the foreign key table feild value isn't null so you can go into it and maybe go into it further if the next foreign key table feild value isn't null
+              if(response.idfromappointmentfdpage == 7){
+                //alert("checking if null now")
+                if (valuesdeeperinobject !=null){
+                  // data-* is for html5. 
+                  // IF YOU PUT THE "" at the end of of > the table won't load. EXAMPLE is directly BELOW by 1 space
+                  //var row = $('<tr data-row-id="' + pk + '" onclick="toEditPageNow(this)>" ');
+                  //alert("in if (fields.ec_form !=null){ }")
+                  
+                  
+
+                  var thenewlabel = $('<table align="center" ></table>');
+                  thenewlabel.append('<tr><td><label for="e_sso" size="4">SSO</label></td> <td><input type="text" id="e_sso" value="' + valuesdeeperinobject.q1e_sso + '" name="e_sso" readonly> </td> </tr>');
+                  thenewlabel.append('<tr> <td><label for="e_friend" size="4">Friend</label></td> <td><input type="text" id="e_friend" value="' + valuesdeeperinobject.q1e_friend + '" name="e_friend" readonly></td> </tr>');
+                  thenewlabel.append('<tr> <td><label for="e_faculty" size="4">Faculty</label></td> <td><input type="text" id="e_faculty" value="' + valuesdeeperinobject.q1e_faculty + '" name="e_faculty" readonly></td> </tr>');
+                  thenewlabel.append('<tr> <td><label for="e_visit" size="4">Visit</label></td> <td><input type="text" id="e_visit" value="' + valuesdeeperinobject.q1e_visit + '" name="e_visit" readonly></td> </tr>');
+                  thenewlabel.append('<tr> <td><label for="e_orient" size="4">Orient</label></td> <td><input type="text" id="e_orient" value="' + valuesdeeperinobject.q1e_orient + '" name="e_orient" readonly></td> </tr>');
+                  thenewlabel.append('<tr> <td><label for="e_event" size="4">Event</label></td> <td><input type="text" id="e_event" value="' + valuesdeeperinobject.q1e_event + '" name="e_event" readonly></td> </tr>');
+                  thenewlabel.append('<tr> <td><label for="e_kpi2" size="4">Kpi2</label></td> <td><input type="text" id="e_kpi2" value="' + valuesdeeperinobject.q1e_kpi2 + '" name="e_kpi2" readonly></td> </tr>');
+                  thenewlabel.append('<tr> <td><label for="e_outreach" size="4">Outreach</label></td> <td><input type="text" id="e_outreach" value="' + valuesdeeperinobject.q1e_outreach + '" name="e_outreach" readonly></td> </tr>');
+                  thenewlabel.append('<tr> <td><label for="e_posters" size="4">Posters</label></td> <td><input type="text" id="e_posters" value="' + valuesdeeperinobject.q1e_posters + '" name="e_posters" readonly></td> </tr>');
+                  thenewlabel.append('<tr> <td><label for="e_stv" size="4">Stv</label></td> <td><input type="text" id="e_stv" value="' + valuesdeeperinobject.q1e_stv + '" name="e_stv" readonly></td> </tr>');
+                  thenewlabel.append('<tr> <td><label for="e_social" size="4">Social</label></td> <td><input type="text" id="e_social" value="' + valuesdeeperinobject.q1e_social + '" name="e_social" readonly></td> </tr>');
+                  thenewlabel.append('<tr> <td><label for="e_media" size="4">Media</label></td> <td><input type="text" id="e_media" value="' + valuesdeeperinobject.q1e_media + '" name="e_media" readonly></td> </tr>');
+                  thenewlabel.append('<tr> <td><label for="e_walkby" size="4">Walkby</label></td> <td><input type="text" id="e_walkby" value="' + valuesdeeperinobject.q1e_walkby + '" name="e_walkby" readonly></td> </tr>');
+                  thenewlabel.append('<tr> <td><label for="e_website" size="4">Website</label></td> <td><input type="text" id="e_website" value="' + valuesdeeperinobject.q1e_website + '" name="e_website" readonly></td> </tr>');
+                  thenewlabel.append('<tr> <td><label for="s_resume" size="4">Resume</label></td> <td><input type="text" id="s_resume" value="' + valuesdeeperinobject.ecs_resume + '" name="s_resume" readonly></td> </tr>');
+                  thenewlabel.append('<tr> <td><label for="s_cover" size="4">Cover</label></td> <td><input type="text" id="s_cover" value="' + valuesdeeperinobject.ecs_cover + '" name="s_cover" readonly></td> </tr>');
+                  thenewlabel.append('<tr> <td><label for="s_interview" size="4">Interview</label></td> <td><input type="text" id="s_interview" value="' + valuesdeeperinobject.ecs_interview + '" name="s_interview" readonly></td> </tr>');
+                  thenewlabel.append('<tr> <td><label for="s_jobsearch" size="4">Jobsearch</label></td> <td><input type="text" id="s_jobsearch" value="' + valuesdeeperinobject.ecs_jobsearch + '" name="s_jobsearch" readonly></td> </tr>');
+                  thenewlabel.append('<tr> <td><label for="s_mockinterview" size="4">Mockinterview</label></td> <td><input type="text" id="s_mockinterview" value="' + valuesdeeperinobject.ecs_mockinterview + '" name="s_mockinterview" readonly></td> </tr>');
+                  thenewlabel.append('<tr> <td><label for="s_networking" size="4">Networking</label></td> <td><input type="text" id="s_networking" value="' + valuesdeeperinobject.ecs_networking + '" name="s_networking" readonly></td> </tr>');
+                  thenewlabel.append('<tr> <td><label for="s_portfolio" size="4">Portfolio</label></td> <td><input type="text" id="s_portfolio" value="' + valuesdeeperinobject.ecs_portfolio + '" name="s_portfolio" readonly></td> </tr>');
+                  
+                  //thenewlabel.append('<tr> <td></td> <td></td> </tr>');
+                  
+
+                  /*
+                  var thelabel = $('<div class="fieldWrapper col-xs-4" style="display: inline-flex;padding-top: 15px;"></div>');
+                  thelabel.append('<label for="e_sso" size="4">SSO</label>');
+                  thelabel.append('<input type="text" id="e_sso" value="' + valuesdeeperinobject.q1e_sso + '" name="e_sso" readonly>');
+
+                  var thelabel2 = $('<div class="fieldWrapper col-xs-4" style="display: inline-flex;padding-top: 15px;"></div>');
+                  thelabel2.append('<label for="e_friend" size="4">Friend</label>');
+                  thelabel2.append('<input type="text" id="e_friend" value="' + valuesdeeperinobject.q1e_friend + '" name="e_friend" readonly>')
+                  
+                  var thelabel3 = $('<div class="fieldWrapper col-xs-4" style="display: inline-flex;padding-top: 15px;"></div>');
+                  thelabel3.append('<label for="e_faculty" size="4">Faculty</label>');
+                  thelabel3.append('<input type="text" id="e_faculty" value="' + valuesdeeperinobject.q1e_faculty + '" name="e_faculty" readonly>');
+
+                  var thelabel4 = $('<div class="fieldWrapper col-xs-4" style="display: inline-flex;padding-top: 15px;"></div>');
+                  thelabel4.append('<label for="e_visit" size="4">Visit</label>');
+                  thelabel4.append('<input type="text" id="e_visit" value="' + valuesdeeperinobject.q1e_visit + '" name="e_visit" readonly>');
+                  
+                  var thelabel5 = $('<div class="fieldWrapper col-xs-4" style="display: inline-flex;padding-top: 15px;"></div>');
+                  thelabel5.append('<label for="e_orient" size="4">Orient</label>');
+                  thelabel5.append('<input type="text" id="e_orient" value="' + valuesdeeperinobject.q1e_orient + '" name="e_orient" readonly>');
+
+                  var thelabel6 = $('<div class="fieldWrapper col-xs-4" style="display: inline-flex;padding-top: 15px;"></div>');
+                  thelabel6.append('<label for="e_event" size="4">Event</label>');
+                  thelabel6.append('<input type="text" id="e_event" value="' + valuesdeeperinobject.q1e_event + '" name="e_event" readonly>');
+
+                  var thelabel7 = $('<div class="fieldWrapper col-xs-4" style="display: inline-flex;padding-top: 15px;"></div>');
+                  thelabel7.append('<label for="e_kpi2" size="4">Kpi2</label>');
+                  thelabel7.append('<input type="text" id="e_kpi2" value="' + valuesdeeperinobject.q1e_kpi2 + '" name="e_kpi2" readonly>');
+
+                  var thelabel8 = $('<div class="fieldWrapper col-xs-4" style="display: inline-flex;padding-top: 15px;"></div>');
+                  thelabel8.append('<label for="e_outreach" size="4">Outreach</label>');
+                  thelabel8.append('<input type="text" id="e_outreach" value="' + valuesdeeperinobject.q1e_outreach + '" name="e_outreach" readonly>');
+
+                  var thelabel9 = $('<div class="fieldWrapper col-xs-4" style="display: inline-flex;padding-top: 15px;"></div>');
+                  thelabel9.append('<label for="e_posters" size="4">Posters</label>');
+                  thelabel9.append('<input type="text" id="e_posters" value="' + valuesdeeperinobject.q1e_posters + '" name="e_posters" readonly>');
+
+                  var thelabel10 = $('<div class="fieldWrapper col-xs-4" style="display: inline-flex;padding-top: 15px;"></div>');
+                  thelabel10.append('<label for="e_stv" size="4">Stv</label>');
+                  thelabel10.append('<input type="text" id="e_stv" value="' + valuesdeeperinobject.q1e_stv + '" name="e_stv" readonly>');
+
+                  var thelabel11 = $('<div class="fieldWrapper col-xs-4" style="display: inline-flex;padding-top: 15px;"></div>');
+                  thelabel11.append('<label for="e_social" size="4">Social</label>');
+                  thelabel11.append('<input type="text" id="e_social" value="' + valuesdeeperinobject.q1e_social + '" name="e_social" readonly>');
+                  
+                  var thelabel12 = $('<div class="fieldWrapper col-xs-4" style="display: inline-flex;padding-top: 15px;"></div>');
+                  thelabel12.append('<label for="e_media" size="4">Media</label>');
+                  thelabel12.append('<input type="text" id="e_media" value="' + valuesdeeperinobject.q1e_media + '" name="e_media" readonly>');
+
+                  var thelabel13 = $('<div class="fieldWrapper col-xs-4" style="display: inline-flex;padding-top: 15px;"></div>');
+                  thelabel13.append('<label for="e_walkby" size="4">Walkby</label>');
+                  thelabel13.append('<input type="text" id="e_walkby" value="' + valuesdeeperinobject.q1e_walkby + '" name="e_walkby" readonly>');
+
+                  var thelabel14 = $('<div class="fieldWrapper col-xs-4" style="display: inline-flex;padding-top: 15px;"></div>');
+                  thelabel14.append('<label for="e_website" size="4">Website</label>');
+                  thelabel14.append('<input type="text" id="e_website" value="' + valuesdeeperinobject.q1e_website + '" name="e_website" readonly>');
+
+                  var thelabel15 = $('<div class="fieldWrapper col-xs-4" style="display: inline-flex;padding-top: 15px;"></div>');
+                  thelabel15.append('<label for="s_resume" size="4">Resume</label>');
+                  thelabel15.append('<input type="text" id="s_resume" value="' + valuesdeeperinobject.ecs_resume + '" name="s_resume" readonly>');
+
+                  var thelabel16 = $('<div class="fieldWrapper col-xs-4" style="display: inline-flex;padding-top: 15px;"></div>');
+                  thelabel16.append('<label for="s_cover" size="4">Cover</label>');
+                  thelabel16.append('<input type="text" id="s_cover" value="' + valuesdeeperinobject.ecs_cover + '" name="s_cover" readonly>');
+
+                  var thelabel17 = $('<div class="fieldWrapper col-xs-4" style="display: inline-flex;padding-top: 15px;"></div>');
+                  thelabel17.append('<label for="s_interview" size="4">Interview</label>');
+                  thelabel17.append('<input type="text" id="s_interview" value="' + valuesdeeperinobject.ecs_interview + '" name="s_interview" readonly>');
+
+                  var thelabel18 = $('<div class="fieldWrapper col-xs-4" style="display: inline-flex;padding-top: 15px;"></div>');
+                  thelabel18.append('<label for="s_jobsearch" size="4">Jobsearch</label>');
+                  thelabel18.append('<input type="text" id="s_jobsearch" value="' + valuesdeeperinobject.ecs_jobsearch + '" name="s_jobsearch" readonly>');
+
+                  var thelabel19 = $('<div class="fieldWrapper col-xs-4" style="display: inline-flex;padding-top: 15px;"></div>');
+                  thelabel19.append('<label for="s_mockinterview" size="4">Mockinterview</label>');
+                  thelabel19.append('<input type="text" id="s_mockinterview" value="' + valuesdeeperinobject.ecs_mockinterview + '" name="s_mockinterview" readonly>');
+
+                  var thelabel20 = $('<div class="fieldWrapper col-xs-4" style="display: inline-flex;padding-top: 15px;"></div>');
+                  thelabel20.append('<label for="s_networking" size="4">Networking</label>');
+                  thelabel20.append('<input type="text" id="s_networking" value="' + valuesdeeperinobject.ecs_networking + '" name="s_networking" readonly>');
+
+                  var thelabel21 = $('<div class="fieldWrapper col-xs-4" style="display: inline-flex;padding-top: 15px;"></div>');
+                  thelabel21.append('<label for="s_portfolio" size="4">Portfolio</label>');
+                  thelabel21.append('<input type="text" id="s_portfolio" value="' + valuesdeeperinobject.ecs_portfolio + '" name="s_portfolio" readonly>');
+                  */
+                  $('#formwillshow').append(thenewlabel);
+                  //$('#formwillshow').remove()
+                 /*
+                  alert(thelabel.innerText)
+                  $('#formwillshow').append(thelabel);
+                  $('#formwillshow').append(thelabel2);
+                  $('#formwillshow').append(thelabel3);
+                  $('#formwillshow').append(thelabel4);
+                  $('#formwillshow').append(thelabel5);
+                  $('#formwillshow').append(thelabel6);
+                  $('#formwillshow').append(thelabel7);
+                  $('#formwillshow').append(thelabel8);
+                  $('#formwillshow').append(thelabel9);
+                  $('#formwillshow').append(thelabel10);
+                  $('#formwillshow').append(thelabel11);
+                  $('#formwillshow').append(thelabel12);
+                  $('#formwillshow').append(thelabel13);
+                  $('#formwillshow').append(thelabel14);
+                  $('#formwillshow').append(thelabel15);
+                  $('#formwillshow').append(thelabel16);
+                  $('#formwillshow').append(thelabel17);
+                  $('#formwillshow').append(thelabel18);
+                  $('#formwillshow').append(thelabel19);
+                  $('#formwillshow').append(thelabel20);
+                  $('#formwillshow').append(thelabel21);
+                  */
+
+                }
+              }   
+            }
+          },
+          error: function(request, status, error) {
+              alert("did not bring up form info");
+              //alert(request.responseText);
+          }
+        });
+
+        var elmnt = document.getElementById("formwillshow");
+        elmnt.scrollIntoView();
+
+      }
+    </script>
     
 
         

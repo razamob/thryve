@@ -31,11 +31,11 @@ class StudentAccount(models.Model):
     objects = StudentAccountManager()
 
     #metadata is “anything that’s not a field
-    class Meta:                   #im removed program_id to see if that did anything to error "TypeError: Object of type SchoolProgram is not JSON serializable"
+    #class Meta:                   #im removed program_id to see if that did anything to error "TypeError: Object of type SchoolProgram is not JSON serializable"
         #this is what is actually group in the serialized object's feild column for the specific feild foreighn key attribute
         #Sets of field names that, taken together, must be unique:
         #unique_together can be a single list when dealing with a single set of fields:
-        unique_together = [['fname', 'lname', 'email', 'student_number', 'phone_number', 'program_year', 'als', 'coop', 'international', 'auth_id']]
+        #unique_together = [['fname', 'lname', 'email', 'student_number', 'phone_number', 'program_year', 'als', 'coop', 'international', 'auth_id']]
 
     #This method should always return a natural key tuple 
     #Then, when you call serializers.serialize(), you provide use_natural_foreign_keys=True or use_natural_primary_keys=True arguments

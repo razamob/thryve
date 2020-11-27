@@ -19,7 +19,7 @@ class Appointment(models.Model):
     attachment2 = models.CharField(max_length=300, null=True)
     attachment3 = models.CharField(max_length=300, null=True)
     status = models.CharField(max_length=20, null=True)
-    delete_appointment_row = models.BooleanField(default=False)
+    delete_appointment_row = models.BooleanField(default=False, null=True, blank=True)
     student_id = models.ForeignKey(StudentAccount, on_delete=models.CASCADE, null=True)
     staff_id = models.ForeignKey(StaffAccount, on_delete=models.CASCADE, null=True)
     cc_form = models.ForeignKey(CareerCounselorForm, on_delete=models.CASCADE, null=True)
@@ -38,8 +38,8 @@ class Appointment(models.Model):
     #This definition ensures that all StudentAccount objects are serialized before any Appointment objects. In turn, 
     # any object referencing Appointment will be serialized after both StudentAccount and Appointment have been serialized.
     #THIS MIGHT AFFECT THE OTHER SERIALIZATIONS THAT MY TEAM MEMBERS DID BTW SOO CHECK WITH EM
-    natural_key.dependencies = ['student.studentAccount']
-
+    natural_key.dependencies = ['student.studentAccount', 'careerform.careerCounselorForm']
+    #natural_key.dependencies = ['careerform.careerCounselorForm']
 
     def __str__(self):
         return self.title
