@@ -84,6 +84,9 @@ def edit_meeting_comments(request):
 def check_frequency(request):
     print(request.GET)
     print(request.POST)
+
+    current_user = request.user 
+    
     my_form = CheckFrequencyForm()
     
 
@@ -210,7 +213,7 @@ def check_frequency(request):
                 print("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111")
                 # i think that this would work. This one says auth_id witch is exactly in the model made her about the database
                 #must student_number be converted iinto a string befor i can check it against the datbase?
-                all_data_in_appointments = Appointment.objects.filter(student_id__auth_id__sheridan_id = student_number, start_date__gte=datetime.date(user_start_date.year, user_start_date.month, user_start_date.day), end_date__lte = datetime.date(user_end_date.year, user_end_date.month, user_end_date.day)).select_related("student_id").prefetch_related('student_id__auth_id').order_by("-start_date").values_list('student_id__fname', 'student_id__lname', 'student_id__auth_id__sheridan_id', 'title', 'start_date', 'end_date', 'staff_notes')
+                all_data_in_appointments = Appointment.objects.filter(staff_id__id = current_user.id, delete_appointment_row = False, student_id__auth_id__sheridan_id = student_number, start_date__gte=datetime.date(user_start_date.year, user_start_date.month, user_start_date.day), end_date__lte = datetime.date(user_end_date.year, user_end_date.month, user_end_date.day)).select_related("student_id").prefetch_related('student_id__auth_id').order_by("-start_date").values_list('student_id__fname', 'student_id__lname', 'student_id__auth_id__sheridan_id', 'title', 'start_date', 'end_date', 'staff_notes')
                 # this one should also work
                 # this one says auth_id_id witch is exact as in the database
                 #all_data_in_appointments = Appointment.objects.filter(student_id__auth_id_id__sheridan_id = student_number, start_date__gte=datetime.date(user_start_date.year, user_start_date.month, user_start_date.day), end_date__lte = datetime.date(user_end_date.year, user_end_date.month, user_end_date.day))
@@ -234,12 +237,12 @@ def check_frequency(request):
                     #firstname_lastname = striped_name.split(" ")
                     firstname_lastname = re.split("\W+", striped_name)
                     print("firstname_lastname is: " + firstname_lastname[0] + firstname_lastname[1])
-                    all_data_in_appointments = Appointment.objects.filter(student_id__fname = firstname_lastname[0], student_id__lname = firstname_lastname[1], start_date__gte=datetime.date(user_start_date.year, user_start_date.month, user_start_date.day), end_date__lte = datetime.date(user_end_date.year, user_end_date.month, user_end_date.day)).select_related("student_id").prefetch_related('student_id__auth_id').order_by("-start_date").values_list('student_id__fname', 'student_id__lname', 'student_id__auth_id__sheridan_id', 'title', 'start_date', 'end_date', 'staff_notes')
+                    all_data_in_appointments = Appointment.objects.filter(staff_id__id = current_user.id, delete_appointment_row = False, student_id__fname = firstname_lastname[0], student_id__lname = firstname_lastname[1], start_date__gte=datetime.date(user_start_date.year, user_start_date.month, user_start_date.day), end_date__lte = datetime.date(user_end_date.year, user_end_date.month, user_end_date.day)).select_related("student_id").prefetch_related('student_id__auth_id').order_by("-start_date").values_list('student_id__fname', 'student_id__lname', 'student_id__auth_id__sheridan_id', 'title', 'start_date', 'end_date', 'staff_notes')
                 else:
                     print("44444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444")
                     the_first_name_only = name_of_student
                     print("the_first_name_only is: " + the_first_name_only)
-                    all_data_in_appointments = Appointment.objects.filter(student_id__fname = the_first_name_only, start_date__gte=datetime.date(user_start_date.year, user_start_date.month, user_start_date.day), end_date__lte = datetime.date(user_end_date.year, user_end_date.month, user_end_date.day)).select_related("student_id").prefetch_related('student_id__auth_id').order_by("-start_date").values_list('student_id__fname', 'student_id__lname', 'student_id__auth_id__sheridan_id', 'title', 'start_date', 'end_date', 'staff_notes')
+                    all_data_in_appointments = Appointment.objects.filter(staff_id__id = current_user.id, delete_appointment_row = False, student_id__fname = the_first_name_only, start_date__gte=datetime.date(user_start_date.year, user_start_date.month, user_start_date.day), end_date__lte = datetime.date(user_end_date.year, user_end_date.month, user_end_date.day)).select_related("student_id").prefetch_related('student_id__auth_id').order_by("-start_date").values_list('student_id__fname', 'student_id__lname', 'student_id__auth_id__sheridan_id', 'title', 'start_date', 'end_date', 'staff_notes')
                 
             else:
                 print("55555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555")
@@ -263,13 +266,13 @@ def check_frequency(request):
                     print("out of the loop")
                     print("firstname_lastname is: " + firstname_lastname[0] + firstname_lastname[1])
                     #so i can't send a NoneType student_number value to check against the database
-                    all_data_in_appointments = Appointment.objects.filter(student_id__fname = firstname_lastname[0], student_id__lname = firstname_lastname[1], student_id__auth_id__sheridan_id = student_number, start_date__gte=datetime.date(user_start_date.year, user_start_date.month, user_start_date.day), end_date__lte = datetime.date(user_end_date.year, user_end_date.month, user_end_date.day)).select_related("student_id").prefetch_related('student_id__auth_id').order_by("-start_date").values_list('student_id__fname', 'student_id__lname', 'student_id__auth_id__sheridan_id', 'title', 'start_date', 'end_date', 'staff_notes')
+                    all_data_in_appointments = Appointment.objects.filter(staff_id__id = current_user.id, delete_appointment_row = False, student_id__fname = firstname_lastname[0], student_id__lname = firstname_lastname[1], student_id__auth_id__sheridan_id = student_number, start_date__gte=datetime.date(user_start_date.year, user_start_date.month, user_start_date.day), end_date__lte = datetime.date(user_end_date.year, user_end_date.month, user_end_date.day)).select_related("student_id").prefetch_related('student_id__auth_id').order_by("-start_date").values_list('student_id__fname', 'student_id__lname', 'student_id__auth_id__sheridan_id', 'title', 'start_date', 'end_date', 'staff_notes')
                 
                 else:
                     print("77777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777")
                     the_first_name_only = name_of_student
                     print("the_first_name_only is: " + the_first_name_only)
-                    all_data_in_appointments = Appointment.objects.filter(student_id__fname = the_first_name_only, student_id__auth_id__sheridan_id = student_number, start_date__gte=datetime.date(user_start_date.year, user_start_date.month, user_start_date.day), end_date__lte = datetime.date(user_end_date.year, user_end_date.month, user_end_date.day)).select_related("student_id").prefetch_related('student_id__auth_id').order_by("-start_date").values_list('student_id__fname', 'student_id__lname', 'student_id__auth_id__sheridan_id', 'title', 'start_date', 'end_date', 'staff_notes')
+                    all_data_in_appointments = Appointment.objects.filter(staff_id__id = current_user.id, delete_appointment_row = False, student_id__fname = the_first_name_only, student_id__auth_id__sheridan_id = student_number, start_date__gte=datetime.date(user_start_date.year, user_start_date.month, user_start_date.day), end_date__lte = datetime.date(user_end_date.year, user_end_date.month, user_end_date.day)).select_related("student_id").prefetch_related('student_id__auth_id').order_by("-start_date").values_list('student_id__fname', 'student_id__lname', 'student_id__auth_id__sheridan_id', 'title', 'start_date', 'end_date', 'staff_notes')
                 
             #all_data_in_appointments = StudentAccount.objects.filter(auth_id__sheridan_id = 9516584235)
             # context = {'allData': all_data_in_appointments,
@@ -397,7 +400,7 @@ def table_load_up(request):
     #datetime.datetime(year, month, day, hour=0, minute=0, second=0, microsecond=0, tzinfo=None, *, fold=0)
     #     EFFICIENT FILTER OPTION 1# (MOST EFFICIENT)
     
-    objectQuerySet = Appointment.objects.filter(start_date__lte = datetime.datetime(datetime.datetime.now().year, datetime.datetime.now().month, datetime.datetime.now().day, datetime.datetime.now().time().hour, datetime.datetime.now().time().minute, datetime.datetime.now().time().second)).select_related("student_id").prefetch_related('student_id__auth_id').order_by("-start_date")
+    objectQuerySet = Appointment.objects.filter(staff_id__id = current_user.id, delete_appointment_row = False, start_date__lte = datetime.datetime(datetime.datetime.now().year, datetime.datetime.now().month, datetime.datetime.now().day, datetime.datetime.now().time().hour, datetime.datetime.now().time().minute, datetime.datetime.now().time().second)).select_related("student_id").prefetch_related('student_id__auth_id').order_by("-start_date")
     
     #you need the brackests over datetime.datetime.now() if your gonna convert it to string through casting
     print("TODAYS DATE AND TIME IS:-------------------------------->" + (str)(datetime.datetime.now()))
@@ -535,13 +538,74 @@ def table_row_delete(request):
     id_to_delete = request.POST.get('actionToTake')
     print("this is the Appointment id that we will delete: " + id_to_delete)
 
+    Appointment.objects.filter(pk=id_to_delete).update(delete_appointment_row = True)
+
+
+
     #request.POST['actionToTake']
     #i don't think i have to validate the post cus the user didn't type up that input ans send it, 
     # it is a number that the system is sending to itself
-    #Appointment.objects.filter(pk=1).delete()
+    #Appointment.objects.filter(pk=id_to_delete).delete()
     response = { 'id_to_delete':id_to_delete
     }
     #return
     return JsonResponse(response)
     #this just gave an error
     #return render(request, response, {})
+
+
+def table_row_add_capture_all(request):
+    print("We are in table_row_delete")
+    id_to_add = request.POST.get('actionToTake')
+    print("this is the Appointment id that we will add: " + id_to_add)
+
+    # the authentication by default makes & fpopulates the auth_user table in the database, 
+    # you can access the attributed by '.' & then <table column name>
+    current_user = request.user 
+
+
+    '''
+    #if no id match then this way will give an error
+    t = Appointment.objects.get(id=id_to_add)
+    t.value = id_to_add  # change field
+    t.save() # this will update only
+    '''
+
+
+    # alternate option to updating a new column
+    Appointment.objects.filter(id=id_to_add).update(delete_appointment_row = False)
+
+    
+
+
+    # ?? is doing (staff_id = vurrent_user.id) safer than (staff_id__id = current_user.id). since it's a foreigh key it should be thesame amount
+    #  of safeness
+    #    
+    objectQuerySet = Appointment.objects.filter(staff_id__id = current_user.id, delete_appointment_row = False, start_date__lte = datetime.datetime(datetime.datetime.now().year, datetime.datetime.now().month, datetime.datetime.now().day, datetime.datetime.now().time().hour, datetime.datetime.now().time().minute, datetime.datetime.now().time().second)).select_related("student_id").prefetch_related('student_id__auth_id').order_by("-start_date")
+    dataB = serializers.serialize("json", objectQuerySet, use_natural_foreign_keys=True, use_natural_primary_keys=False)
+    response = {
+        'allData': dataB
+    }
+    return JsonResponse(response)
+
+
+def table_load_up_deletions(request):
+    action_to_take = request.GET.get('actionToTake', None)
+    #This doesn't work
+    action_to_take2 = request.GET['actionToTake']
+    print("this is action_to_takeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee: " + action_to_take + "and action_to_take2 is " + action_to_take2)
+
+    print("*************************************************************************************************************************")
+    # the authentication by default makes & fpopulates the auth_user table in the database, 
+    # you can access the attributed by '.' & then <table column name>
+    current_user = request.user 
+
+    
+    objectQuerySet = Appointment.objects.filter(staff_id__id = current_user.id, delete_appointment_row = True, start_date__lte = datetime.datetime(datetime.datetime.now().year, datetime.datetime.now().month, datetime.datetime.now().day, datetime.datetime.now().time().hour, datetime.datetime.now().time().minute, datetime.datetime.now().time().second)).select_related("student_id").prefetch_related('student_id__auth_id').order_by("-start_date")
+
+    dataB = serializers.serialize("json", objectQuerySet, use_natural_foreign_keys=True, use_natural_primary_keys=False)
+
+    response = {
+    'allData': dataB
+    }
+    return JsonResponse(response)
