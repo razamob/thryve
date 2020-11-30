@@ -734,7 +734,10 @@ def load_staff_forms_on_filterdata_page(request):
     current_user = request.user
     idfromappointmentfdpage = request.GET.get('actionToTake', None)
    
+    firstvisit = Appointment.objects.filter(id=idfromappointmentfdpage).count()
+
     
+
     context = {}
 
     #Lydia Novak
@@ -748,10 +751,11 @@ def load_staff_forms_on_filterdata_page(request):
         #im adding order_by("-start_date") to the end
         all_form_info = Appointment.objects.filter(staff_id__id = current_user.id, delete_appointment_row = False, id = idfromappointmentfdpage).select_related("cc_form").order_by("-start_date")
         #remember than id won't show up when u put feild=[] cus that is a defaultly and unexplicitly added feild in the model object
-        dataB = serializers.serialize("json", all_form_info, use_natural_foreign_keys=True, use_natural_primary_keys=False, fields = ['cc_form'])
+        dataB = serializers.serialize("json", all_form_info, use_natural_foreign_keys=True, use_natural_primary_keys=False, fields = ['submission_date', 'student_id','cc_form'])
         print(dataB)
         context = {'allforminfo': dataB,
-                'idfromappointmentfdpage': 6}
+                'idfromappointmentfdpage': 6,
+                'firstvisit': firstvisit}
 
 
     #Melina Elia
@@ -764,10 +768,12 @@ def load_staff_forms_on_filterdata_page(request):
         #all_form_info = Appointment.objects.filter(staff_id__id = current_user.id, delete_appointment_row = False, id = idfromappointmentfdpage).select_related("ec_form")
         #im adding order_by("-start_date") to the end
         all_form_info = Appointment.objects.filter(staff_id__id = current_user.id, delete_appointment_row = False, id = idfromappointmentfdpage).select_related("ec_form").order_by("-start_date")
-        dataB = serializers.serialize("json", all_form_info, use_natural_foreign_keys=True, use_natural_primary_keys=False, fields = ['ec_form'])
+        dataB = serializers.serialize("json", all_form_info, use_natural_foreign_keys=True, use_natural_primary_keys=False, fields = ['submission_date', 'student_id', 'ec_form'])
         print(dataB)
         context = {'allforminfo': dataB,
-                    'idfromappointmentfdpage': 7}
+                    'idfromappointmentfdpage': 7,
+                    'firstvisit': firstvisit}
+
 
     print(all_form_info)
     print("end of load_staff_forms_on_filterdata_page")
