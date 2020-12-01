@@ -101,21 +101,97 @@
           </div>
         </div>
       </nav>
+
+      <div class="row justify-content-center">
+        <!--for a string this is how you check if theirs a value in them in html-->
+        {% if user.first_name and user.last_name %}
+          <h1> <font color="white"><h1 style="color:blue;display: inline-flex;">{{ user.first_name }} {{ user.last_name }} </h1>'s Recently Selected Appointment Meeting</font></h1> 
+        {% else %}
+        <h1> <font color="white"><h1 style="color:blue;display: inline-flex;">{{ user.username }}</h1>'s Recently Selected Appointment Meetings</font></h1> 
+        {% endif %}
+      </div>
+
+
+      <div style="margin-top:90px; margin-left: 20%; overflow-y: auto; overflow-x: auto; height:auto; max-width:700px">
+        <table id="edittable" class="table table-bordered table-sm table-hover" cellspacing="0" >
+          <thead class="table-dark">
+            <tr>
+              <th class="th-sm">Name
+              </th>
+              <th class="th-sm">Student Number
+              </th>
+              <th class="th-sm">Their Reason For The Appointment
+              </th>
+              <th class="th-sm">Appointment Starting Date & Time
+              </th>
+              <th class="th-sm">Appointment Ending Date & Time
+              </th>
+              <th class="th-sm">My Comment On The Appointment
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {% for instance in allData %}
+            <!-- ur actually using feild names of the actual database, the model creation of it on here might actually have less feild 
+            database variables than what is there(cus of not having the current commited work) -->
+              <tr>
+                <!-- Writing it this way doesn't work as it will give you errors
+                  <td> instance[0] </td>  ** even when the barcket instance bracket is commented out it still gives error if its [0] n not .0
+                     it ust be written like instance.0 or instance.1 etc...  
+                -->
+                <td>{{ instance.0 }} {{ instance.1 }}</td>
+                <!--don't make common mistakes like forgetting the brackets cus of lack of sleep-->
+                <td>{{ instance.2 }}</td>
+                <td>{{ instance.3 }}</td>
+                <td>{{ instance.4 }}</td>
+                <td>{{ instance.5 }}</td>
+                {% if instance.6 == None %}
+                  <td></td>
+                {% else %}
+                  <td>{{ instance.6 }}</td>
+                  
+                {% endif %}
+                
+    
+                
+                <!--if its not a object query you cant iterate like this, rn its a list
+                <td>{{ instance.title }}</td>
+                <td>{{ instance.start_date }}</td>
+                <td>{{ instance.end_date }}</td>
+                <td>{{ instance.staff_notes }}</td>
+                -->
+              </tr>
+              <!--Don't forget the closing of the context for-loop or if-loop or you will get an error-->
+              {% endfor %}
+        </table>
+      </div>
+
+
+
+
+      <br>
+      <div class="row justify-content-center">
+          <h1> <font color="white">Edit Student/Alumni Comment</font></h1>    
+      </div>
+      <form action="{% url 'editmeeting_save_meeting_comments_page' %}" method="POST">
+        {% csrf_token %}
+        <div class="row justify-content-center">
+          <textarea name="writtenwords" rows="24" cols="70" placeholder="This is the default text{{ idfrommanagedata }}"></textarea>
+        </div>
+        <div class="row justify-content-center" >   
+          
+            
+            <input type="hidden" name="pastpageappointmentid" value="{{ idfrommanagedata }}">
+            <button type="submit"  class="btn btn-primary">go back to student/alumni meeting page</button>    
+          
+        </div>
+      </form> 
+
     </div>
       
   </div>
-      <br>
-      <div class="row justify-content-center">
-          <h1> <font color="white">Edit Student/Alumni Comment</font></h1>  
-          
-      </div>
-      <div class="row justify-content-center">
       
-      <textarea   rows="24" cols="70" placeholder="This is the default text"></textarea>
-      </div>
-         <div class="row justify-content-center" >    
-   <button type="button" onClick="location.href='manageData.html'"  class="btn btn-primary">go back to student/alumni meeting page</button>    
-   </div>
 
     
 

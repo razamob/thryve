@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'staff.apps.StaffConfig',
     'dashboard.apps.DashboardConfig',
     'students.apps.StudentConfig',
-    "student.apps.StudentAccountConfig",
+    'program.apps.SchoolprogramConfig',
+    'student.apps.StudentAccountConfig',
     'studentauth.apps.StudentauthConfig',
     'careerform.apps.CareerformConfig',
     'studentdata.apps.StudentdataConfig',
@@ -60,7 +61,6 @@ INSTALLED_APPS = [
     'schedule',
     'djangobower',
     'rest_framework',
-    "program.apps.ProgramConfig",
     "form.apps.FormConfig",
     'widget_tweaks',
 ]

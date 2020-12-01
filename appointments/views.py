@@ -49,7 +49,7 @@ class AppointmentView(viewsets.ModelViewSet):
         start_date = parser.parse(request.POST.get('start_date')).timestamp()
         end_date = parser.parse(request.POST.get('end_date')).timestamp()
         for each in Appointment.objects.all():
-            if (start_date >= each.start_date.timestamp() and start_date <= each.end_date.timestamp())  or (end_date >= each.start_date.timestamp() and end_date <= each.end_date.timestamp()):
+            if (start_date >= each.start_date.timestamp() and start_date <= each.end_date.timestamp()) or (end_date >= each.start_date.timestamp() and end_date <= each.end_date.timestamp()):
                 messages.error(
                     request, 'Appointment for this date is already booked.')
                 return redirect('/appointments/')

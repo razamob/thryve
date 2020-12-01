@@ -1,183 +1,223 @@
+
 {% extends 'base.html' %} {% block content %}
 {% load static %}
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 <script type="text/javascript">
-  function exportToExcel(tableID, filename = '') {
-    var downloadurl;
-    var dataFileType = 'application/vnd.ms-excel';
-    var tableSelect = document.getElementById(tableID);
-    var tableHTMLData = tableSelect.outerHTML.replace(/ /g, '%20');
-
-    // Specify file name//if statement,conditional ternary operator
-    filename = filename ? filename + '.xls' : 'export_excel_data.xls';
-
-    // Create download link element,//it should not lead to anywhere
-    downloadurl = document.createElement("a");
-    //put link at bottom of page
-    document.body.appendChild(downloadurl);
-    //navigator contains info about my browser/shouldnt be used to detect browser version
-    //msSaveOrOpenBlob saves the file or blob to diskn enables file open option
-    if (navigator.msSaveOrOpenBlob) {
-      var blob = new Blob(['\ufeff', tableHTMLData], {
-        type: dataFileType
-      });
-      navigator.msSaveOrOpenBlob(blob, filename);
-    } else {
-      // Create a link to the file
-      downloadurl.href = 'data:' + dataFileType + ', ' + tableHTMLData;
-
-      // Setting the file name
-      downloadurl.download = filename;
-
-      //triggering the function
-      downloadurl.click();
-    }
+  function exportToExcel(tableID, filename = ''){
+      var downloadurl;
+      var dataFileType = 'application/vnd.ms-excel';
+      var tableSelect = document.getElementById(tableID);
+      var tableHTMLData = tableSelect.outerHTML.replace(/ /g, '%20');
+      
+      // Specify file name//if statement,conditional ternary operator
+      filename = filename?filename+'.xls':'export_excel_data.xls';
+      
+      // Create download link element,//it should not lead to anywhere
+      downloadurl = document.createElement("a");
+      //put link at bottom of page
+      document.body.appendChild(downloadurl);
+      //navigator contains info about my browser/shouldnt be used to detect browser version
+      //msSaveOrOpenBlob saves the file or blob to diskn enables file open option
+      if(navigator.msSaveOrOpenBlob){
+          var blob = new Blob(['\ufeff', tableHTMLData], {
+              type: dataFileType
+          });
+          navigator.msSaveOrOpenBlob( blob, filename);
+      }else{
+          // Create a link to the file
+          downloadurl.href = 'data:' + dataFileType + ', ' + tableHTMLData;
+      
+          // Setting the file name
+          downloadurl.download = filename;
+          
+          //triggering the function
+          downloadurl.click();
+      }
   }
-  $(document).ready(function () {
-    $('#tblexportData').DataTable();
-    $('.dataTables_length').addClass('bs-select');
-  });
-  // Basic example
-  $(document).ready(function () {
-    $('#tblexportData').DataTable({
-      "searching": false // false to disable search (or any other option)
-    });
-    $('.dataTables_length').addClass('bs-select');
-  });
-</script>
+          $(document).ready(function () {
+          $('#tblexportData').DataTable();
+          $('.dataTables_length').addClass('bs-select');
+          });
+          // Basic example
+          $(document).ready(function () {
+          $('#tblexportData').DataTable({
+          "searching": false // false to disable search (or any other option)
+          });
+          $('.dataTables_length').addClass('bs-select');
+          });
+   
+  </script>
 
 
 
-<div class="wrapper ">
-  <div class="sidebar" data-color="purple" data-background-color="black" data-image="./assets/img/sidebar-2.jpg">
-    <div class="logo">
-      <a href="{% url 'overview' %}" class="simple-text logo-normal">
-        Thryve
-      </a>
-      <div id="close-sidebar">
-        <span class="material-icons">close</span>
+  <div class="wrapper ">
+    <div class="sidebar" data-color="purple" data-background-color="black" data-image="./assets/img/sidebar-2.jpg">
+      <div class="logo">
+        <a href="./home.html" class="simple-text logo-normal">
+          Thryve
+        </a>
+      </div>
+      <div class="sidebar-wrapper">
+        <ul class="nav">
+          <li class="nav-item active  ">
+            <a class="nav-link" href="{% url 'dashboard' %}">
+              <i class="material-icons">dashboard</i>
+              <p>Dashboard</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="{% url 'appointments' %}">
+              <i class="material-icons">calendar_today</i>
+              <p>View Calendar</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="{% url 'manageData' %}">
+              <i class="material-icons">folder</i>
+              <p>Manage Data</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="#">
+              <i class="material-icons">bubble_chart</i>
+              <p>Data Analysis</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="#">
+              <i class="material-icons">person</i>
+              <p>Account Management</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="#">
+              <i class="material-icons">notifications</i>
+              <p>Notifications</p>
+            </a>
+          </li>
+
+          <li class="nav-item ">
+            <a class="nav-link" href="{% url 'editmeetingcomments' %}">
+                <i class="material-icons">subject</i>
+                <p>Edit Meeting Comments</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="{% url 'filterData' %}">
+                <i class="material-icons">find_in_page</i>
+                <p>Filter Data</p>
+            </a>
+          </li>
+
+
+
+          <li class="nav-item ">
+            <a class="nav-link" href="./home.html">
+              <i class="material-icons">backspace</i>
+              <p>Logout</p>
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
-    <div class="sidebar-wrapper">
-      <ul class="nav">
-        <li class="nav-item   ">
-          <a class="nav-link" href="{% url 'overview' %}">
-            <i class="material-icons">dashboard</i>
-            <p>Dashboard</p>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'appointments' %}">
-            <i class="material-icons">calendar_today</i>
-            <p>View Calendar</p>
-          </a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link" href="{% url 'manageData' %}">
-            <i class="material-icons">folder</i>
-            <p>Manage Data</p>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'data_dashboard' %}">
-            <i class="material-icons">bubble_chart</i>
-            <p>Data Analysis</p>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'account' %}">
-            <i class="material-icons">person</i>
-            <p>Account Management</p>
-          </a>
-        </li>
-        <li class="nav-item ">
-          <a class="nav-link" href="#">
-            <i class="material-icons">notifications</i>
-            <p>Notifications</p>
-          </a>
-        </li>
-
-        <li class="nav-item ">
-          <a class="nav-link" href="{% url 'editmeetingcomments' %}">
-            <i class="material-icons">subject</i>
-            <p>Edit Meeting Comments</p>
-          </a>
-        </li>
-        <li class="nav-item ">
-          <a class="nav-link" href="{% url 'filterData' %}">
-            <i class="material-icons">find_in_page</i>
-            <p>Filter Data</p>
-          </a>
-        </li>
-
-
-        <li class="nav-item ">
-          <a class="nav-link" href="{% url 'logout_btn' %}">
-            <i class="material-icons">backspace</i>
-            <p>Logout</p>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
-  <div class="main-panel">
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
-      <div class="container-fluid">
-        <div class="navbar-wrapper">
-          <a class="navbar-brand" href="javascript:void(0)">Dashboard</a>
+    <div class="main-panel">
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <a class="navbar-brand" href="javascript:void(0)">Dashboard</a>
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="javascript:void(0)">
+                  <i class="material-icons">notifications</i>
+                  <p class="d-lg-none d-md-block">
+                    Notifications
+                  </p>
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index"
-          aria-expanded="false" aria-label="Toggle navigation">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="navbar-toggler-icon icon-bar"></span>
-          <span class="navbar-toggler-icon icon-bar"></span>
-          <span class="navbar-toggler-icon icon-bar"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-end">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link" href="javascript:void(0)">
-                <i class="material-icons">notifications</i>
-                <p class="d-lg-none d-md-block">
-                  Notifications
-                </p>
-              </a>
-            </li>
-          </ul>
-        </div>
-    </nav>
-
-    <div class="row justify-content-center">
-      <h1>Most Current Appointment Meetings</h1>
-    </div>
+      </nav>
+    
+      
+      <div class="row justify-content-center">
+        <!--for a string this is how you check if theirs a value in them in html-->
+        {% if user.first_name and user.last_name %}
+          <h1> <font color="white"><h1 style="color:blue;display: inline-flex;">{{ user.first_name }} {{ user.last_name }} </h1>'s Uncommented Appointment Meetings</font></h1> 
+        {% else %}
+        <h1> <font color="white"><h1 style="color:blue;display: inline-flex;">{{ user.username }}</h1>'s Uncommented Appointment Meetings</font></h1> 
+        {% endif %}
+      </div>
 
 
-    <div style="margin-top:90px; margin-left: 20%; overflow-y: auto; overflow-x: auto; height:50%; max-width:700px">
-      <table id="tblexportData" class="table table-striped table-bordered table-sm" cellspacing="0">
-        <thead>
-          <tr>
-            <th class="th-sm">Name
-            </th>
-            <th class="th-sm">Student Number
-            </th>
-            <th class="th-sm">Their Reason For The Appointment
-            </th>
-            <th class="th-sm">Appointment Starting Date & Time
-            </th>
-            <th class="th-sm">Appointment Ending Date & Time
-            </th>
-            <th class="th-sm">My Comment On The Appointment
-            </th>
-          </tr>
-        </thead>
-      </table>
-    </div>
+      <div style="margin-top:0px; margin-left: 20%; overflow-y: auto; overflow-x: auto; height:auto; max-width:700px">
+        <table data-check="6" id="nocommenttable" class="table table-bordered table-sm table-hover" cellspacing="0" >
+          <thead class="table-dark">
+            <tr>
+              <th class="th-sm">Name
+              </th>
+              <th class="th-sm">Student Number
+              </th>
+              <th class="th-sm">Their Reason For The Appointment
+              </th>
+              <th class="th-sm">Appointment Starting Date & Time
+              </th>
+              <th class="th-sm">Appointment Ending Date & Time
+              </th>
+              <th class="th-sm">My Comment On The Appointment
+              </th>
+            </tr>
+          </thead>
+        </table>
+      </div>
 
-    <br>
-    <!--
+
+      <div class="row justify-content-center">
+        <!--for a string this is how you check if theirs a value in them in html-->
+        {% if user.first_name and user.last_name %}
+          <h1> <font color="white"><h1 style="color:blue;display: inline-flex;">{{ user.first_name }} {{ user.last_name }} </h1>'s Past Appointment Meetings</font></h1> 
+        {% else %}
+        <h1> <font color="white"><h1 style="color:blue;display: inline-flex;">{{ user.username }}</h1>'s Past Appointment Meetings</font></h1> 
+        {% endif %}
+      </div>
+
+
+      <div style="margin-top:0px; margin-left: 20%; overflow-y: auto; overflow-x: auto; height:auto; max-width:700px">
+        <table data-check="6" id="tblexportData" class="table table-bordered table-sm table-hover" cellspacing="0" >
+          <thead class="table-dark">
+            <tr>
+              <th class="th-sm">Name
+              </th>
+              <th class="th-sm">Student Number
+              </th>
+              <th class="th-sm">Their Reason For The Appointment
+              </th>
+              <th class="th-sm">Appointment Starting Date & Time
+              </th>
+              <th class="th-sm">Appointment Ending Date & Time
+              </th>
+              <th class="th-sm">My Comment On The Appointment
+              </th>
+              <th class="th-sm"></th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+  
+      <br>
+      <!--
       <div style="margin-top:90px; margin-left: 20%; overflow-y: auto; overflow-x: auto; height:50%; width: 50%;display:none">
         <table class="table table-striped table-bordered table-sm" cellspacing="0" id="tblexportData">
       <thead>
@@ -673,11 +713,11 @@
     </table>
       </div>
     -->
-
-
-
-
-    <!--<div style="margin-top:90px; margin-left: 20%; overflow-y: auto; overflow-x: auto; height:50%; width: 50%">
+      
+      
+           
+      
+      <!--<div style="margin-top:90px; margin-left: 20%; overflow-y: auto; overflow-x: auto; height:50%; width: 50%">
         <table class="table table-striped table-bordered table-sm" cellspacing="0">
       <thead>
         <tr>
@@ -741,38 +781,42 @@
      
     </table>
       </div>-->
-
-
-    <div class="row justify-content-center">
-      <h1>
-        <font color="white">Deletion Queue</font>
-      </h1>
-    </div>
-
-
-    <div style="margin-top:90px; margin-left: 20%; overflow-y: auto; overflow-x: auto; height:50%; width: 50%">
-      <table id="deletionQueueTable" class="table table-striped table-bordered table-sm" cellspacing="0">
-        <thead>
-          <tr>
-            <th class="th-sm">Undo Delete
-            </th>
-            <th class="th-sm">Name
-            </th>
-            <th class="th-sm">Student Number
-            </th>
-            <th class="th-sm">Their Reason For The Appointment
-            </th>
-            <th class="th-sm">Appointment Starting Date & Time
-            </th>
-            <th class="th-sm">Appointment Ending Date & Time
-            </th>
-            <th class="th-sm">My Comment On The Appointment
-            </th>
-
-          </tr>
-        </thead>
-        <tbody>
-          <!--
+      
+      
+      <div class="row justify-content-center">
+          <!--<h1> <font color="white">Deletion Queue</font></h1>  -->
+            <!--for a string this is how you check if theirs a value in them in html-->
+          {% if user.first_name and user.last_name %}
+            <h1> <font color="white"><h1 style="color:blue;display: inline-flex;">{{ user.first_name }} {{ user.last_name }} </h1>'s Appointment Deletion Queue</font></h1> 
+          {% else %}
+            <h1> <font color="white"><h1 style="color:blue;display: inline-flex;">{{ user.username }}</h1>'s Appointment Deletion Queue</font></h1> 
+          {% endif %} 
+      </div>
+      
+      
+        <div style="margin-top:0px; margin-left: 20%; overflow-y: auto; overflow-x: auto; height:auto; max-width:700px">
+        <table id="deletionQueueTable" class="table table-danger table-bordered table-sm table-hover" cellspacing="0">
+      <thead class="table-dark">
+        <tr>
+          <th class="th-sm">Undo Delete
+          </th>
+          <th class="th-sm">Name
+          </th>
+          <th class="th-sm">Student Number
+          </th>
+          <th class="th-sm">Their Reason For The Appointment
+          </th>
+          <th class="th-sm">Appointment Starting Date & Time
+          </th>
+          <th class="th-sm">Appointment Ending Date & Time
+          </th>
+          <th class="th-sm">My Comment On The Appointment
+          </th>
+          
+        </tr>
+      </thead>
+      <!-- <tbody> -->
+        <!--
         <tr>
           <td><button  type="button"   style="width: auto"><span style='font-size:20px;'>&#9785;</span>Undo This Deletion</button> </td>
           <td>Ashton Cox</td>
@@ -799,20 +843,19 @@
           <td>Charde Marshall</td>
           <td>2018/03/11</td>
         -->
-        </tbody>
-      </table>
-    </div>
-
-
-    <div class="row justify-content-center">
-      <button id="goToFilterPage" style="margin-left:0%" type="button" id="msg" class="alert alert-info" hidden>go to
-        filterData page</button>
-      <button type="button" id="btnExport" class="btn btn-primary">Export To Excel</button>
-    </div>
-
-
-
-    <!--<div style="margin-top:90px; margin-left: 20%; overflow-y: auto; overflow-x: auto; height:50%; max-width:700px">
+            <!--</tbody>   -->
+    </table>
+      </div>
+      
+      
+   <div class="row justify-content-center" >    
+   <button id="goToFilterPage" style="margin-left:0%" type="button" id="msg" class="alert alert-info" hidden>go to filterData page</button>
+   <button type="button" id="btnExport" class="btn btn-primary">Export All Past Appointments To Excel</button>    
+   </div>
+      
+      
+      
+      <!--<div style="margin-top:90px; margin-left: 20%; overflow-y: auto; overflow-x: auto; height:50%; max-width:700px">
         <table id="groupTable" class="table table-striped table-bordered table-sm" cellspacing="0" >
           <thead>
             <tr>
@@ -832,286 +875,280 @@
           </thead>
         </table>
       </div>-->
+      
 
 
-
-
-
-
-
-    <!-- End Navbar -->
-    <div class="content">
-      <div class="container-fluid">
+      
+      
+      
+      
+      <!-- End Navbar -->
+      <div class="content">
+        <div class="container-fluid">
+        </div>
       </div>
+      <footer class="footer">
+        <div class="container-fluid">
+          <nav class="float-left">
+            <ul>
+              <li>
+                <a href="./home.html">
+                  Thryve
+                </a>
+              </li>
+            </ul>
+          </nav>
+          <div class="copyright float-right">
+            &copy;
+            <script>
+              document.write(new Date().getFullYear())
+            </script>
+          </div>
+          <!--footer here -->
+        </div>
+      </footer>
     </div>
   </div>
-  <footer class="footer">
-    <div class="container-fluid">
-      <nav class="float-left">
-        <ul>
-          <li>
-            <a href="./home.html">
-              Thryve
-            </a>
-          </li>
-        </ul>
-      </nav>
-      <div class="copyright float-right">
-        &copy;
-        <script>
-          document.write(new Date().getFullYear())
-        </script>
-      </div>
-      <!--footer here -->
-    </div>
-  </footer>
-</div>
-
-<!--im gonna now put a table here -->
+    
+    <!--im gonna now put a table here -->
+   
+        
+        
+  
+    
+   <script>
+    
 
 
 
+document.addEventListener("DOMContentLoaded", function(event) {
 
+        let allData = {1:{cellAD: 'Iggy'},2: {cellAE: 'Thea'}, 3:{cellAF: 'Mobeen'}};
+        
+           var btnNext=document.getElementById("goToFilterPage");
+           btnNext.addEventListener("click", toFilterPage, false);
+           
+            function toFilterPage(event) {
+                var db, openRequest;
+                
+                var dbSupported = ("indexedDB" in window) ? true : false;
+                if(dbSupported) {
+                    var openRequest = indexedDB.open("myDB",1);
 
-<script>
-  document.addEventListener("DOMContentLoaded", function (event) {
-
-    let allData = {
-      1: {
-        cellAD: 'Iggy'
-      },
-      2: {
-        cellAE: 'Thea'
-      },
-      3: {
-        cellAF: 'Mobeen'
-      }
-    };
-
-    var btnNext = document.getElementById("goToFilterPage");
-    btnNext.addEventListener("click", toFilterPage, false);
-
-    function toFilterPage(event) {
-      var db, openRequest;
-
-      var dbSupported = ("indexedDB" in window) ? true : false;
-      if (dbSupported) {
-        var openRequest = indexedDB.open("myDB", 1);
-
-        openRequest.onupgradeneeded = function (e) {
-          console.log("running onupgradeneeded");
-
-          db = openRequest.result;
-          //var DB = e.target.result;
-
-          if (!db.objectStoreNames.contains("allData")) {
-            db.createObjectStore("allData", allData);
-
-            /*
-            //update records
-            var storeRequest = objectStore.put(allData);
-            storeRequest.onsucess = function(){
-                //do something
-            };
-            storeRequest.onerror = function(){
-                //do something
-            };
-            //read data
-            var ob = objectStore.get(1);
-            */
-
-
-            /*
+                    openRequest.onupgradeneeded = function(e) {
+                        console.log("running onupgradeneeded");
+                        
+                        db=openRequest.result;
+                        //var DB = e.target.result;
+                        
+                        if(!db.objectStoreNames.contains("allData")) {
+                            db.createObjectStore("allData",allData);
+                        
+                            /*
+                            //update records
+                            var storeRequest = objectStore.put(allData);
+                            storeRequest.onsucess = function(){
+                                //do something
+                            };
+                            storeRequest.onerror = function(){
+                                //do something
+                            };
+                            //read data
+                            var ob = objectStore.get(1);
+                            */
+                           
+                           
+                           /*
                             *    <form method="GET" action="newhtml.php">
   <input type="submit" value="click on me!">
     </form>
                             */
-          }
-        };
-        openRequest.onsuccess = function (e) {
-          console.log("Success!");
-          //db = e.target.result;
-          db = openRequest.result;
-        };
-        openRequest.onerror = function (e) {
-          console.log("Error");
-          console.dir(e); //might need to get rid of this line
-        };
+                        }
+                    };
+                    openRequest.onsuccess = function(e) {
+                        console.log("Success!");
+                        //db = e.target.result;
+                        db=openRequest.result;
+                    };
+                    openRequest.onerror = function(e) {
+                        console.log("Error");
+                        console.dir(e);//might need to get rid of this line
+                    };
+                
+                var transaction = db.transaction(["allData"], "readwrite");
+                transaction.oncomplete = function(event) {
+                console.log("Transaction Complete");
+                };
+                transaction.onerror=function(event) {
+                console.log("Transaction Failed");
+                };
+                
+                
+                var storeRequest = transaction.objectStore("allData").put(allData);
+                
+                storeRequest.onsuccess =function() {
+                showPopup("allData Info Saved");
+                };
 
-        var transaction = db.transaction(["allData"], "readwrite");
-        transaction.oncomplete = function (event) {
-          console.log("Transaction Complete");
-        };
-        transaction.onerror = function (event) {
-          console.log("Transaction Failed");
-        };
-
-
-        var storeRequest = transaction.objectStore("allData").put(allData);
-
-        storeRequest.onsuccess = function () {
-          showPopup("allData Info Saved");
-        };
-
-        storeRequest.onerror = function () {
-          showPopup("Database Error: cannot save allData Info");
-        };
-      }
-      /*
-      var request = appointmentsDB.add(allData);//removed 1
-      
-      //To REMOVE DATA IS
-      var request = db.transaction().objectStore("appointments").delete();
-      request.onsuccess = function(event){
-          //its gone
-      };
-      */
-      //document.location.href = "filterData.html";
-      window.location.href = "filterData.html";
-
-    }
-
-
-
-    /*
-    // The fastest loop:
-    var key=0; // We initialize the variable before the loop.
-        for (; key < allData.length; ++key) {  
+                storeRequest.onerror=function() {
+                showPopup("Database Error: cannot save allData Info");
+                };
+                }
+                /*
+                var request = appointmentsDB.add(allData);//removed 1
+                
+                //To REMOVE DATA IS
+                var request = db.transaction().objectStore("appointments").delete();
+                request.onsuccess = function(event){
+                    //its gone
+                };
+                */
+               //document.location.href = "filterData.html";
+               window.location.href = "filterData.html";
+               
+            }
+           
+       
+        
+        /*
+        // The fastest loop:
+        var key=0; // We initialize the variable before the loop.
+            for (; key < allData.length; ++key) {  
+            }
+        */
+       for (var key in allData){
+           if(!allData.hasOwnProperty(key)) continue;
+           //alert(key);
+           var obj = allData[key];
+           for (var prop in obj){
+               if (!obj.hasOwnProperty(prop)) continue;
+               //or this
+               //alert(prop + " = " + obj[prop]);
+               
+               //alert(prop + " = " + allData[key][prop]);
+           }
+       }
+       /*
+        //var key = Object.keys(allData);
+        var arrayVersionOfAllData = Object.keys(allData);
+        //var arrayVersionOfAllDataValues = Object.Values(allData);
+        //alert(arrayVersionOfAllData);
+        //alert(arrayVersionOfAllDataValues);
+        arrayVersionOfAllData.forEach(lll)
+        function lll(item, index, arr){
+            //alert("in function");
+            //alert(item);
+            //alert("key is:" + arrayVersionOfAllData[index]);
+            //alert(arr);
         }
-    */
-    for (var key in allData) {
-      if (!allData.hasOwnProperty(key)) continue;
-      //alert(key);
-      var obj = allData[key];
-      for (var prop in obj) {
-        if (!obj.hasOwnProperty(prop)) continue;
-        //or this
-        //alert(prop + " = " + obj[prop]);
+        alert("out function");
+        alert("start");
+        for (var key in arrayVersionOfAllData){
+            alert("next1");
+            //System.out.println("Value of "+key+" is: "+allData.get(key));
+            //alert(Object.keys(allData[key]).toString());
+            alert("array is:" + String(arrayVersionOfAllData));
+            alert("keys are:"+arrayVersionOfAllData[key])
+            alert(allData[arrayVersionOfAllData[key]]);
+            alert([Object.keys(allData)]);
+            alert(allData["1"]["cellAD"]);
+            alert([Object.keys(allData["1"])]);
+            alert([Object.keys(allData[String(key)])]);
+            alert("hhhhh");
+            //YOU MUST PUT A [] ARROUND THE KEYS() TO MAKE IT INTO A ACTUAL LIST FOR LOOPING
+            for(var key2 in [Object.keys(allData[key])]){  
+                alert("mk");
+                System.out.println("Value of "+key+" is: "+allData[key][key2]);
+            }
+            
+        }
+        */
+       //this IS THE ONLY WAY TO ACCESS OBJECT KEYSSSSSSSSSS IN JAVASCRIPT
+        //alert(Object.keys(allData));
+        //alert(allData["1"]["cellAD"]);
+        
+        var btnSubmit=document.getElementById("btnExport");
+           btnSubmit.addEventListener("click", excelApiIntegration, false);
 
-        //alert(prop + " = " + allData[key][prop]);
-      }
-    }
-    /*
-     //var key = Object.keys(allData);
-     var arrayVersionOfAllData = Object.keys(allData);
-     //var arrayVersionOfAllDataValues = Object.Values(allData);
-     //alert(arrayVersionOfAllData);
-     //alert(arrayVersionOfAllDataValues);
-     arrayVersionOfAllData.forEach(lll)
-     function lll(item, index, arr){
-         //alert("in function");
-         //alert(item);
-         //alert("key is:" + arrayVersionOfAllData[index]);
-         //alert(arr);
-     }
-     alert("out function");
-     alert("start");
-     for (var key in arrayVersionOfAllData){
-         alert("next1");
-         //System.out.println("Value of "+key+" is: "+allData.get(key));
-         //alert(Object.keys(allData[key]).toString());
-         alert("array is:" + String(arrayVersionOfAllData));
-         alert("keys are:"+arrayVersionOfAllData[key])
-         alert(allData[arrayVersionOfAllData[key]]);
-         alert([Object.keys(allData)]);
-         alert(allData["1"]["cellAD"]);
-         alert([Object.keys(allData["1"])]);
-         alert([Object.keys(allData[String(key)])]);
-         alert("hhhhh");
-         //YOU MUST PUT A [] ARROUND THE KEYS() TO MAKE IT INTO A ACTUAL LIST FOR LOOPING
-         for(var key2 in [Object.keys(allData[key])]){  
-             alert("mk");
-             System.out.println("Value of "+key+" is: "+allData[key][key2]);
-         }
-         
-     }
-     */
-    //this IS THE ONLY WAY TO ACCESS OBJECT KEYSSSSSSSSSS IN JAVASCRIPT
-    //alert(Object.keys(allData));
-    //alert(allData["1"]["cellAD"]);
+        var btnSubmitText=btnSubmit.textContent;
+        var msg=document.getElementById("msg");
+        var url = "http://babanski.com/files/ajax/hello.php";
 
-    var btnSubmit = document.getElementById("btnExport");
-    btnSubmit.addEventListener("click", excelApiIntegration, false);
+        var xhr = new XMLHttpRequest();
 
-    var btnSubmitText = btnSubmit.textContent;
-    var msg = document.getElementById("msg");
-    var url = "http://babanski.com/files/ajax/hello.php";
-
-    var xhr = new XMLHttpRequest();
-
-    // Part1: Try addEventListener() approach
-    /*
-    xhr.addEventListener("loadstart", xhrLoadStart, false);        
-    xhr.addEventListener("load", xhrLoad, false);
-    xhr.addEventListener("loadend", xhrLoadEnd, false);
-    
-    function xhrLoadStart(evt) { 
-        btnSubmit.textContent="Please Wait!";
-        msg.setAttribute("hidden", "");   
-    };
-
-    function xhrLoad(evt) {
-       msg.textContent=xhr.responseText;
-    };
-
-    function xhrLoadEnd(evt) {
-            btnSubmit.textContent=btnSubmitText;
-            msg.removeAttribute("hidden");
-    };
-    */
-
-
-    // Part2: Universal approach (event handlers)
-
-    xhr.onloadstart = function (evt) {
-      btnSubmit.textContent = "Please Wait!";
-      msg.setAttribute("hidden", "");
-    };
-
-    xhr.onload = function (evt) {
-      //msg.textContent=xhr.responseText;
-    };
-
-    xhr.onerror = function (evt) {
-      //msg.textContent="Error: cannot export data!";
-    };
-
-    xhr.ontimeout = function (evt) {
-      //msg.textContent="Error: request has timed out!";
-    };
-
-    xhr.onloadend = function (evt) {
-      btnSubmit.textContent = btnSubmitText;
-      //msg.removeAttribute("hidden", "");   
-    };
-
-
-    //Part 3:
-    //https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/readyState
-    /*
-    xhr.onreadystatechange = function(evt) {
-        if(xhr.readyState==XMLHttpRequest.OPENED) {
+        // Part1: Try addEventListener() approach
+        /*
+        xhr.addEventListener("loadstart", xhrLoadStart, false);        
+        xhr.addEventListener("load", xhrLoad, false);
+        xhr.addEventListener("loadend", xhrLoadEnd, false);
+        
+        function xhrLoadStart(evt) { 
             btnSubmit.textContent="Please Wait!";
-            msg.setAttribute("hidden", "hidden");                
-        }
-        else if(xhr.readyState==XMLHttpRequest.DONE) {
-            if (xhr.status==200) {
-                msg.textContent=xhr.responseText;
+            msg.setAttribute("hidden", "");   
+        };
+
+        function xhrLoad(evt) {
+           msg.textContent=xhr.responseText;
+        };
+
+        function xhrLoadEnd(evt) {
+                btnSubmit.textContent=btnSubmitText;
+                msg.removeAttribute("hidden");
+        };
+        */
+
+        
+        // Part2: Universal approach (event handlers)
+
+        xhr.onloadstart=function(evt) {
+           btnSubmit.textContent="Please Wait!";
+            msg.setAttribute("hidden", "");   
+        };
+
+        xhr.onload=function(evt) {
+           //msg.textContent=xhr.responseText;
+        };
+
+        xhr.onerror=function(evt) {
+           //msg.textContent="Error: cannot export data!";
+        };
+
+        xhr.ontimeout=function(evt) {
+           //msg.textContent="Error: request has timed out!";
+        };
+
+       xhr.onloadend=function(evt) {
+           btnSubmit.textContent=btnSubmitText;
+            //msg.removeAttribute("hidden", "");   
+       };
+
+
+       //Part 3:
+        //https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/readyState
+        /*
+        xhr.onreadystatechange = function(evt) {
+            if(xhr.readyState==XMLHttpRequest.OPENED) {
+                btnSubmit.textContent="Please Wait!";
+                msg.setAttribute("hidden", "hidden");                
             }
-            else {
-                msg.textContent="Error: cannot get data!";
+            else if(xhr.readyState==XMLHttpRequest.DONE) {
+                if (xhr.status==200) {
+                    msg.textContent=xhr.responseText;
+                }
+                else {
+                    msg.textContent="Error: cannot get data!";
+                }
+                btnSubmit.textContent=btnSubmitText;
+                msg.removeAttribute("hidden");
             }
-            btnSubmit.textContent=btnSubmitText;
-            msg.removeAttribute("hidden");
-        }
-    };
-    */
+        };
+        */
 
-    function excelApiIntegration(event) {
-
-      exportToExcel('tblexportData', 'user-data');
-
-      /*
+        function excelApiIntegration(event) {
+               
+               exportToExcel('tblexportData', 'user-data');
+               
+               /*
                
                event.preventDefault();
                xhr.open("POST", url, true);
@@ -1173,235 +1210,791 @@
       
                xhr.send(formData);
                */
-    }
-  });
-</script>
-
-
-
-
-
-
-
-
-<!--   JS Files   -->
-<script src="./assets/js/core/jquery.min.js"></script>
-<script src="./assets/js/core/popper.min.js"></script>
-<script src="./assets/js/core/bootstrap-material-design.min.js"></script>
-<script src="https://unpkg.com/default-passive-events"></script>
-<script src="./assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-<!-- Place this tag in your head or just before your close body tag. -->
-<script async defer src="https://buttons.github.io/buttons.js"></script>
-<script src="./assets/js/plugins/chartist.min.js"></script>
-<!--  Notifications Plugin    -->
-<script src="./assets/js/plugins/bootstrap-notify.js"></script>
-<!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-<script src="./assets/js/material-dashboard.js?v=2.1.0"></script>
-
-=======
-}
-});
-
-
-<script>
-  /*
+        }
+    });
+    
+    </script> 
+    
+    
+    <script>
+          /*
           $(document).ready(function(){
           })*/
+          
+          //the type can be 'POST'
+          //data is like the context variable you will python backend
+          var theAction = "1";
+          $.ajax({
+                type: "get",
+                url: "{% url 'managedata-table-load' %}",
+                dataType: "json",
+                data: { actionToTake: JSON.stringify(theAction) },
+                success: function(response) {
+                     
+                     var theOutput = JSON.parse(response.allData);   //this shows "[object][object]"
 
-  //the type can be 'POST'
-  //data is like the context variable you will python backend
-  var theAction = "1";
-  $.ajax({
-    type: "get",
-    url: "{% url 'managedata-table-load' %}",
-    dataType: "json",
-    data: {
-      actionToTake: JSON.stringify(theAction)
-    },
-    success: function (response) {
-
-      var theOutput = JSON.parse(response.allData); //this shows "[object][object]"
-      //var theOutput2 = JSON.parse(response.allDataStudentAccount)
-      //var theOutput3 = JSON.parse(response.allDataStudentAuth)
-      //var theOutput = response.allData;
-      console.log(response.theOutput);
-      //alert(response.allData); //this shows the actual things inside the object
-      //alert(response.allDataStudentAccount);
-      //alert(response.response.allDataStudentAuth);
+                     //this only parses JSON string, if it's not a Json string,it will give an error
+                     //var theOutput2 = JSON.parse(response.allDataStudentAccount);
+                     //var theOutput3 = JSON.parse(response.allDataStudentAuth)
+                            //var theOutput = response.allData;
+                     //console.log(response.theOutput);
 
 
-
-      //alert(theOutput2)
-      //alert(response.allDataStudentAccount)
-
-
-      //alert((response.allData)[8]);
-      //alert(theOutput)// this shows "[object][object]"
-      var table = $('<tbody>');
-
-      //var table = document.getElementById('groupTable')
-      //alert(theOutput);
-      var row = $('<tr>');
-
-      var name1 = "John";
-      var name2 = "Green";
-      var name3 = "First";
-      var name4 = "Last";
-      for (var i = 0; i < theOutput.length; i++) {
+                    /*
+                     alert(response.allData); //this shows the actual things inside the object
+                    */
 
 
 
-        var obj = theOutput[i]; //this says [object,object]
-        //alert(theOutput[i].fields);
-        //alert(JSON.parse(theOutput[i]));
-        var fields = obj.fields;
-        //alert(fields)
+                     //i can just start using it since this one doesn't need to be parsed
+                     //var theOutput = JSON.parse(response.allDataStudentAccount);
+                      /*
+                     alert(response);
+                     var g = JSON.stringify(response);
+                     alert(g[0]);
+                     alert(JSON.parse(response));
+                     */
+                     
+                     /*
+                     alert(response.allDataStudentAccount);
+                     */
+                     //alert(response.response.allDataStudentAuth);
+                    /*
+                     alert(response.allDataStudentAccount)
+                     alert(theOutput2)
+                     alert(response[0]);
+                     alert(response.allDataStudentAccount[0]);
+                     */
+                     //alert(response.allDataStudentAccount)
 
-        //make sure the foreign key table feild value isn't null so you can go into it and maybe go into it further if the next foreign key table feild value isn't null
-        if (fields.student_id != null) {
 
-          if (fields.student_id.auth_id != null) {
+                            //alert((response.allData)[8]);
+                            //alert(theOutput)// this shows "[object][object]"
+                     var table = $('<tbody>');
+                      
+                     //var table = document.getElementById('groupTable')
+                            //alert(theOutput);
+                     var row = $('<tr>');
+
+                     var name1 = "John";
+                     var name2 = "Green";
+                     var name3 = "First";
+                     var name4 = "Last";
+                      /*
+                     for (var i=0; i<theOutput.length; i++) {
+                      var obj = theOutput[i];
+                      alert(obj[0]);
+                     } 
+                    */
+
+                     for (var i=0; i<theOutput.length; i++) { 
+
+                      
+
+                           var obj = theOutput[i];//this says [object,object]
+                           //alert(theOutput[i].fields);
+                           //alert(JSON.parse(theOutput[i]));
+                           var fields = obj.fields;
+                           //alert(fields)
+                           var pk = obj.pk;
+                           //make sure the foreign key table feild value isn't null so you can go into it and maybe go into it further if the next foreign key table feild value isn't null
+                           if (fields.student_id != null){
+
+                            if (fields.student_id.auth_id !=null){
 
 
-            //alert(fields.title); //this shows the actual result of the one value
-            //var eventcode = fields.eventcode;
-            //var collegecode = fields.collegecode;
-            var row = $('<tr>');
-            //django takes care of joins automatically so we can do this
-            row.append('<td>' + fields.student_id.fname + " " + fields.student_id.lname + '</td>');
-            row.append('<td>' + fields.student_id["auth_id"].sheridan_id + '</td>');
-            //row.append('<td>' + fields.student_id.auth_id.sheridan_id + '</td>');
-            //row.append('<td>' + "First" + " " + "Name" + '</td>');
-            //row.append('<td>' + "9516584235" + '</td>');
-            //This below will print the whole list if the foreigh key is stored as a list in the object when serialized
-            //row.append('<td>' + fields.student_id + '</td>');
-            row.append('<td>' + fields.title + '</td>');
-            row.append('<td>' + fields.start_date + '</td>');
-            row.append('<td>' + fields.end_date + '</td>');
-            row.append('<td>' + fields.staff_notes + '</td>');
+                              //alert(fields.title); //this shows the actual result of the one value
+                              //var eventcode = fields.eventcode;
+                              //var collegecode = fields.collegecode;
 
-            row.append('<td><input  type="button" onclick="deleteRowMaybe(this)" value="Delete"></td>')
-            // putting the / at the right side of a single element creates the whole elemement rather than close a
-            //previously opened element so watch out, an example is: row.append('<tr/>');
-            row.append('</tr>');
-            table.append(row);
-          }
+                              // IF YOU PUT THE "" at the end of of > the table won't load. EXAMPLE is directly BELOW by 1 space
+                              // data-* is for html5. 
+                              var row = $('<tr data-row-id="' + pk + '">');
+                              //alert(pk);
+                              //django takes care of joins automatically so we can do this
+                              row.append('<td onclick="toEditPageNow(this)">' + fields.student_id.fname + " " + fields.student_id.lname + '</td>');
+                              row.append('<td onclick="toEditPageNow(this)">' + fields.student_id["auth_id"].sheridan_id + '</td>');
+                              //row.append('<td>' + fields.student_id.auth_id.sheridan_id + '</td>');
+                              //row.append('<td>' + "First" + " " + "Name" + '</td>');
+                              //row.append('<td>' + "9516584235" + '</td>');
+                              //This below will print the whole list if the foreigh key is stored as a list in the object when serialized
+                              //row.append('<td>' + fields.student_id + '</td>');
+                              row.append('<td onclick="toEditPageNow(this)">' + fields.title + '</td>');
+                              row.append('<td onclick="toEditPageNow(this)">' + fields.start_date + '</td>');
+                              row.append('<td onclick="toEditPageNow(this)">' + fields.end_date + '</td>');
+                              if(fields.staff_notes == null){
+                                row.append('<td onclick="toEditPageNow(this)"></td>');
+                              }
+                              else{
+                                row.append('<td onclick="toEditPageNow(this)">' + fields.staff_notes + '</td>');
+                                
+                              }
+                              
+                              row.append('<td><input  type="button" onclick="deleteRowMaybe(this)" value="Delete"></td>')
+                              // putting the / at the right side of a single element creates the whole elemement rather than close a
+                              //previously opened element so watch out, an example is: row.append('<tr/>');
+                              row.append('</tr>');
+                              table.append(row);
+                            }
 
+                           }
+                        
+
+
+                    
+                             
+
+                      }
+                      //var row = $('<tr/>');//its possible that i must write this variable in this way befor appending
+                      //row.append($('</tr>'));
+                      //table.append(row);
+                      table.append($('</tbody>'));
+                      //table.add
+                      //$('#groupTable').appendChild = table;
+                      //$('#groupTable').innerHTML(table);
+                      //$('#groupTable').innerHTML(table.children)
+                      $('#tblexportData').append(table);
+                      
+
+                     $(theOutput).each(function() {//use to be $(response)
+                           //alert(response.allData)
+                           //var obj = theOutput[i];
+                           //var fields = obj.fields;
+                           //var eventcode = fields.eventcode;
+                           //var collegecode = fields.collegecode;
+                           //alert(obj)
+                           //alert(fields.title)
+                           //var row = $('<tr/>');
+                           //row.append('<td>' + fields.title + '</td>');
+                           //row.append('<td>' + fields.title + '</td>');
+                           /*
+                           var row = $('<tr/>');
+                           row.append('<td>' + this.Value + '</td>');
+                           row.append('<td>' + this.Value + '</td>');
+                           */
+                           
+                           //alert(row);
+                           //alert(this.Value);
+                     });
+                     //table.append(row);  
+                     //this is saying all the elements with this tag should have "this" in it                  
+                     //$('#groupTable').html(table); // not refreshing table withdata
+                     
+                    //alert(response.allData)
+                },
+                error: function(request, status, error) {
+                    alert("this is an error");
+                    //alert(request.responseText);
+                }
+            });
+    </script>
+
+    <script>
+      //remember than there
+      //fuction to acquire the CSRF token if were not using a Form POST but rather Ajax POST without any HTML form
+      //Were specifically getting the csrftoken from Cookie
+      function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
         }
-
-
-
-
-
-
+        return cookieValue;
       }
-      //var row = $('<tr/>');//its possible that i must write this variable in this way befor appending
-      //row.append($('</tr>'));
-      //table.append(row);
-      table.append($('</tbody>'));
-      //table.add
-      //$('#groupTable').appendChild = table;
-      //$('#groupTable').innerHTML(table);
-      //$('#groupTable').innerHTML(table.children)
-      $('#tblexportData').append(table);
+      const csrftoken = getCookie('csrftoken');
 
-      $(theOutput).each(function () { //use to be $(response)
-        //alert(response.allData)
-        //var obj = theOutput[i];
-        //var fields = obj.fields;
-        //var eventcode = fields.eventcode;
-        //var collegecode = fields.collegecode;
-        //alert(obj)
-        //alert(fields.title)
-        //var row = $('<tr/>');
-        //row.append('<td>' + fields.title + '</td>');
-        //row.append('<td>' + fields.title + '</td>');
-        /*
-        var row = $('<tr/>');
-        row.append('<td>' + this.Value + '</td>');
-        row.append('<td>' + this.Value + '</td>');
-        */
+      function deleteRowMaybe(btnElement){
+        //btnElement is the html element passed by (this) reference
+        Swal.fire({
+        title: 'Do you want to delete this past appointment?',
+        showDenyButton: true,
+        confirmButtonText: 'Yes',
+        denyButtonText: 'No',
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
 
-        //alert(row);
-        //alert(this.Value);
-      });
-      //table.append(row);  
-      //this is saying all the elements with this tag should have "this" in it                  
-      //$('#groupTable').html(table); // not refreshing table withdata
+          var length_of_table_childrenNoCommentTable = $('#nocommenttable').children().length;
+          var list_of_childrenNoCommentTable = $('#nocommenttable').children()[length_of_table_childrenNoCommentTable - 1];
+          //If you put a '#' inside document.getElementById(''), u won't get error but the element wont behave well 
+          //const my_table_nodeNoCommentTable = document.getElementById('#nocommenttable');
+          const my_table_nodeNoCommentTable = document.getElementById('nocommenttable');
 
-      //alert(response.allData)
-    },
-    error: function (request, status, error) {
-      alert("this is an error");
-      //alert(request.responseText);
+          var my_tbody_table_nodeNoCommentTable = my_table_nodeNoCommentTable.lastChild;
+          //i must add $() for children() to be recognized as a function
+          var inside_element_lengthNoCommentTable = $(list_of_childrenNoCommentTable).children().length;
+
+          while (inside_element_lengthNoCommentTable > 0) {
+           //length_of_table_children = length_of_table_children - 1;
+           //my_table_node.removeChild(my_table_node.lastChild);
+           my_tbody_table_nodeNoCommentTable.removeChild(my_tbody_table_nodeNoCommentTable.lastChild);
+           inside_element_lengthNoCommentTable = inside_element_lengthNoCommentTable - 1;
+          }
+          //get the tr table row
+          var trRowToDelete = btnElement.parentNode.parentNode;
+          //this does't work :    alert("the row id is" + $(trRowToDelete).data('rowId'));
+          //THE WAY YOU CALL data() can be very different so pay attention!!
+          /*when attribute is data-rowId='1' use $().data(rowid) to get attribute value.This is for all CamelCase attributes as such!!!
+          alert("the row id gotten from $(trRowToDelete).data('row-id') is" + $(trRowToDelete).data('rowid'));
+          when attribute is data-row-id='1' use $().data(rowId) to get attribute value.This is for all attributes with dash "-" !!!
+          alert("the row id gotten from $(trRowToDelete).data('row-id') is" + $(trRowToDelete).data('rowId'));
+          you can also just be literal in dash "-" attribute situation such as
+          alert("the row id gotten from $(trRowToDelete).data('row-id') is" + $(trRowToDelete).data('row-id'));
+          */
+          /*
+          alert("the row id gotten from $(trRowToDelete).data('row-id') is" + $(trRowToDelete).data('row-id'));
+          */
+          //so innerHTML only shows you whats in the element not the element itself so you can possibly become confused if 
+          //YOU HAVE TO GET COORECT ELEMENT OR THE data('check') will give you undefined which is wronge
+          //alert("the top attribute is :" + $(trRowToDelete.parentNode.parentNode).data('check'))
+          //Delete row from actual database
+          var pk = $(trRowToDelete).data('row-id');
+          //i can only use the below code if i install the library that allows for it
+          //const csrftoken = Cookies.get('csrftoken');
+
+          $.ajax({
+                type: "post",
+                url: "{% url 'managedata-table-row-delete' %}",
+                dataType: "json",
+                data: { actionToTake: JSON.stringify(pk) },
+                headers: {'X-CSRFToken': csrftoken},
+                success: function(response) {
+                  var theOutputNoCommentTable = JSON.parse(response.allDataTableTwo);   //this shows "[object][object]"
+                      //alert(theOutput)// this shows "[object][object]"
+                      var tableNoCommentTable = $('<tbody>');
+                      var rowNoCommentTable = $('<tr>');
+                      for (var i=0; i<theOutputNoCommentTable.length; i++) { 
+                            var obj2 = theOutputNoCommentTable[i];//this says [object,object]
+                            var fields = obj2.fields;
+                            //alert(fields)
+                            var pk = obj2.pk;
+                            //make sure the foreign key table feild value isn't null so you can go into it and maybe go into it further if the next foreign key table feild value isn't null
+                            if (fields.student_id != null){
+                              if (fields.student_id.auth_id !=null){
+                                // data-* is for html5. 
+                                // IF YOU PUT THE "" at the end of of > the table won't load. EXAMPLE is directly BELOW by 1 space
+                                //var rowNoCommentTable = $('<tr data-row-id="' + pk + '" onclick="toEditPageNow(this)>" ');
+                                var rowNoCommentTable = $('<tr data-row-id="' + pk + '" > ');
+                                //django takes care of joins automatically so we can do this
+                                rowNoCommentTable.append('<td onclick="toEditPageNow(this)">' + fields.student_id.fname + " " + fields.student_id.lname + '</td>');
+                                rowNoCommentTable.append('<td onclick="toEditPageNow(this)">' + fields.student_id["auth_id"].sheridan_id + '</td>');
+                                rowNoCommentTable.append('<td onclick="toEditPageNow(this)">' + fields.title + '</td>');
+                                rowNoCommentTable.append('<td onclick="toEditPageNow(this)">' + fields.start_date + '</td>');
+                                rowNoCommentTable.append('<td onclick="toEditPageNow(this)">' + fields.end_date + '</td>');
+                                if(fields.staff_notes == null){
+                                  rowNoCommentTable.append('<td onclick="toEditPageNow(this)"></td>');
+                                }
+                                else{
+                                  rowNoCommentTable.append('<td onclick="toEditPageNow(this)">' + fields.staff_notes + '</td>');
+                                }
+                                // putting the / at the right side of a single element creates the whole elemement rather than close a
+                                //previously opened element so watch out, an example is: row.append('<tr/>');
+                                rowNoCommentTable.append('</tr>');
+                                tableNoCommentTable.append(rowNoCommentTable);
+                              }
+                            }
+                        }
+                        tableNoCommentTable.append($('</tbody>'));
+                        $('#nocommenttable').append(tableNoCommentTable);
+                },
+                error: function(request, status, error) {
+                    alert("did not delete the row");
+                    //alert(request.responseText);
+                }
+              });
+          
+
+          //add row to deletion queue display on this screen
+          var table = $('<tbody>');
+          //var row = $('<tr>');
+          // IF YOU PUT THE "" at the end of of > the table won't load. EXAMPLE is directly BELOW by 1 space
+          var row = $('<tr data-row-id="' + pk + '">');
+          //i must first add the first coulumn value for the tabel row for i do the loop dynamic fill up
+          // i do the quotes this way currently
+          row.append('<td><button type="button" onclick="addRowMaybe(this)" style="width: auto;"><span style="font-size:20px;">&#9785;</span>Undo This Deletion</button></td>');
+          
+          
+          /*
+          alert("btnElement.innerHTML = " + btnElement.innerHTML);
+          alert("the next print is thesame as this cus  var trRowToDelete = btnElement.parentNode.parentNode and :" + trRowToDelete.innerHTML);
+          alert("btnElement.parentNode.innerHTML = " + btnElement.parentNode.innerHTML);
+          alert("btnElement.parentNode.parentNode.innerHTML = " + btnElement.parentNode.parentNode.innerHTML);
+          alert("btnElement.parentNode.parentNode.parentNode.innerHTML = " + btnElement.parentNode.parentNode.parentNode.innerHTML);
+          alert("btnElement.parentNode.parentNode.parentNode.parentNode.innerHTML = " + btnElement.parentNode.parentNode.parentNode.parentNode.innerHTML);
+          */
+
+          
+          var listOfWholeRow = trRowToDelete.children;
+          //alert(listOfWholeRow);
+          //  the -1 is so that it doesn't take the last <tr> with the delete button in it as a element also
+          //alert("the length is :" + listOfWholeRow.length)
+          for (var i=0; i<(listOfWholeRow.length - 1); i++) { 
+            row.append('<td>' + listOfWholeRow[i].innerHTML + '</td>')
+            //alert(listOfWholeRow[i].innerHTML);
+          }
+          row.append('<tr/>');
+          table.append(row);
+          table.append($('</tbody>'));
+          $('#deletionQueueTable').append(table);
+          //delete the tr table row
+          trRowToDelete.parentNode.removeChild(trRowToDelete);
+          Swal.fire("This appointment was sent to the deletion queue, 24 hour til it's deletion!", '', 'success')
+        }
+      })
+      }
+    </script>
+
+    <script>
+
+      //remember than there
+      //fuction to acquire the CSRF token if were not using a Form POST but rather Ajax POST without any HTML form
+      //Were specifically getting the csrftoken from Cookie
+
+      /*
+      function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+      }
+      */
+      csrftoken = getCookie('csrftoken');
+
+
+      function addRowMaybe(btnElement){
+        //btnElement is the html element passed by (this) reference
+        Swal.fire({
+        title: 'Do you want to Undo the deletion of this past appointmet?',
+        showClass: {popup: 'animate__animated animate__fadeInDown'},
+        hideClass: {popup: 'animate__animated animate__fadeOutUp'},
+        showDenyButton: true,
+        confirmButtonText: 'Yes',
+        denyButtonText: 'No',//don't forget this comma or it work work
+      }).then((result) => {
+        if (result.isConfirmed) {
+          //var length_of_table_children = $('#tblexportData').children().length;
+          //get the second chil which is <tbody>
+          var length_of_table_children = $('#tblexportData').children().length;
+          var list_of_children = $('#tblexportData').children()[length_of_table_children - 1];
+          const my_table_node = document.getElementById('tblexportData');
+          var my_tbody_table_node = my_table_node.lastChild;
+          //i must add $() for children() to be recognized as a function
+          var inside_element_length = $(list_of_children).children().length;
+          /*
+          alert("The outside length is: " + length_of_table_children);
+          alert("Te inside length is: " + inside_element_length);
+          */
+          while (inside_element_length > 0) {
+           //length_of_table_children = length_of_table_children - 1;
+           //my_table_node.removeChild(my_table_node.lastChild);
+           my_tbody_table_node.removeChild(my_tbody_table_node.lastChild);
+           inside_element_length = inside_element_length - 1;
+          }
+          /* Delete every
+          while (my_table_node.firstChild) {
+          length_of_table_children = $('#tblexportData').children().length;
+          my_table_node.removeChild(my_table_node.lastChild);
+          */ 
+          //--------------------------------------------
+
+          
+          var length_of_table_childrenNoCommentTable = $('#nocommenttable').children().length;
+          var list_of_childrenNoCommentTable = $('#nocommenttable').children()[length_of_table_childrenNoCommentTable - 1];
+          //If you put a '#' inside document.getElementById(''), u won't get error but the element wont behave well 
+          //const my_table_nodeNoCommentTable = document.getElementById('#nocommenttable');
+          const my_table_nodeNoCommentTable = document.getElementById('nocommenttable');
+
+          var my_tbody_table_nodeNoCommentTable = my_table_nodeNoCommentTable.lastChild;
+          //i must add $() for children() to be recognized as a function
+          var inside_element_lengthNoCommentTable = $(list_of_childrenNoCommentTable).children().length;
+          
+          while (inside_element_lengthNoCommentTable > 0) {
+           //length_of_table_children = length_of_table_children - 1;
+           //my_table_node.removeChild(my_table_node.lastChild);
+           my_tbody_table_nodeNoCommentTable.removeChild(my_tbody_table_nodeNoCommentTable.lastChild);
+           inside_element_lengthNoCommentTable = inside_element_lengthNoCommentTable - 1;
+          }
+          
+
+
+
+
+
+
+
+          //-----------------------------------------------
+          //get the tr table row
+          var trRowToDelete = btnElement.parentNode.parentNode;
+          var pk = $(trRowToDelete).data('row-id');
+
+          
+
+          //var theAction = "1";
+
+          
+          $.ajax({
+                type: "post",
+                url: "{% url 'managedata-table-row-add-load' %}",
+                dataType: "json",
+                data: { actionToTake: JSON.stringify(pk) },
+                headers: {'X-CSRFToken': csrftoken},
+                success: function(response) {
+                     var theOutput = JSON.parse(response.allData);   //this shows "[object][object]"
+                            //alert(theOutput)// this shows "[object][object]"
+                     var table = $('<tbody>');
+                     var row = $('<tr>');
+                     for (var i=0; i<theOutput.length; i++) { 
+                           var obj = theOutput[i];//this says [object,object]
+                           var fields = obj.fields;
+                           //alert(fields)
+                           var pk = obj.pk;
+                           //make sure the foreign key table feild value isn't null so you can go into it and maybe go into it further if the next foreign key table feild value isn't null
+                           if (fields.student_id != null){
+                            if (fields.student_id.auth_id !=null){
+                              // IF YOU PUT THE "" at the end of of > the table won't load. EXAMPLE is directly BELOW by 1 space
+                              // data-* is for html5. 
+                              var row = $('<tr data-row-id="' + pk + '" > ');
+                              //django takes care of joins automatically so we can do this
+                              row.append('<td onclick="toEditPageNow(this)">' + fields.student_id.fname + " " + fields.student_id.lname + '</td>');
+                              row.append('<td onclick="toEditPageNow(this)">' + fields.student_id["auth_id"].sheridan_id + '</td>');
+                              row.append('<td onclick="toEditPageNow(this)">' + fields.title + '</td>');
+                              row.append('<td onclick="toEditPageNow(this)">' + fields.start_date + '</td>');
+                              row.append('<td onclick="toEditPageNow(this)">' + fields.end_date + '</td>');
+                              if(fields.staff_notes == null){
+                                row.append('<td onclick="toEditPageNow(this)"></td>');
+                              }
+                              else{
+                                row.append('<td onclick="toEditPageNow(this)">' + fields.staff_notes + '</td>');
+                              }
+                              row.append('<td><input  type="button" onclick="deleteRowMaybe(this)" value="Delete"></td>')
+                              // putting the / at the right side of a single element creates the whole elemement rather than close a
+                              //previously opened element so watch out, an example is: row.append('<tr/>');
+                              row.append('</tr>');
+                              table.append(row);
+                            }
+                           }
+                      }
+                      //Im gonna put these at the bottom so its poplated at arround thesame time as the other table
+                      //table.append($('</tbody>'));
+                      //$('#tblexportData').append(table);
+
+                      //----------------------------------------------------------------------------------
+
+                      
+                      var theOutputNoCommentTable = JSON.parse(response.allDataTableTwo);   //this shows "[object][object]"
+                      //alert(theOutput)// this shows "[object][object]"
+                      var tableNoCommentTable = $('<tbody>');
+                      var rowNoCommentTable = $('<tr>');
+                      for (var i=0; i<theOutputNoCommentTable.length; i++) { 
+                            var obj2 = theOutputNoCommentTable[i];//this says [object,object]
+                            var fields = obj2.fields;
+                            //alert(fields)
+                            var pk = obj2.pk;
+                            //make sure the foreign key table feild value isn't null so you can go into it and maybe go into it further if the next foreign key table feild value isn't null
+                            if (fields.student_id != null){
+                              if (fields.student_id.auth_id !=null){
+                                // data-* is for html5. 
+                                // IF YOU PUT THE "" at the end of of > the table won't load. EXAMPLE is directly BELOW by 1 space
+                                //var rowNoCommentTable = $('<tr data-row-id="' + pk + '" onclick="toEditPageNow(this)>" ');
+                                var rowNoCommentTable = $('<tr data-row-id="' + pk + '" > ');
+                                //django takes care of joins automatically so we can do this
+                                rowNoCommentTable.append('<td onclick="toEditPageNow(this)">' + fields.student_id.fname + " " + fields.student_id.lname + '</td>');
+                                rowNoCommentTable.append('<td onclick="toEditPageNow(this)">' + fields.student_id["auth_id"].sheridan_id + '</td>');
+                                rowNoCommentTable.append('<td onclick="toEditPageNow(this)">' + fields.title + '</td>');
+                                rowNoCommentTable.append('<td onclick="toEditPageNow(this)">' + fields.start_date + '</td>');
+                                rowNoCommentTable.append('<td onclick="toEditPageNow(this)">' + fields.end_date + '</td>');
+                                if(fields.staff_notes == null){
+                                  rowNoCommentTable.append('<td onclick="toEditPageNow(this)"></td>');
+                                }
+                                else{
+                                  rowNoCommentTable.append('<td onclick="toEditPageNow(this)">' + fields.staff_notes + '</td>');
+                                }
+                                // putting the / at the right side of a single element creates the whole elemement rather than close a
+                                //previously opened element so watch out, an example is: row.append('<tr/>');
+                                rowNoCommentTable.append('</tr>');
+                                tableNoCommentTable.append(rowNoCommentTable);
+                              }
+                            }
+                        }
+
+                        table.append($('</tbody>'));
+                        $('#tblexportData').append(table);
+
+
+                        tableNoCommentTable.append($('</tbody>'));
+                        $('#nocommenttable').append(tableNoCommentTable);
+                      
+                     //$(theOutput).each(function() {//use to be $(response)
+                     //});
+                     
+                },
+                error: function(request, status, error) {
+                    alert("this is an error");
+                }
+            }); 
+            //delete the tr table row
+          trRowToDelete.parentNode.removeChild(trRowToDelete);
+          Swal.fire("This appointment has been placed back into the past appointment queue", '', 'success')
+        }
+      })
     }
-  });
+    </script>
+
+    <script>  
+
+      var theAction = "1";
+      // make sure you select the right type cus get and post both require different things so an error doesn't occur
+      $.ajax({
+            type: "get",
+            url: "{% url 'managedata-table-deletion-queue-load' %}",
+            dataType: "json",
+            data: { actionToTake: JSON.stringify(theAction) },
+            //i don't need this row now since it's a Ajax Post
+            //headers: {'X-CSRFToken': csrftoken},
+            success: function(response) {
+                var theOutput = JSON.parse(response.allData);   //this shows "[object][object]"
+                        //alert(theOutput)// this shows "[object][object]"
+                var table = $('<tbody>');
+                var row = $('<tr>');
+
+                
+                
+                for (var i=0; i<theOutput.length; i++) { 
+                      var obj = theOutput[i];//this says [object,object]
+                      var fields = obj.fields;
+                      //alert(fields)
+                      var pk = obj.pk;
+                      //make sure the foreign key table feild value isn't null so you can go into it and maybe go into it further if the next foreign key table feild value isn't null
+                      if (fields.student_id != null){
+                        if (fields.student_id.auth_id !=null){
+                          // IF YOU PUT THE "" at the end of of > the table won't load. EXAMPLE is directly BELOW by 1 space
+                          // data-* is for html5. 
+                          var row = $('<tr data-row-id="' + pk + '">');
+
+                          //i must first add the first coulumn value for the tabel row for i do the loop dynamic fill up
+                          // i do the quotes this way currently
+                          row.append('<td><button type="button" onclick="addRowMaybe(this)" style="width: auto;"><span style="font-size:20px;">&#9785;</span>Undo This Deletion</button></td>');
+
+                          //django takes care of joins automatically so we can do this
+                          row.append('<td>' + fields.student_id.fname + " " + fields.student_id.lname + '</td>');
+                          row.append('<td>' + fields.student_id["auth_id"].sheridan_id + '</td>');
+                          row.append('<td>' + fields.title + '</td>');
+                          row.append('<td>' + fields.start_date + '</td>');
+                          row.append('<td>' + fields.end_date + '</td>');
+                          if(fields.staff_notes == null){
+                            row.append('<td></td>');
+                          }
+                          else{
+                            row.append('<td>' + fields.staff_notes + '</td>');
+                          }
+                          
+                          // putting the / at the right side of a single element creates the whole elemement rather than close a
+                          //previously opened element so watch out, an example is: row.append('<tr/>');
+                          row.append('</tr>');
+                          table.append(row);
+                        }
+                      }
+                  }
+                  table.append($('</tbody>'));
+                  $('#deletionQueueTable').append(table);
+                $(theOutput).each(function() {//use to be $(response)
+                });
+            },
+            error: function(request, status, error) {
+                alert("this is an error");
+            }
+        });
+        
+
+    </script>
+
+
+<script>  
+  //csrftoken = getCookie('csrftoken');
+
+  var theAction = "1";
+  // make sure you select the right type cus get and post both require different things so an error doesn't occur
+  $.ajax({
+        type: "get",
+        url: "{% url 'managedata-table_load_up_empty_notes' %}",
+        dataType: "json",
+        data: { actionToTake: JSON.stringify(theAction) },
+        //i don't need this row now since it's a Ajax Post
+        //headers: {'X-CSRFToken': csrftoken},
+        success: function(response) {
+            var theOutput = JSON.parse(response.allData);   //this shows "[object][object]"
+            //alert(theOutput)// this shows "[object][object]"
+            var table = $('<tbody>');
+            var row = $('<tr>');
+
+            
+            
+            for (var i=0; i<theOutput.length; i++) { 
+                  var obj = theOutput[i];//this says [object,object]
+                  var fields = obj.fields;
+                  //alert(fields)
+                  var pk = obj.pk;
+                  //make sure the foreign key table feild value isn't null so you can go into it and maybe go into it further if the next foreign key table feild value isn't null
+                  if (fields.student_id != null){
+                    if (fields.student_id.auth_id !=null){
+                      // data-* is for html5. 
+                      // IF YOU PUT THE "" at the end of of > the table won't load. EXAMPLE is directly BELOW by 1 space
+                      //var row = $('<tr data-row-id="' + pk + '" onclick="toEditPageNow(this)>" ');
+                      var row = $('<tr data-row-id="' + pk + '" > ');
+
+                      //django takes care of joins automatically so we can do this
+                      row.append('<td onclick="toEditPageNow(this)">' + fields.student_id.fname + " " + fields.student_id.lname + '</td>');
+                      row.append('<td onclick="toEditPageNow(this)">' + fields.student_id["auth_id"].sheridan_id + '</td>');
+                      row.append('<td onclick="toEditPageNow(this)">' + fields.title + '</td>');
+                      row.append('<td onclick="toEditPageNow(this)">' + fields.start_date + '</td>');
+                      row.append('<td onclick="toEditPageNow(this)">' + fields.end_date + '</td>');
+                      if(fields.staff_notes == null){
+                        row.append('<td onclick="toEditPageNow(this)"></td>');
+                      }
+                      else{
+                        row.append('<td onclick="toEditPageNow(this)">' + fields.staff_notes + '</td>');
+                      }
+                      
+                      
+                      // putting the / at the right side of a single element creates the whole elemement rather than close a
+                      //previously opened element so watch out, an example is: row.append('<tr/>');
+                      row.append('</tr>');
+                      table.append(row);
+                    }
+                  }
+              }
+              table.append($('</tbody>'));
+              $('#nocommenttable').append(table);
+            $(theOutput).each(function() {//use to be $(response)
+            });
+            
+        },
+        error: function(request, status, error) {
+            alert("this is an error");
+        }
+    });
+    
+
 </script>
 
 <script>
-  function deleteRowMaybe(btnElement) {
-    //btnElement is the html element passed by (this) reference
-    Swal.fire({
-      title: 'Do you want to delete this row?',
-      showDenyButton: true,
-      confirmButtonText: 'Yes',
-      denyButtonText: 'No',
-    }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
-      if (result.isConfirmed) {
-        //Delete row from actual database
-        //add row to deletion queue display on this screen
-        var table = $('<tbody>');
-        var row = $('<tr>');
-        //i must first add the first coulumn value for the tabel row for i do the loop dynamic fill up
-        // i do the quotes this way currently
-        row.append(
-          '<td><button type="button" style="width: auto"><span style="font-size:20px;">&#9785;</span>Undo This Deletion</button></td>'
-        );
-        //get the tr table row
-        var trRowToDelete = btnElement.parentNode.parentNode;
-        //alert(trRowToDelete);
-        //alert(trRowToDelete.innerHTML)
-        var listOfWholeRow = trRowToDelete.children;
-        //alert(listOfWholeRow);
-        //  the -1 is so that it doesn't take the last <tr> with the delete button in it as a element also
-        //alert("the length is :" + listOfWholeRow.length)
-        for (var i = 0; i < (listOfWholeRow.length - 1); i++) {
-          row.append('<td>' + listOfWholeRow[i].innerHTML + '</td>')
-          //alert(listOfWholeRow[i].innerHTML);
-        }
-        row.append('<tr/>');
-        table.append(row);
-        table.append($('</tbody>'));
-        $('#deletionQueueTable').append(table);
-        //delete the tr table row
-        trRowToDelete.parentNode.removeChild(trRowToDelete);
-        Swal.fire("This appointment was sent to the deletion queue, 24 hour til it's deletion!", '', 'success')
-      }
-    })
+
+  //csrftoken = getCookie('csrftoken');
+
+  function toEditPageNow(tdElement){
+
+    var trElement = tdElement.parentNode;
+    var pk = $(trElement).data('row-id');
+
+    //i can only use the below code if i install the library that allows for it
+    //const csrftoken = Cookies.get('csrftoken');
+
+    
+    $.ajax({
+          type: "get",
+          url: "{% url 'managedata_to_edit_page' %}",
+          dataType: "json",
+          data: { actionToTake: JSON.stringify(pk) },
+          //headers: {'X-CSRFToken': csrftoken},
+          success: function(response) {
+
+            // this might crash since i didn't parse the json object first
+            //var theOutput = JSON.parse(response.redirectpage);
+            //window.location.href = theOutput.redirectpage;
+            
+            //var theOutput = JSON.parse(response);
+            //window.location.href = theOutput.redirectpage;
+            
+            // u don't need to parse return json parameter value if it's not a json object in the return parameter
+            //window.location.replace(response.redirectpage);
+            
+            //window.location.href = response.redirectpage;
+            //document.location.href = response.redirectpage;
+
+            //i can't just put in in directly like this i must use another variable
+            //The {} %% url needs to be delete not commented out cus django still recognizes it and give errors even while commnet out
+            
+
+            //var holdlink = response.redirectpage;
+            //alert(holdlink)
+            // Generate URL without "id" bit
+            //The {} %% url needs to be delete not commented out cus django still recognizes it and give errors even while commnet out
+            
+            
+            //document.location.href = url;
+            // Even tho the url is commented out, it is still recognized by the debugger so n error can go up if this is wronge
+            //document.location.href = "{% url 'editmeetingcomments' %}";
+
+            
+            //alert(response.redirectpageid);
+
+
+            //pass param to django view. website must be the name of a html page, no shortcuts names from django so this won't work
+            //
+            document.location.href = "editmeetingcomments/"+response.redirectpageid;
+            
+            //let holdin = response.redirectpage;
+            
+
+
+            //var id = $(this).attr('id');
+            // Construct the full URL with "id"
+            //document.location.href = url + "/" + id;
+
+
+
+            
+                
+          },
+          error: function(request, status, error) {
+              alert("did not change page");
+              //alert(request.responseText);
+          }
+        });
+
+        
   }
+
 </script>
 
 
 
 
-<!--   JS Files   -->
-<script src="./assets/js/core/jquery.min.js"></script>
-<script src="./assets/js/core/popper.min.js"></script>
-<script src="./assets/js/core/bootstrap-material-design.min.js"></script>
-<script src="https://unpkg.com/default-passive-events"></script>
-<script src="./assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-<!-- Place this tag in your head or just before your close body tag. -->
-<script async defer src="https://buttons.github.io/buttons.js"></script>
-<script src="./assets/js/plugins/chartist.min.js"></script>
-<!--  Notifications Plugin    -->
-<script src="./assets/js/plugins/bootstrap-notify.js"></script>
-<!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-<script src="./assets/js/material-dashboard.js?v=2.1.0"></script>
->>>>>>> c2a4b6fc8696c5936f690a033d9ecd49c0ee279d
+
+
+  <!--   JS Files   -->
+  <script src="./assets/js/core/jquery.min.js"></script>
+  <script src="./assets/js/core/popper.min.js"></script>
+  <script src="./assets/js/core/bootstrap-material-design.min.js"></script>
+  <script src="https://unpkg.com/default-passive-events"></script>
+  <script src="./assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+  <!-- Place this tag in your head or just before your close body tag. -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <script src="./assets/js/plugins/chartist.min.js"></script>
+  <!--  Notifications Plugin    -->
+  <script src="./assets/js/plugins/bootstrap-notify.js"></script>
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="./assets/js/material-dashboard.js?v=2.1.0"></script>
 
 
 
+  
 
 
-{% endblock %}
+  {% endblock %}
