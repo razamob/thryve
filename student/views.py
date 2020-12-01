@@ -55,7 +55,8 @@ class StudentAccountView(viewsets.ModelViewSet):
             phone_number=request.POST.get('phone number')
         )
         serializer = StudentAccountSerializer(studentaccount)
-        studentaccounts = StudentAccount.objects.filter(id=studentaccount.id).values()
+        studentaccounts = StudentAccount.objects.filter(
+            id=studentaccount.id).values()
         return JsonResponse({"studentaccounts": list(studentaccounts)})
 
     # def destroy(self, request, pk):
@@ -79,33 +80,39 @@ def index(request):
     studentaccounts = StudentAccount.objects.all()
     return JsonResponse(request, 'studentaccounts/studentaccounts.html', {'studentaccounts': studentaccounts})
 
+
 @csrf_exempt
 def insert_studentaccount(request, auth, prog):
     new_auth = StudentAuth.objects.get(id=auth)
+    print(new_auth)
     new_prog = SchoolProgram.objects.get(id=prog)
-
+    print(new_prog)
+    received_json_data = json.loads(request.body.decode("utf-8"))
     studentaccount = StudentAccount.objects.create(
-        fname=request.POST.get('fname'),
-        lname=request.POST.get('lname'),
-        email=request.POST.get('email'),
-        student_number=request.POST.get('student_number'),
-        program_year=request.POST.get('program_year'),
-        als=request.POST.get('als'),
-        coop=request.POST.get('coop'),
-        international=request.POST.get('international'),
+        fname=received_json_data['fname'],
+        lname=received_json_data['lname'],
+        email=received_json_data['email'],
+        student_number=received_json_data['student_number'],
+        program_year=received_json_data['program_year'],
+        als=received_json_data['als'],
+        coop=received_json_data['coop'],
+        gpa=received_json_data['gpa'],
+        education_level=received_json_data['education_level'],
+        international=received_json_data['international'],
         program_id=new_prog,
         auth_id=new_auth,
-        phone_number=request.POST.get('phone number')
+        phone_number=received_json_data['phone_number']
     )
     serializer = StudentAccountSerializer(studentaccount)
-    studentaccounts = StudentAccount.objects.filter(id=studentaccount.id).values()
+    studentaccounts = StudentAccount.objects.filter(
+        id=studentaccount.id).values()
     return JsonResponse({"studentaccounts": list(studentaccounts)})
-
 
 
 def find_studentaccount(request, id):
     studentaccount = StudentAccount.objects.filter(id=id).values()
     return JsonResponse({"studentaccount": list(studentaccount)})
+
 
 def delete_studentaccount(request, id):
     if request.method == 'POST':
