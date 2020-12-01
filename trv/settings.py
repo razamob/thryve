@@ -26,7 +26,7 @@ SECRET_KEY = 'wn^s8d-of-*9@w@&2nt8-1kf$*p2$+fc8ihb8oct3is8^50-dp'
 DEBUG = True
 
 ALLOWED_HOSTS = ['http://web-app-thrv.us-east-2.elasticbeanstalk.com', 'web-app-thrv.us-east-2.elasticbeanstalk.com',
-                 'localhost', '172.31.1.170', '127.0.0.1', '172.31.28.160', 'localhost']
+                 'localhost', '172.31.1.170', '127.0.0.1', '172.31.28.160', 'localhost', '172.31.9.210', '172.31.32.71', '172.31.9.139', '172.31.22.177']
 
 
 # Application definition
@@ -162,17 +162,3 @@ STATICFILES_FINDERS = (
 MESSAGE_TAGS = {
     messages.ERROR: 'danger'
 }
-
-# Email config
-
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST: 'smtp.gmail.com'
-# EMAIL_PORT = 587
-# EMAIL_HOST_USER = 'mobeenraza39@gmail.com'
-# EMAIL_HOST_PASSWORD = 'nqdqhstoueyuuhfw'
-# EMAIL_USE_TLS = True
-# EMAIL_HOST = 'smtp.sendgrid.net'
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = 'apikey'
-# EMAIL_HOST_PASSWORD = os.getenv('SENDGRID_API_KEY')

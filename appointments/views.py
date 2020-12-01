@@ -18,6 +18,9 @@ from django.conf import settings
 import os
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
+from decimal import Decimal
+from django.contrib import messages
+from dateutil import parser
 
 
 class AppointmentView(viewsets.ModelViewSet):
@@ -33,25 +36,46 @@ class AppointmentView(viewsets.ModelViewSet):
         return JsonResponse({"appointments": list(queryset)})
 
     def create(self, request):
-        # send_mail(
-        #     'Hello Mobeen',
-        #     'MOBEEN RAZA HELLO APPOINTMENT',
-        #     'mobeenraza39@gmail.com',
-        #     ['mobeenraza39@gmail.com'],
-        #     fail_silently=False
-        # )
         print(request.POST)
         username = request.user.username
         user = StaffAccount.objects.get(email=username)
-        userID = user.auth_id.id 
+        userID = user.auth_id.id
         userlogin = StaffAuth.objects.get(username=username)
         email = request.POST.get('email')
-        student = StudentAccount.objects.create(
-            fname=request.POST.get('fname'),
-            lname=request.POST.get('lname'),
-            email=email,
-            student_number=request.POST.get('studentid')
-        )
+        coop = False
+        als = False
+        international = False
+
+        start_date = parser.parse(request.POST.get('start_date')).timestamp()
+        end_date = parser.parse(request.POST.get('end_date')).timestamp()
+        for each in Appointment.objects.all():
+            if (start_date >= each.start_date.timestamp() and start_date <= each.end_date.timestamp())  or (end_date >= each.start_date.timestamp() and end_date <= each.end_date.timestamp()):
+                messages.error(
+                    request, 'Appointment for this date is already booked.')
+                return redirect('/appointments/')
+        if(request.POST.get('als') == 'als'):
+            als = True
+        if(request.POST.get('coop') == 'coop'):
+            coop = True
+        if(request.POST.get('international') == 'int'):
+            international = True
+        for each in StudentAccount.objects.all():
+            if StudentAccount.objects.filter(student_number=request.POST.get('studentid')):
+                student = StudentAccount.objects.get(
+                    student_number=request.POST.get('studentid'))
+            else:
+                student = StudentAccount.objects.create(
+                    fname=request.POST.get('fname'),
+                    lname=request.POST.get('lname'),
+                    email=email,
+                    program_year=request.POST.get('year'),
+                    education_level=request.POST.get('edu'),
+                    coop=coop,
+                    als=als,
+                    international=international,
+                    gpa=request.POST.get('grade'),
+                    student_number=request.POST.get('studentid')
+                )
         appointment = Appointment.objects.create(
             title=request.POST.get('title'),
             start_date=request.POST.get('start_date'),
@@ -82,10 +106,8 @@ class AppointmentView(viewsets.ModelViewSet):
             print(response.headers)
         except Exception as e:
             print(e)
-        # # "Appointment for " + request.POST.get('fname') + " " + request.POST.get(
-        #     'lname') + " on " + request.POST.get('start_date'),
-        # "Hi " + request.POST.get('fname') + ". This is to confirm that your appointment is set for " +
-        # request.POST.get('start_date') + ".",
+        messages.success(
+            request, 'Your appointment has been booked!')
         return render(request, 'dashboard/overview.html', {'user': user, 'userlogin': userlogin, 'appointments': appointments, 'students': students})
         # appointments = Appointment.objects.all()
 
@@ -106,7 +128,7 @@ class AppointmentAPI(viewsets.ModelViewSet):
 def index(request):
     username = request.user.username
     user = StaffAccount.objects.get(email=username)
-    userID = user.auth_id.id + 1
+    userID = user.auth_id.id
     userlogin = StaffAuth.objects.get(username=username)
     print(user.auth_id)
     appointments = Appointment.objects.filter(
@@ -131,7 +153,7 @@ def index(request):
 def delete_appointment(request, id):
     username = request.user.username
     user = StaffAccount.objects.get(email=username)
-    userID = user.auth_id.id + 1
+    userID = user.auth_id.id
     userlogin = StaffAuth.objects.get(username=username)
     if request.method == 'POST':
         print(request.POST, id)
@@ -157,6 +179,8 @@ def delete_appointment(request, id):
             print(response.headers)
         except Exception as e:
             print(e)
+        messages.success(
+            request, 'Your appointment has been deleted!')
         return redirect('/appointments/')
         # return render(request, 'appointments/appointments.html', {'appointments': appointments})
 
@@ -164,12 +188,7 @@ def delete_appointment(request, id):
 def edit_appointment(request, id):
     username = request.user.username
     user = StaffAccount.objects.get(email=username)
-<<<<<<< HEAD
     userID = user.auth_id.id
-=======
-    userID = user.auth_id.id + 1
-    print(userID)
->>>>>>> fdf915b9ed41669098495309d5169cb5c623ce1c
     userlogin = StaffAuth.objects.get(username=username)
     if request.method == 'POST':
         reason = ""
@@ -190,12 +209,7 @@ def edit_appointment(request, id):
             reason = "Your student number for the appointment was updated to " + \
                 request.POST.get('studentnumber')
             StudentAccount.objects.filter(id=appointment.student_id.id).update(
-<<<<<<< HEAD
                 student_number=request.POST.get('studentnumber'))
-=======
-                student_number=request.POST.get('studentnumber')
-            )
->>>>>>> fdf915b9ed41669098495309d5169cb5c623ce1c
         if request.POST.get('email'):
             reason = "Your email was updated to " + request.POST.get('email')
             StudentAccount.objects.filter(id=appointment.student_id.id).update(
@@ -208,7 +222,6 @@ def edit_appointment(request, id):
                 title=request.POST.get('title')
             )
         if request.POST.get('start_date'):
-<<<<<<< HEAD
             start_date = parser.parse(
                 request.POST.get('start_date')).timestamp()
             for each in Appointment.objects.all():
@@ -216,23 +229,18 @@ def edit_appointment(request, id):
                     messages.error(
                         request, 'Appointment for this date is already booked.')
                     return redirect('/appointments/')
-=======
->>>>>>> fdf915b9ed41669098495309d5169cb5c623ce1c
             reason = "Your appointment start time was updated to " + \
                 request.POST.get('start_date')
             Appointment.objects.filter(id=id).update(
                 start_date=request.POST.get('start_date')
             )
         if request.POST.get('end_date'):
-<<<<<<< HEAD
             end_date = parser.parse(request.POST.get('end_date')).timestamp()
             for each in Appointment.objects.all():
                 if end_date >= each.start_date.timestamp() and end_date <= each.end_date.timestamp():
                     messages.error(
                         request, 'Appointment for this date is already booked.')
                     return redirect('/appointments/')
-=======
->>>>>>> fdf915b9ed41669098495309d5169cb5c623ce1c
             reason = "Your appointment ending time was updated to " + \
                 request.POST.get('end_date')
             Appointment.objects.filter(id=id).update(
@@ -261,6 +269,8 @@ def edit_appointment(request, id):
             print(response.headers)
         except Exception as e:
             print(e)
+        messages.success(
+            request, 'Your appointment has been updated!')
         return redirect('/appointments/')
 
 

@@ -9,7 +9,7 @@ from appointments.models import Appointment
 def index(request):
     username = request.user.username
     user = StaffAccount.objects.get(email=username)
-    userID = user.auth_id.id + 1
+    userID = user.auth_id.id
     userlogin = StaffAuth.objects.get(username=username)
     print(user.auth_id)
     appointments = Appointment.objects.filter(
