@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'wn^s8d-of-*9@w@&2nt8-1kf$*p2$+fc8ihb8oct3is8^50-dp'
 
 # # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
+DEBUG = True
 
 ALLOWED_HOSTS = ['http://web-app-thrv.us-east-2.elasticbeanstalk.com', 'web-app-thrv.us-east-2.elasticbeanstalk.com',
                  'localhost', '172.31.1.170', '127.0.0.1', '172.31.28.160', 'localhost', '172.31.9.210', '172.31.32.71', '172.31.9.139', '172.31.22.177']
@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'studentauth.apps.StudentauthConfig',
     'careerform.apps.CareerformConfig',
     'studentdata.apps.StudentdataConfig',
-    'employmentform.apps.EmploymentformConfig',
+    'employmentform.apps.EmploymentConsultantFormConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

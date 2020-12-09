@@ -99,6 +99,7 @@ def insert_studentaccount(request, auth, prog):
         gpa=received_json_data['gpa'],
         education_level=received_json_data['education_level'],
         international=received_json_data['international'],
+        student_status=received_json_data['student_status'],
         program_id=new_prog,
         auth_id=new_auth,
         phone_number=received_json_data['phone_number']

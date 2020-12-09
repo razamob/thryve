@@ -21,7 +21,10 @@ from sendgrid.helpers.mail import Mail
 from decimal import Decimal
 from django.contrib import messages
 from dateutil import parser
-
+from employmentform.models import EmploymentConsultantForm
+from careerform.models import CareerCounselorForm
+import datetime
+from django.views.decorators.csrf import csrf_exempt
 
 class AppointmentView(viewsets.ModelViewSet):
     serializer_class = AppointmentSerializer
@@ -149,6 +152,47 @@ def index(request):
 #     appointments = Appointment.objects.all()
 #     return render(request, 'appointments/appointments.html', {'appointments': appointments})
 
+def list_user_appointments(request, student_num):
+    appointment = Appointment.objects.filter(student_id=student_num).values()
+    return JsonResponse({"appointments": list(appointment)})
+
+def list_day_appointments(request, staff, y, m, d):
+    appointment = Appointment.objects.filter(staff_id=staff).filter(start_date=datetime.date(y, m, d)).values()
+    return JsonResponse({"appointments": list(appointment)})
+
+@csrf_exempt
+def insert_appointment(request, cc, ec, staf, stud):
+    new_cc = CareerCounselorForm.objects.get(id=cc)
+    print(new_cc)
+    new_ec = EmploymentConsultantForm.objects.get(id=ec)
+    print(new_ec)
+    new_staf = StaffAccount.objects.get(id=staf)
+    print(new_staf)
+    new_stud = StudentAccount.objects.get(id=stud)
+    print(new_stud)
+    received_json_data = json.loads(request.body.decode("utf-8"))
+    appointment = Appointment.objects.create(
+        title=received_json_data['title'],
+        start_date=received_json_data['start_date'],
+        end_date=received_json_data['end_date'],
+        submission_date=received_json_data['submission_date'],
+        approval_date=received_json_data['approval_date'],
+        description=received_json_data['description'],
+        student_notes=received_json_data['student_notes'],
+        staff_notes=received_json_data['staff_notes'],
+        attachment1=received_json_data['attachment1'],
+        attachment2=received_json_data['attachment2'],
+        attachment3=received_json_data['attachment3'],
+        status=received_json_data['status'],
+        delete_appointment_row=received_json_data['delete_appointment_row'],
+        student_id=new_stud,
+        staff_id=new_staf,
+        cc_form=new_cc,
+        ec_form=new_ec,
+    )
+    serializer = AppointmentSerializer(appointment)
+    appointments = Appointment.objects.filter(id=appointment.id).values()
+    return JsonResponse({"appointments": list(appointments)})
 
 def delete_appointment(request, id):
     username = request.user.username

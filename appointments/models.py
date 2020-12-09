@@ -5,7 +5,6 @@ from staff.models import StaffAccount
 from employmentform.models import EmploymentConsultantForm
 from careerform.models import CareerCounselorForm
 
-
 class Appointment(models.Model):
     title = models.CharField(max_length=300, null=True)
     start_date = models.DateTimeField(null=True, blank=False)
