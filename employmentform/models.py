@@ -43,4 +43,4 @@ class EmploymentConsultantForm(models.Model):
 
 
     def __str__(self):
-        return self.title
+        return self.q1e_event

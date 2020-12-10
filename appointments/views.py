@@ -24,6 +24,7 @@ from dateutil import parser
 from employmentform.models import EmploymentConsultantForm
 from careerform.models import CareerCounselorForm
 import datetime
+from datetime import date
 from django.views.decorators.csrf import csrf_exempt
 
 class AppointmentView(viewsets.ModelViewSet):
@@ -157,19 +158,20 @@ def list_user_appointments(request, student_num):
     return JsonResponse({"appointments": list(appointment)})
 
 def list_day_appointments(request, staff, y, m, d):
-    appointment = Appointment.objects.filter(staff_id=staff).filter(start_date=datetime.date(y, m, d)).values()
+    dt=date(y,m,d)
+    appointment = Appointment.objects.filter(staff_id=staff).filter(start_date__contains=date(y, m, d)).values()
     return JsonResponse({"appointments": list(appointment)})
 
 @csrf_exempt
 def insert_appointment(request, cc, ec, staf, stud):
     new_cc = CareerCounselorForm.objects.get(id=cc)
-    print(new_cc)
+    #print(new_cc)
     new_ec = EmploymentConsultantForm.objects.get(id=ec)
-    print(new_ec)
+    #print(new_ec)
     new_staf = StaffAccount.objects.get(id=staf)
-    print(new_staf)
+    #print(new_staf)
     new_stud = StudentAccount.objects.get(id=stud)
-    print(new_stud)
+    #print(new_stud)
     received_json_data = json.loads(request.body.decode("utf-8"))
     appointment = Appointment.objects.create(
         title=received_json_data['title'],

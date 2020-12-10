@@ -39,4 +39,4 @@ class CareerCounselorForm(models.Model):
         #return {'q1c_sso':self.q1c_sso, 'q1c_friend':self.q1c_friend}
 
     def __str__(self):
-        return self.title
+        return self.q1c_event
