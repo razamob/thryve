@@ -3001,7 +3001,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                   var areyou = $('<div></div>');
                   //thenewlabel2.append('<tr> <td><label for="s_exploration" size="4">Career Exploration</label></td> <td><input type="text" id="s_exploration" value="' + valuesdeeperinobject2.ccs_exploration + '" name="s_exploration" readonly></td> </tr>');
                   //alert(fields.student_id.student_status);
-                  if (fields.student_id.student_status === 'full'){
+                  if (fields.student_id.student_status == 'full'){
                     //alert("in true for outreach");
                     //areyou.append('<div style="display:flex;"><p style="text-decoration: underline;display: inline-flex;"> &#10004;  </p> <p style="display: inline;"> Full Time Student </p></div>');
                     areyou.append('<b style="display: inline-flex;">Are you : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b> <input type="checkbox" id="c_fullt" name="c_fullt" value="Full Time Student" checked onclick="return false"><label for="c_fullt">Full Time Student</label>');

@@ -47,7 +47,7 @@ class StudentAccount(models.Model):
     # Then, when you call serializers.serialize(), you provide use_natural_foreign_keys=True or use_natural_primary_keys=True arguments
     def natural_key(self):  # im removed program_id to see if that did anything to error "TypeError: Object of type SchoolProgram is not JSON serializable"
         # made this dictionary return whitch will add to the previous dictionary
-        return {'fname': self.fname, 'lname': self.lname, 'email': self.email, 'student_number': self.student_number, 'phone_number': self.phone_number, 'program_year': self.program_year, 'als': self.als, 'coop': self.coop, 'international': self.international, 'auth_id': self.auth_id.natural_key(), 'program_id': self.program_id.natural_key()}
+        return {'fname': self.fname, 'lname': self.lname, 'email': self.email, 'student_number': self.student_number, 'phone_number': self.phone_number, 'program_year': self.program_year, 'als': self.als, 'coop': self.coop, 'international': self.international, 'auth_id': self.auth_id.natural_key(), 'program_id': self.program_id.natural_key(), 'student_status': self.student_status}
     # This definition ensures that all StudentAuth objects are serialized before any StudentAccount objects. In turn,
     # any object referencing StudentAccount will be serialized after both StudentAuth and StudentAccount have been serialized.
     # THIS MIGHT AFFECT THE OTHER SERIALIZATIONS THAT MY TEAM MEMBERS DID BTW SOO CHECK WITH EM
