@@ -230,6 +230,15 @@ def delete_appointment(request, id):
         return redirect('/appointments/')
         # return render(request, 'appointments/appointments.html', {'appointments': appointments})
 
+@csrf_exempt
+def delete_mobile_appointment(request, id):
+    if request.method == 'POST':
+        print(request.POST, id)
+        appointment = Appointment.objects.get(id=id)
+        appointment.delete()
+        appointments = Appointment.objects.filter(id=appointment.id).values()
+        return JsonResponse({"appointments": list(appointments)})
+
 
 def edit_appointment(request, id):
     username = request.user.username

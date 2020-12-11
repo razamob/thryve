@@ -20,6 +20,8 @@ urlpatterns = [
          views.insert_appointment, name="insert-appointment"),
     path('delete-appointment/<int:id>',
          views.delete_appointment, name="delete-appointment"),
+    path('delete-mobile-appointment/<int:id>',
+         views.delete_mobile_appointment, name="delete-mobile-appointment"),
     path('edit-appointment/<int:id>/',
          views.edit_appointment, name="edit-appointment")
 ]
