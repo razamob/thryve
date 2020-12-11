@@ -29,10 +29,9 @@ class StudentAccount(models.Model):
     email = models.CharField(null=True, max_length=100)
     student_number = models.CharField(null=True, max_length=15)
     phone_number = models.CharField(null=True, max_length=10)
-    program_id = models.ForeignKey(
-        SchoolProgram, on_delete=models.CASCADE, null=True)
-    auth_id = models.ForeignKey(
-        StudentAuth, on_delete=models.CASCADE, null=True)
+    student_status = models.CharField(null=True, max_length=4)
+    program_id = models.ForeignKey(SchoolProgram, on_delete=models.CASCADE, null=True)
+    auth_id = models.ForeignKey(StudentAuth, on_delete=models.CASCADE, null=True)
 
     # define a default Manager for StudentAccount
     objects = StudentAccountManager()

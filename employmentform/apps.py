@@ -1,5 +1,4 @@
 from django.apps import AppConfig
 
-
-class EmploymentformConfig(AppConfig):
+class EmploymentConsultantFormConfig(AppConfig):
     name = 'employmentform'
