@@ -10,6 +10,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 import json
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 
 class EmploymentConsultantFormView(viewsets.ModelViewSet):
@@ -85,6 +86,35 @@ def delete_employmentconsultantform(request, id):
         employmentconsultantforms = EmploymentConsultantForm.objects.all()
         return render(request, 'employmentconsultantforms/employmentconsultantforms.html', {'employmentconsultantforms': employmentconsultantforms})
 
+@csrf_exempt
+def insert_employmentconsultantform(request):
+    received_json_data = json.loads(request.body.decode("utf-8"))
+    employmentconsultantform = EmploymentConsultantForm.objects.create(
+        q1e_sso=received_json_data['q1e_sso'],
+        q1e_friend=received_json_data['q1e_friend'],
+        q1e_faculty=received_json_data['q1e_faculty'],
+        q1e_visit=received_json_data['q1e_visit'],
+        q1e_orient=received_json_data['q1e_orient'],
+        q1e_event=received_json_data['q1e_event'],
+        q1e_kpi2=received_json_data['q1e_kpi2'],
+        q1e_outreach=received_json_data['q1e_outreach'],
+        q1e_posters=received_json_data['q1e_posters'],
+        q1e_stv=received_json_data['q1e_stv'],
+        q1e_social=received_json_data['q1e_social'],
+        q1e_media=received_json_data['q1e_media'],
+        q1e_walkby=received_json_data['q1e_walkby'],
+        q1e_website=received_json_data['q1e_website'],
+        ecs_resume=received_json_data['ecs_resume'],
+        ecs_cover=received_json_data['ecs_cover'],
+        ecs_interview=received_json_data['ecs_interview'],
+        ecs_jobsearch=received_json_data['ecs_jobsearch'],
+        ecs_mockinterview=received_json_data['ecs_mockinterview'],
+        ecs_networking=received_json_data['ecs_networking'],
+        ecs_portfolio=received_json_data['ecs_portfolio']
+    )
+    serializer = EmploymentConsultantFormSerializer(employmentconsultantform)
+    employmentconsultantforms = EmploymentConsultantForm.objects.filter(id=employmentconsultantform.id).values()
+    return JsonResponse({"employmentconsultantforms": list(employmentconsultantforms)})
 
 #def edit_studentauth(request, id):
 #    if request.method == 'POST':
