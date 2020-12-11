@@ -242,6 +242,8 @@ def check_frequency(request):
                     print("44444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444")
                     the_first_name_only = name_of_student
                     print("the_first_name_only is: " + the_first_name_only)
+                    print(user_start_date)
+                    print(user_end_date)
                     all_data_in_appointments = Appointment.objects.filter(staff_id__id = current_user.id, delete_appointment_row = False, student_id__fname = the_first_name_only, start_date__gte=datetime.date(user_start_date.year, user_start_date.month, user_start_date.day), end_date__lte = datetime.date(user_end_date.year, user_end_date.month, user_end_date.day)).select_related("student_id").prefetch_related('student_id__auth_id').order_by("-start_date").values_list('student_id__fname', 'student_id__lname', 'student_id__auth_id__sheridan_id', 'title', 'start_date', 'end_date', 'staff_notes', 'id')
                 
             else:
@@ -288,7 +290,8 @@ def check_frequency(request):
 
             #i don't have to serialize the data befor putting it as a context cus thats not the purpose of serialization
             print(all_data_in_appointments)
-
+            print("*******************************************************************************************************************")
+            
             context = {'allData': all_data_in_appointments,
                         #backup show be changed to search_result_frequency ?????????????????????????????????????????????????
                         'backup': name_of_student,
@@ -306,6 +309,7 @@ def check_frequency(request):
     
         #this runs if we have a empty student_number and name_of_student
         name_of_student = 'studentname'
+        print("nothing in student number and nameeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
         context = {'allData': [""],
                         'backup': name_of_student,
                         'form': my_form}
@@ -315,7 +319,8 @@ def check_frequency(request):
     else:
         name_of_student = "jake the man"
         #this actuall shows up on get rather than post
-        all_data_in_appointments = ""
+        all_data_in_appointments = [""]
+        print(all_data_in_appointments)
         context = {'allData': all_data_in_appointments,
                     'backup': name_of_student,
                      'form': my_form}
@@ -773,7 +778,6 @@ def load_staff_forms_on_filterdata_page(request):
         context = {'allforminfo': dataB,
                     'idfromappointmentfdpage': 7,
                     'firstvisit': firstvisit}
-
 
 
     print(all_form_info)
