@@ -1,6 +1,6 @@
 branch-defaults:
   master:
-    environment: web-app-thrv
+    environment: null
     group_suffix: null
   prod:
     environment: null
@@ -19,7 +19,7 @@ environment-defaults:
     repository: null
 global:
   application_name: thryve-cloud
-  branch: production
+  branch: master
   default_ec2_keyname: aws-eb
   default_platform: Python 3.7
   default_region: us-east-2
@@ -28,6 +28,6 @@ global:
   platform_name: null
   platform_version: null
   profile: eb-cli
-  repository: code-origin
+  repository: thryve-repository
   sc: git
   workspace_type: Application

@@ -157,7 +157,7 @@
         {% if user.first_name and user.last_name %}
           <h1> <font color="white"><h1 style="color:blue;display: inline-flex;">{{ user.first_name }} {{ user.last_name }} </h1>'s Uncommented Appointment Meetings</font></h1> 
         {% else %}
-        <h1> <font color="white"><h1 style="color:blue;display: inline-flex;">{{ user.username }}</h1>'s Uncommented Appointment Meetings</font></h1> 
+        <h1> <font color="white"><h1 style="color:blue;display: inline-flex;">{{ user.username }}</h1>'s Uncommented Past Appointment Meetings</font></h1> 
         {% endif %}
       </div>
 
@@ -1424,7 +1424,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
           var length_of_table_childrenNoCommentTable = $('#nocommenttable').children().length;
           var list_of_childrenNoCommentTable = $('#nocommenttable').children()[length_of_table_childrenNoCommentTable - 1];
           //If you put a '#' inside document.getElementById(''), u won't get error but the element wont behave well 
-          //const my_table_nodeNoCommentTable = document.getElementById('#nocommenttable');
+          //const my_table_nodeNoCommentTable = document.getElementById('#');
           const my_table_nodeNoCommentTable = document.getElementById('nocommenttable');
 
           var my_tbody_table_nodeNoCommentTable = my_table_nodeNoCommentTable.lastChild;
