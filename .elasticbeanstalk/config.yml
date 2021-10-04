@@ -1,6 +1,6 @@
 branch-defaults:
   master:
-    environment: sb-api-use-env
+    environment: null
     group_suffix: null
   prod:
     environment: null
@@ -24,7 +24,7 @@ environment-defaults:
     branch: null
     repository: null
 global:
-  application_name: api-use-env
+  application_name: django-work
   branch: null
   default_ec2_keyname: aws-eb
   default_platform: Python 3.8
