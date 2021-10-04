@@ -24,10 +24,12 @@ SECRET_KEY = 'wn^s8d-of-*9@w@&2nt8-1kf$*p2$+fc8ihb8oct3is8^50-dp'
 
 #TQqR+YXLNcxG+bo24xH42ZXI3AQ+b8n7Zzp4Tu5p              
 # # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+
+#DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['http://web-app-thrv.us-east-2.elasticbeanstalk.com', 'web-app-thrv.us-east-2.elasticbeanstalk.com','http://thryveeb-env.eba-gpkpuzmd.us-east-2.elasticbeanstalk.com','thryveeb-env.eba-gpkpuzmd.us-east-2.elasticbeanstalk.com',
-                 'http://thryveeb2-env.eba-ig25bf9b.us-east-2.elasticbeanstalk.com','Thryveeb2-env.eba-ig25bf9b.us-east-2.elasticbeanstalk.com','localhost', '172.31.1.170', '127.0.0.1', '172.31.28.160', 'localhost', '172.31.9.210', '172.31.32.71', '172.31.9.139', '172.31.22.177']
+                 'http://thryveeb2-env.eba-ig25bf9b.us-east-2.elasticbeanstalk.com','Thryveeb2-env.eba-ig25bf9b.us-east-2.elasticbeanstalk.com', 'http://sb-api.eba-xmys3qrh.us-east-2.elasticbeanstalk.com','sb-api.eba-xmys3qrh.us-east-2.elasticbeanstalk.com','localhost', '172.31.1.170', '127.0.0.1', '172.31.28.160', 'localhost', '172.31.9.210', '172.31.32.71', '172.31.9.139', '172.31.22.177']
 
 
 # Application definition
