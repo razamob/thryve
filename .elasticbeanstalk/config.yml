@@ -1,6 +1,6 @@
 branch-defaults:
   master:
-    environment: null
+    environment: django-work-env
     group_suffix: null
   prod:
     environment: null
@@ -8,6 +8,9 @@ branch-defaults:
     environment: null
     group_suffix: null
 environment-defaults:
+  django-work-env:
+    branch: null
+    repository: null
   sb-api:
     branch: null
     repository: null
