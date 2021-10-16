@@ -1,6 +1,6 @@
 branch-defaults:
   master:
-    environment: django-work-dev2
+    environment: null
     group_suffix: null
   prod:
     environment: null
@@ -27,16 +27,16 @@ environment-defaults:
     branch: null
     repository: null
 global:
-  application_name: django-work
-  branch: null
+  application_name: thryve
+  branch: master
   default_ec2_keyname: aws-eb
-  default_platform: Python 3.8 running on 64bit Amazon Linux 2
+  default_platform: Python
   default_region: us-east-2
   include_git_submodules: true
   instance_profile: null
   platform_name: null
   platform_version: null
   profile: eb-cli
-  repository: null
+  repository: thryve-repository
   sc: git
   workspace_type: Application
