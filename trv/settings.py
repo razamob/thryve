@@ -20,8 +20,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'wn^s8d-of-*9@w@&2nt8-1kf$*p2$+fc8ihb8oct3is8^50-dp'
+#original
+#SECRET_KEY = 'wn^s8d-of-*9@w@&2nt8-1kf$*p2$+fc8ihb8oct3is8^50-dp'
 
+SECRET_KEY = 'AKIASBEZPPNHN5GLLEMG'
 #TQqR+YXLNcxG+bo24xH42ZXI3AQ+b8n7Zzp4Tu5p              
 # # SECURITY WARNING: don't run with debug turned on in production!
 
@@ -113,7 +115,8 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': 'Thryve2020!',
         #'HOST': 'thryve-database-2020.clkzzm3gdrpr.us-east-2.rds.amazonaws.com'
-        'HOST':'database-1.cbla1ovjyisy.us-east-2.rds.amazonaws.com'
+        'HOST':'database-1.cbla1ovjyisy.us-east-2.rds.amazonaws.com',
+        'PORT': '5432'
     }
 }
 
