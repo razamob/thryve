@@ -1,6 +1,6 @@
 branch-defaults:
   master:
-    environment: best-thryve-env10
+    environment: best-thryve-env118
     group_suffix: null
   prod:
     environment: null
