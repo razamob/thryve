@@ -27,10 +27,12 @@ SECRET_KEY = 'AKIASBEZPPNHN5GLLEMG'
 #TQqR+YXLNcxG+bo24xH42ZXI3AQ+b8n7Zzp4Tu5p              
 # # SECURITY WARNING: don't run with debug turned on in production!
 
-#when degub is true the static pictures & css started showing again rather than not showing
+#when degub is true, the static pictures & css started showing again rather than not showing
 #i found this sollution to the problem here https://stackoverflow.com/questions/60620434/django-cannot-find-static-files
-DEBUG = True
-#DEBUG = False
+#'DEBUG =True ' is only for when your debuging on your own not when you want to deploy
+#so make the necessary correction to 'DEBUG - False' when you decide to deploy
+#DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['http://thryve-database-2021.eba-5qjamc5m.us-east-2.elasticbeanstalk.com', 'thryve-database-2021.eba-5qjamc5m.us-east-2.elasticbeanstalk.com',
                  'localhost', '172.31.1.170', '127.0.0.1', '172.31.28.160', 'localhost', '172.31.9.210', '172.31.32.71', '172.31.9.139', '172.31.22.177']
