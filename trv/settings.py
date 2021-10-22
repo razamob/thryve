@@ -27,8 +27,10 @@ SECRET_KEY = 'AKIASBEZPPNHN5GLLEMG'
 #TQqR+YXLNcxG+bo24xH42ZXI3AQ+b8n7Zzp4Tu5p              
 # # SECURITY WARNING: don't run with debug turned on in production!
 
-#DEBUG = True
-DEBUG = False
+#when degub is true the static pictures & css started showing again rather than not showing
+#i found this sollution to the problem here https://stackoverflow.com/questions/60620434/django-cannot-find-static-files
+DEBUG = True
+#DEBUG = False
 
 ALLOWED_HOSTS = ['http://best-thryve-env118.eba-5qjamc5m.us-east-2.elasticbeanstalk.com', 'best-thryve-env118.eba-5qjamc5m.us-east-2.elasticbeanstalk.com','http://web-app-thrv.us-east-2.elasticbeanstalk.com', 'web-app-thrv.us-east-2.elasticbeanstalk.com','http://thryveeb-env.eba-gpkpuzmd.us-east-2.elasticbeanstalk.com','thryveeb-env.eba-gpkpuzmd.us-east-2.elasticbeanstalk.com',
                  'http://thryveeb2-env.eba-ig25bf9b.us-east-2.elasticbeanstalk.com','Thryveeb2-env.eba-ig25bf9b.us-east-2.elasticbeanstalk.com', 'http://sb-api.eba-xmys3qrh.us-east-2.elasticbeanstalk.com','sb-api.eba-xmys3qrh.us-east-2.elasticbeanstalk.com', 'http://django-work-dev.us-east-2.elasticbeanstalk.com','django-work-dev.us-east-2.elasticbeanstalk.com','localhost', '172.31.1.170', '127.0.0.1', '172.31.28.160', 'localhost', '172.31.9.210', '172.31.32.71', '172.31.9.139', '172.31.22.177']
