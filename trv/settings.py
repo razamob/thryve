@@ -32,8 +32,8 @@ SECRET_KEY = 'AKIASBEZPPNHN5GLLEMG'
 DEBUG = True
 #DEBUG = False
 
-ALLOWED_HOSTS = ['http://best-thryve-env118.eba-5qjamc5m.us-east-2.elasticbeanstalk.com', 'best-thryve-env118.eba-5qjamc5m.us-east-2.elasticbeanstalk.com','http://web-app-thrv.us-east-2.elasticbeanstalk.com', 'web-app-thrv.us-east-2.elasticbeanstalk.com','http://thryveeb-env.eba-gpkpuzmd.us-east-2.elasticbeanstalk.com','thryveeb-env.eba-gpkpuzmd.us-east-2.elasticbeanstalk.com',
-                 'http://thryveeb2-env.eba-ig25bf9b.us-east-2.elasticbeanstalk.com','Thryveeb2-env.eba-ig25bf9b.us-east-2.elasticbeanstalk.com', 'http://sb-api.eba-xmys3qrh.us-east-2.elasticbeanstalk.com','sb-api.eba-xmys3qrh.us-east-2.elasticbeanstalk.com', 'http://django-work-dev.us-east-2.elasticbeanstalk.com','django-work-dev.us-east-2.elasticbeanstalk.com','localhost', '172.31.1.170', '127.0.0.1', '172.31.28.160', 'localhost', '172.31.9.210', '172.31.32.71', '172.31.9.139', '172.31.22.177']
+ALLOWED_HOSTS = ['http://thryve-database-2021.eba-5qjamc5m.us-east-2.elasticbeanstalk.com', 'thryve-database-2021.eba-5qjamc5m.us-east-2.elasticbeanstalk.com',
+                 'localhost', '172.31.1.170', '127.0.0.1', '172.31.28.160', 'localhost', '172.31.9.210', '172.31.32.71', '172.31.9.139', '172.31.22.177']
 
 
 # Application definition

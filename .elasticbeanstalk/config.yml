@@ -1,6 +1,6 @@
 branch-defaults:
   master:
-    environment: best-thryve-env118
+    environment: thryve-database-2021
     group_suffix: null
   prod:
     environment: null
