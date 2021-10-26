@@ -41,6 +41,7 @@ ALLOWED_HOSTS = ['http://thryve-database-2021.eba-5qjamc5m.us-east-2.elasticbean
 # Application definition
 BOWER_COMPONENTS_ROOT = '/PROJECT_ROOT/components/'
 
+
 BOWER_INSTALLED_APPS = (
     'jquery',
     'jquery-ui',
